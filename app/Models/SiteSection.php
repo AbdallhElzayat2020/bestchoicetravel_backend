@@ -11,6 +11,7 @@ class SiteSection extends Model
         'title',
         'subtitle',
         'description',
+        'content',
         'button_text',
         'button_link',
         'image_path',

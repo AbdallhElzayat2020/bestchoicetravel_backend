@@ -228,11 +228,24 @@
             </li>
 
             {{-- Site Sections --}}
-            <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.site-sections.*'], 'active') }}">
-                <a href="{{ route('admin.site-sections.index') }}" class="menu-link">
+            <li
+                class="menu-item {{ \App\Helpers\setSidebarActive(['admin.site-sections.*'], 'active open') }}">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
                     <i class="menu-icon tf-icons ti ti-layout-2"></i>
                     <div data-i18n="Site Sections">Site Sections</div>
                 </a>
+                <ul class="menu-sub">
+                    <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.site-sections.index'], 'active') }}">
+                        <a href="{{ route('admin.site-sections.index') }}" class="menu-link">
+                            <div data-i18n="All Sections">All Sections</div>
+                        </a>
+                    </li>
+                    <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.site-sections.about'], 'active') }}">
+                        <a href="{{ route('admin.site-sections.about') }}" class="menu-link">
+                            <div data-i18n="About Sections">About Page Sections</div>
+                        </a>
+                    </li>
+                </ul>
             </li>
         @endif
 

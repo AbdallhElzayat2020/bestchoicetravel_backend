@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Website;
 use App\Http\Controllers\Controller;
 use App\Models\Page;
 use App\Models\Faq;
+use App\Models\SiteSection;
 
 class PageController extends Controller
 {
@@ -16,7 +17,12 @@ class PageController extends Controller
             'meta_title' => 'About Us',
         ]);
 
-        return view('frontend.pages.about', compact('page'));
+        $aboutSections = SiteSection::active()
+            ->whereIn('key', ['about_banner', 'about_hero', 'about_story', 'about_why'])
+            ->get()
+            ->keyBy('key');
+
+        return view('frontend.pages.about', compact('page', 'aboutSections'));
     }
 
     public function faqs()

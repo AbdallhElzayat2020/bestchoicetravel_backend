@@ -1,12 +1,36 @@
 @extends('dashboard.layouts.master')
 
-@section('title', 'Site Sections')
+@section('title', isset($scope) && $scope === 'about' ? 'About Page Sections' : 'Site Sections')
 
 @section('content')
     <div class="container-fluid">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h4 class="mb-0">Site Sections</h4>
-            <span class="text-muted small">تحكم في سكاشن الهوم من مكان واحد</span>
+            <div>
+                <h4 class="mb-0">
+                    @if(isset($scope) && $scope === 'about')
+                        About Page Sections
+                    @else
+                        Site Sections
+                    @endif
+                </h4>
+                <span class="text-muted small d-block">
+                    @if(isset($scope) && $scope === 'about')
+                        تحكم في سكاشن صفحة من نحن من مكان واحد
+                    @else
+                        تحكم في سكاشن الهوم والصفحات من مكان واحد
+                    @endif
+                </span>
+            </div>
+            <div class="btn-group">
+                <a href="{{ route('admin.site-sections.index') }}"
+                   class="btn btn-sm btn-outline-secondary {{ !isset($scope) || $scope !== 'about' ? 'active' : '' }}">
+                    All Sections
+                </a>
+                <a href="{{ route('admin.site-sections.about') }}"
+                   class="btn btn-sm btn-outline-secondary {{ isset($scope) && $scope === 'about' ? 'active' : '' }}">
+                    About Page
+                </a>
+            </div>
         </div>
 
         <div class="card">

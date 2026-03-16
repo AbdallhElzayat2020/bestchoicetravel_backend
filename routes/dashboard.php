@@ -93,7 +93,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     // Blog Categories Routes
     Route::resource('blog-categories', BlogCategoryController::class)->except(['show']);
 
-    // Site Sections Routes (homepage sections, etc.)
+    // Site Sections Routes (homepage sections, about page sections, etc.)
+    Route::get('site-sections/about', [SiteSectionController::class, 'about'])->name('site-sections.about');
     Route::resource('site-sections', SiteSectionController::class)->only(['index', 'edit', 'update']);
 
     // Cruise Groups Routes
