@@ -58,14 +58,14 @@
                                 </a>
                             </li>
                         @endif
-                        @if (auth()->user()->isAdmin() || auth()->user()->hasPermission('sub-categories.view'))
+                        {{-- @if (auth()->user()->isAdmin() || auth()->user()->hasPermission('sub-categories.view'))
                             <li
                                 class="menu-item {{ \App\Helpers\setSidebarActive(['admin.sub-categories.*'], 'active') }}">
                                 <a href="{{ route('admin.sub-categories.index') }}" class="menu-link">
                                     <div data-i18n="Sub Categories">Sub Categories</div>
                                 </a>
                             </li>
-                        @endif
+                        @endif --}}
                     </ul>
                 </li>
             @endif
