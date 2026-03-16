@@ -40,40 +40,12 @@
                 <span class="menu-header-text">Tours Management</span>
             </li>
 
-            {{-- Categories & Sub Categories --}}
-            @if (auth()->user()->isAdmin() ||
-                    auth()->user()->hasPermission('categories.view') ||
-                    auth()->user()->hasPermission('sub-categories.view'))
-                <li
-                    class="menu-item {{ \App\Helpers\setSidebarActive(['admin.categories.*', 'admin.sub-categories.*'], 'active open') }}">
-                    <a href="javascript:void(0);" class="menu-link menu-toggle">
-                        <i class="menu-icon tf-icons ti ti-category"></i>
-                        <div data-i18n="Categories">Categories</div>
-                    </a>
-                    <ul class="menu-sub">
-                        @if (auth()->user()->isAdmin() || auth()->user()->hasPermission('categories.view'))
-                            <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.categories.*'], 'active') }}">
-                                <a href="{{ route('admin.categories.index') }}" class="menu-link">
-                                    <div data-i18n="All Categories">All Categories</div>
-                                </a>
-                            </li>
-                        @endif
-                        {{-- @if (auth()->user()->isAdmin() || auth()->user()->hasPermission('sub-categories.view'))
-                            <li
-                                class="menu-item {{ \App\Helpers\setSidebarActive(['admin.sub-categories.*'], 'active') }}">
-                                <a href="{{ route('admin.sub-categories.index') }}" class="menu-link">
-                                    <div data-i18n="Sub Categories">Sub Categories</div>
-                                </a>
-                            </li>
-                        @endif --}}
-                    </ul>
-                </li>
-            @endif
-
+            {{-- Categories --}}
             @if (auth()->user()->isAdmin() || auth()->user()->hasPermission('categories.view'))
                 <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.categories.*'], 'active') }}">
                     <a href="{{ route('admin.categories.index') }}" class="menu-link">
-                        <div data-i18n="All Categories"> Categories</div>
+                        <i class="menu-icon tf-icons ti ti-category"></i>
+                        <div data-i18n="Tours Categories">Tours Categories</div>
                     </a>
                 </li>
             @endif
