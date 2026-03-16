@@ -1,0 +1,31 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class SiteSection extends Model
+{
+    protected $fillable = [
+        'key',
+        'title',
+        'subtitle',
+        'description',
+        'button_text',
+        'button_link',
+        'image_path',
+        'status',
+        'sort_order',
+    ];
+
+    protected $casts = [
+        'status' => 'string',
+        'sort_order' => 'integer',
+    ];
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'active');
+    }
+}
+
