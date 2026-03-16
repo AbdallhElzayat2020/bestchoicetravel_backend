@@ -260,9 +260,9 @@
                                 </div>
                                 <div class="section-body">
                                     <div class="row">
-                                        <div class="col-md-6 mb-3">
-                                            <label for="category_id" class="form-label">Category <span class="text-danger">*</span></label>
-                                            <select class="form-select @error('category_id') is-invalid @enderror" id="category_id" name="category_id" required>
+                                        <div class="col-md-12 mb-3">
+                                            <label for="category_id" class="form-label">Category</label>
+                                            <select class="form-select @error('category_id') is-invalid @enderror" id="category_id" name="category_id">
                                                 <option value="">Select Category</option>
                                                 @foreach($categories as $category)
                                                     <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
@@ -271,17 +271,6 @@
                                                 @endforeach
                                             </select>
                                             @error('category_id')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-
-                                        <div class="col-md-6 mb-3">
-                                            <label for="sub_category_id" class="form-label">Sub Category</label>
-                                            <select class="form-select @error('sub_category_id') is-invalid @enderror" id="sub_category_id" name="sub_category_id">
-                                                <option value="">Select Category First</option>
-                                            </select>
-                                            <small class="text-muted">Please select a category first</small>
-                                            @error('sub_category_id')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
@@ -734,7 +723,6 @@
         $(document).ready(function() {
             // Debug: Check if elements exist
             console.log('Category select exists:', $('#category_id').length);
-            console.log('Sub category select exists:', $('#sub_category_id').length);
             console.log('Country select exists:', $('#country_id').length);
             console.log('State select exists:', $('#state_id').length);
 
@@ -884,39 +872,6 @@
                 }
             }
 
-            // Function to load subcategories
-            function loadSubCategories(categoryId) {
-                console.log('Loading subcategories for category:', categoryId);
-                if (categoryId) {
-                    const url = '{{ route("admin.tours.get-subcategories-by-category") }}';
-                    console.log('AJAX URL:', url);
-                    $.ajax({
-                        url: url,
-                        type: 'GET',
-                        data: { category_id: categoryId },
-                        dataType: 'json',
-                        success: function(data) {
-                            console.log('Subcategories loaded:', data);
-                            $('#sub_category_id').html('<option value="">Select Sub Category</option>');
-                            if (data && data.length > 0) {
-                                $.each(data, function(key, value) {
-                                    $('#sub_category_id').append('<option value="' + value.id + '">' + value.name + '</option>');
-                                });
-                            } else {
-                                $('#sub_category_id').append('<option value="">No sub categories available</option>');
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            console.error('Error loading subcategories:', error);
-                            console.error('Response:', xhr.responseText);
-                            $('#sub_category_id').html('<option value="">Error loading sub categories</option>');
-                        }
-                    });
-                } else {
-                    $('#sub_category_id').html('<option value="">Select Category First</option>');
-                }
-            }
-
             // Load states when country changes
             $(document).on('change', '#country_id', function() {
                 const countryId = $(this).val();
@@ -932,23 +887,6 @@
             // Also trigger on page load if country is already selected
             if ($('#country_id').val()) {
                 loadStates($('#country_id').val());
-            }
-
-            // Load subcategories when category changes
-            $(document).on('change', '#category_id', function() {
-                const categoryId = $(this).val();
-                console.log('Category changed:', categoryId);
-                console.log('Sub category select element:', $('#sub_category_id').length);
-                if (categoryId) {
-                    loadSubCategories(categoryId);
-                } else {
-                    $('#sub_category_id').html('<option value="">Select Category First</option>');
-                }
-            });
-
-            // Also trigger on page load if category is already selected
-            if ($('#category_id').val()) {
-                loadSubCategories($('#category_id').val());
             }
 
             // Image counter

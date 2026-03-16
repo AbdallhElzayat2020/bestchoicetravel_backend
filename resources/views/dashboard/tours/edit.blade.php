@@ -377,11 +377,10 @@
                                 </div>
                                 <div class="section-body">
                                     <div class="row">
-                                        <div class="col-md-6 mb-3">
-                                            <label for="category_id" class="form-label">Category <span
-                                                    class="text-danger">*</span></label>
+                                        <div class="col-md-12 mb-3">
+                                            <label for="category_id" class="form-label">Category</label>
                                             <select class="form-select @error('category_id') is-invalid @enderror"
-                                                id="category_id" name="category_id" required>
+                                                id="category_id" name="category_id">
                                                 <option value="">Select Category</option>
                                                 @foreach ($categories as $category)
                                                     <option value="{{ $category->id }}"
@@ -391,23 +390,6 @@
                                                 @endforeach
                                             </select>
                                             @error('category_id')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-
-                                        <div class="col-md-6 mb-3">
-                                            <label for="sub_category_id" class="form-label">Sub Category</label>
-                                            <select class="form-select @error('sub_category_id') is-invalid @enderror"
-                                                id="sub_category_id" name="sub_category_id">
-                                                <option value="">Select Sub Category</option>
-                                                @foreach ($subCategories as $subCategory)
-                                                    <option value="{{ $subCategory->id }}"
-                                                        {{ old('sub_category_id', $tour->sub_category_id) == $subCategory->id ? 'selected' : '' }}>
-                                                        {{ $subCategory->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                            @error('sub_category_id')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
@@ -1490,46 +1472,6 @@
                 }
             }
 
-            // Function to load subcategories
-            function loadSubCategories(categoryId, selectedSubCategoryId = null) {
-                console.log('Loading subcategories for category:', categoryId);
-                if (categoryId) {
-                    const url = '{{ route('admin.tours.get-subcategories-by-category') }}';
-                    console.log('AJAX URL:', url);
-                    $.ajax({
-                        url: url,
-                        type: 'GET',
-                        data: {
-                            category_id: categoryId
-                        },
-                        dataType: 'json',
-                        success: function(data) {
-                            console.log('Subcategories loaded:', data);
-                            $('#sub_category_id').html('<option value="">Select Sub Category</option>');
-                            if (data && data.length > 0) {
-                                $.each(data, function(key, value) {
-                                    const selected = (selectedSubCategoryId && value.id ==
-                                        selectedSubCategoryId) ? 'selected' : '';
-                                    $('#sub_category_id').append('<option value="' + value.id +
-                                        '" ' + selected + '>' + value.name + '</option>');
-                                });
-                            } else {
-                                $('#sub_category_id').append(
-                                    '<option value="">No sub categories available</option>');
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            console.error('Error loading subcategories:', error);
-                            console.error('Response:', xhr.responseText);
-                            $('#sub_category_id').html(
-                                '<option value="">Error loading sub categories</option>');
-                        }
-                    });
-                } else {
-                    $('#sub_category_id').html('<option value="">Select Category First</option>');
-                }
-            }
-
             // Load states when country changes
             $(document).on('change', '#country_id', function() {
                 const countryId = $(this).val();
@@ -1541,23 +1483,6 @@
                     $('#state_id').html('<option value="">Select Country First</option>');
                 }
             });
-
-            // Load subcategories when category changes
-            $(document).on('change', '#category_id', function() {
-                const categoryId = $(this).val();
-                console.log('Category changed:', categoryId);
-                console.log('Sub category select element:', $('#sub_category_id').length);
-                if (categoryId) {
-                    loadSubCategories(categoryId);
-                } else {
-                    $('#sub_category_id').html('<option value="">Select Category First</option>');
-                }
-            });
-
-            // Load initial data on page load
-            @if ($tour->category_id)
-                loadSubCategories({{ $tour->category_id }}, {{ $tour->sub_category_id ?? 'null' }});
-            @endif
 
             @if ($tour->country_id)
                 loadStates({{ $tour->country_id }}, {{ $tour->state_id ?? 'null' }});

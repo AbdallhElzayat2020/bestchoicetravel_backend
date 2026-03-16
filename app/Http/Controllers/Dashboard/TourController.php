@@ -41,11 +41,10 @@ class TourController extends Controller
     {
         $categories = Category::active()->orderBy('name')->get();
         $countries = Country::active()->orderBy('name')->get();
-        // Don't load sub categories and states initially - they will be loaded via AJAX
-        $subCategories = collect();
+        // Don't load states initially - they will be loaded via AJAX
         $states = collect();
         $availableVariants = TourVariant::active()->orderBy('sort_order')->get();
-        return view('dashboard.tours.create', compact('categories', 'subCategories', 'countries', 'states', 'availableVariants'));
+        return view('dashboard.tours.create', compact('categories', 'countries', 'states', 'availableVariants'));
     }
 
     /**
@@ -54,8 +53,7 @@ class TourController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'category_id' => 'required|exists:categories,id',
-            'sub_category_id' => 'nullable|exists:sub_categories,id',
+            'category_id' => 'nullable|exists:categories,id',
             'country_id' => 'required|exists:countries,id',
             'state_id' => 'nullable|exists:states,id',
             'title' => 'required|string|max:255|unique:tours,title',
@@ -282,12 +280,11 @@ class TourController extends Controller
         ])->findOrFail($id);
 
         $categories = Category::active()->orderBy('name')->get();
-        $subCategories = SubCategory::where('category_id', $tour->category_id)->active()->orderBy('name')->get();
         $countries = Country::active()->orderBy('name')->get();
         $states = State::where('country_id', $tour->country_id)->active()->orderBy('name')->get();
         $availableVariants = TourVariant::active()->orderBy('sort_order')->get();
 
-        return view('dashboard.tours.edit', compact('tour', 'categories', 'subCategories', 'countries', 'states', 'availableVariants'));
+        return view('dashboard.tours.edit', compact('tour', 'categories', 'countries', 'states', 'availableVariants'));
     }
 
     /**
@@ -298,8 +295,7 @@ class TourController extends Controller
         $tour = Tour::findOrFail($id);
 
         $validated = $request->validate([
-            'category_id' => 'required|exists:categories,id',
-            'sub_category_id' => 'nullable|exists:sub_categories,id',
+            'category_id' => 'nullable|exists:categories,id',
             'country_id' => 'required|exists:countries,id',
             'state_id' => 'nullable|exists:states,id',
             'title' => 'required|string|max:255|unique:tours,title,' . $id,
