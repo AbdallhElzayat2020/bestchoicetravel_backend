@@ -119,7 +119,9 @@
                                     <img src="{{ $coverImage }}" alt="{{ $tour->title }}" loading="lazy">
                                     @if ($location)
                                         <div class="location-badge">
-                                            <span class="pin-icon">📍</span>
+                                            <span class="pin-icon">
+                                                <i class="fa-solid fa-location-dot"></i>
+                                            </span>
                                             <span>{{ strtoupper($location) }}</span>
                                         </div>
                                     @endif
@@ -148,13 +150,17 @@
                                     <div class="package-details">
                                         @if ($durationText)
                                             <div class="detail-item">
-                                                <span class="detail-icon">🕐</span>
+                                                <span class="detail-icon">
+                                                    <i class="fa-regular fa-clock"></i>
+                                                </span>
                                                 <span>{{ $durationText }}</span>
                                             </div>
                                         @endif
                                         @if ($location)
                                             <div class="detail-item">
-                                                <span class="detail-icon">📍</span>
+                                                <span class="detail-icon">
+                                                    <i class="fa-solid fa-location-dot"></i>
+                                                </span>
                                                 <span>{{ $location }}</span>
                                             </div>
                                         @endif
@@ -193,13 +199,7 @@
                         @endphp
                         <img src="{{ $cruisesImage }}" alt="Nile River Cruise"
                             class="cruises-main-image">
-                        <div class="cruises-badge">
-                            <span class="badge-icon">⚓</span>
-                            <div class="badge-text">
-                                <strong>15+</strong>
-                                <span>Luxury Ships</span>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
 
@@ -491,7 +491,7 @@
         @else
             <div class="redsea-bg"></div>
         @endif
-        <!-- <div class="redsea-overlay"></div> -->
+        <div class="redsea-overlay"></div>
         <div class="container redsea-inner">
             <div class="redsea-header scroll-animate" data-animation="fadeInUp">
                 <div class="redsea-tag">

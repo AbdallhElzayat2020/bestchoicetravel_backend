@@ -1093,7 +1093,7 @@ html {
 }
 
 .package-card:hover .card-image img {
-    transform: scale(1.08);
+    transform: scale(1.04);
 }
 
 .location-badge {
@@ -1117,7 +1117,8 @@ html {
 
 .pin-icon {
     font-size: 12px;
-    opacity: 0.8;
+    opacity: 0.9;
+    line-height: 1;
 }
 
 .category-badge {
@@ -1538,10 +1539,6 @@ html {
 
 /* Red Sea Experience Section */
 .redsea-section {
-    background-image: url('../images/red-sea.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
     position: relative;
     min-height: 80vh;
     display: flex;
@@ -1569,12 +1566,10 @@ html {
 
 .redsea-bg {
     position: absolute;
-    background: linear-gradient(
-        135deg,
-        rgba(5, 41, 122, 0.55),
-        rgba(5, 41, 122, 0.25)
-    );
     inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     transform: scale(1.03);
 }
 
