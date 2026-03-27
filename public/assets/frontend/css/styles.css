@@ -1100,7 +1100,7 @@ html {
     position: absolute;
     top: 18px;
     right: 18px;
-    background: rgba(255, 255, 255, 0.95);
+    background: var(--brand-blue-dark);
     padding: 10px 16px;
     border-radius: 12px;
     display: inline-flex;
@@ -1108,16 +1108,17 @@ html {
     gap: 8px;
     font-size: 11px;
     font-weight: 700;
-    color: var(--text-dark);
+    color: #ffffff;
     letter-spacing: 0.5px;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 20px var(--brand-blue-dark);
     z-index: 2;
 }
 
 .pin-icon {
     font-size: 12px;
-    opacity: 0.9;
+    opacity: 1;
+    color: #f8e600;
     line-height: 1;
 }
 
@@ -1135,6 +1136,10 @@ html {
     letter-spacing: 0.8px;
     z-index: 2;
     box-shadow: 0 2px 12px rgba(212, 165, 116, 0.35);
+}
+
+#packages .category-badge {
+    display: none !important;
 }
 
 /* Card Content */
