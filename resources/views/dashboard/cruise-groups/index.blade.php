@@ -8,7 +8,7 @@
             <h5 class="mb-0">Cruise Groups</h5>
             <a href="{{ route('admin.cruise-groups.create') }}" class="btn btn-primary">
                 <i class="ti ti-plus me-1"></i>
-                Add New Cruise Group
+                Add New
             </a>
         </div>
         <div class="card-body">

@@ -126,7 +126,7 @@
                                 <div class="mb-3">
                                     <label class="form-label d-flex justify-content-between align-items-center">
                                         <span>Cards (Why Travel With Us)</span>
-                                        <span class="text-muted small">غير العنوان / النص / الأيقونة لكل كارت</span>
+                                        <span class="text-muted small">Change the title / text / icon for each card</span>
                                     </label>
 
                                     @foreach ($cards as $i => $card)
@@ -142,7 +142,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6 mb-2">
-                                                    <label class="form-label small">Icon class (اختياري)</label>
+                                                    <label class="form-label small">Icon class (optional)</label>
                                                     <input type="text" name="cards[{{ $i }}][icon]"
                                                         class="form-control" value="{{ $card['icon'] ?? '' }}"
                                                         placeholder="مثال: fa-solid fa-globe">
@@ -203,7 +203,7 @@
                             </div>
 
                             {{-- Image (only for sections that use images) --}}
-                            @if (in_array($key, ['home_hero', 'home_cruises', 'home_desert', 'home_egypt_jordan', 'home_redsea', 'about_hero']))
+                            @if (in_array($key, ['about_banner', 'home_hero', 'home_cruises', 'home_day_tours', 'home_desert', 'home_egypt_jordan', 'home_redsea', 'about_hero']))
                                 <div class="mb-3">
                                     <label class="form-label">Image</label>
                                     <input type="file" name="image" class="form-control">
@@ -235,7 +235,7 @@
                             <strong>Key:</strong> <code>{{ $siteSection->key }}</code>
                         </p>
                         <p class="text-muted small mb-0">
-                            استخدم هذا السكشن علشان تغير العنوان، الوصف، الزر، والصورة في واجهة الموقع.
+                            Use this section to change the title, description, button, and image on the website.
                         </p>
                     </div>
                 </div>

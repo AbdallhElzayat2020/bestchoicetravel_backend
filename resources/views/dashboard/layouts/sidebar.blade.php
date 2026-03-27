@@ -41,16 +41,64 @@
             </li>
 
             {{-- Categories --}}
-            @if (auth()->user()->isAdmin() || auth()->user()->hasPermission('categories.view'))
-                <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.categories.*'], 'active') }}">
-                    <a href="{{ route('admin.categories.index') }}" class="menu-link">
-                        <i class="menu-icon tf-icons ti ti-category"></i>
-                        <div data-i18n="Tours Categories">Tours Categories</div>
-                    </a>
-                </li>
-            @endif
 
-            {{-- Tours & Related --}}
+            @php
+                $isCruiseGroupsActive = request()->routeIs('admin.cruise-groups.*');
+                $currentCruiseGroupId = request()->get('cruise_group_id');
+                $currentGroupKey = request()->get('group_key');
+                $isCruiseExperiencesActive = request()->routeIs('admin.cruise-experiences.*');
+                $isMainCategoriesActive = $isCruiseGroupsActive || $isCruiseExperiencesActive;
+
+                // Determine current active group
+                if ($currentCruiseGroupId) {
+                    $currentGroup = isset($cruiseGroups)
+                        ? $cruiseGroups->firstWhere('id', $currentCruiseGroupId)
+                        : null;
+                    $currentGroupKey = $currentGroup ? $currentGroup->group_key : null;
+                } elseif ($currentGroupKey && isset($cruiseGroups)) {
+                    $currentGroup = $cruiseGroups->firstWhere('group_key', $currentGroupKey);
+                } else {
+                    $currentGroup = isset($cruiseGroups) ? $cruiseGroups->first() : null;
+                    $currentGroupKey = $currentGroup ? $currentGroup->group_key : null;
+                }
+            @endphp
+            <li class="menu-item {{ $isMainCategoriesActive ? 'active open' : '' }}">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    <i class="menu-icon tf-icons ti ti-ship"></i>
+                    <div data-i18n="Main Categories">Main Categories</div>
+                </a>
+                <ul class="menu-sub">
+                    <li class="menu-item {{ $isCruiseGroupsActive ? 'active' : '' }}">
+                        <a href="{{ route('admin.cruise-groups.index') }}" class="menu-link">
+                            <div data-i18n="Categories">Categories</div>
+                        </a>
+                    </li>
+                    @if (isset($cruiseGroups) && $cruiseGroups->count() > 0)
+                        <li class="menu-item {{ $isCruiseExperiencesActive ? 'active open' : '' }}">
+                            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                <div data-i18n="Sub Categories">Sub Categories</div>
+                            </a>
+                            <ul class="menu-sub">
+                                @foreach ($cruiseGroups as $group)
+                                    @php
+                                        $isActive =
+                                            $isCruiseExperiencesActive &&
+                                            (($currentGroupKey && $currentGroupKey == $group->group_key) ||
+                                                ($currentCruiseGroupId && $currentCruiseGroupId == $group->id));
+                                    @endphp
+                                    <li class="menu-item {{ $isActive ? 'active' : '' }}">
+                                        <a href="{{ route('admin.cruise-experiences.index', ['cruise_group_id' => $group->id]) }}"
+                                            class="menu-link">
+                                            <div data-i18n="{{ $group->name }}">{{ $group->name }}</div>
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </li>
+                    @endif
+                </ul>
+            </li>
+
             <li
                 class="menu-item {{ \App\Helpers\setSidebarActive(['admin.tours.*', 'admin.tour-variants.*'], 'active open') }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -72,61 +120,6 @@
                     </li>
                 </ul>
             </li>
-
-            {{-- Cruises Main Categories --}}
-            @php
-                $isCruiseGroupsActive = request()->routeIs('admin.cruise-groups.*');
-            @endphp
-            <li class="menu-item {{ $isCruiseGroupsActive ? 'active' : '' }}">
-                <a href="{{ route('admin.cruise-groups.index') }}" class="menu-link">
-                    <i class="menu-icon tf-icons ti ti-ship"></i>
-                    <div data-i18n="Main Categories">Main Categories</div>
-                </a>
-            </li>
-
-            {{-- Cruises Sub Categories --}}
-            @php
-                $currentCruiseGroupId = request()->get('cruise_group_id');
-                $currentGroupKey = request()->get('group_key');
-                $isCruiseExperiencesActive = request()->routeIs('admin.cruise-experiences.*');
-
-                // Determine current active group
-                if ($currentCruiseGroupId) {
-                    $currentGroup = isset($cruiseGroups)
-                        ? $cruiseGroups->firstWhere('id', $currentCruiseGroupId)
-                        : null;
-                    $currentGroupKey = $currentGroup ? $currentGroup->group_key : null;
-                } elseif ($currentGroupKey && isset($cruiseGroups)) {
-                    $currentGroup = $cruiseGroups->firstWhere('group_key', $currentGroupKey);
-                } else {
-                    $currentGroup = isset($cruiseGroups) ? $cruiseGroups->first() : null;
-                    $currentGroupKey = $currentGroup ? $currentGroup->group_key : null;
-                }
-            @endphp
-            @if (isset($cruiseGroups) && $cruiseGroups->count() > 0)
-                <li class="menu-item {{ $isCruiseExperiencesActive ? 'active open' : '' }}">
-                    <a href="javascript:void(0);" class="menu-link menu-toggle">
-                        <i class="menu-icon tf-icons ti ti-category"></i>
-                        <div data-i18n="Sub Categories">Sub Categories</div>
-                    </a>
-                    <ul class="menu-sub">
-                        @foreach ($cruiseGroups as $group)
-                            @php
-                                $isActive =
-                                    $isCruiseExperiencesActive &&
-                                    (($currentGroupKey && $currentGroupKey == $group->group_key) ||
-                                        ($currentCruiseGroupId && $currentCruiseGroupId == $group->id));
-                            @endphp
-                            <li class="menu-item {{ $isActive ? 'active' : '' }}">
-                                <a href="{{ route('admin.cruise-experiences.index', ['cruise_group_id' => $group->id]) }}"
-                                    class="menu-link">
-                                    <div data-i18n="{{ $group->name }}">{{ $group->name }}</div>
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul>
-                </li>
-            @endif
 
             {{-- Locations --}}
             <li
@@ -151,19 +144,46 @@
 
         @endif
 
+
+
+
         {{-- Content Management Section --}}
         @if (auth()->user()->isAdmin() || auth()->user()->hasPermission('dashboard.access'))
             <li class="menu-header small text-uppercase">
                 <span class="menu-header-text">Content Management</span>
             </li>
 
-            {{-- Sliders --}}
-            <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.sliders.*'], 'active') }}">
-                <a href="{{ route('admin.sliders.index') }}" class="menu-link">
-                    <i class="menu-icon tf-icons ti ti-slideshow"></i>
-                    <div data-i18n="Sliders">Sliders</div>
+            {{-- TopNav Announcement --}}
+            <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.announcements.*'], 'active') }}">
+                <a href="{{ route('admin.announcements.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons ti ti-speakerphone"></i>
+                    <div data-i18n="Live Highlights">Live Highlights</div>
                 </a>
             </li>
+
+            {{-- FAQs --}}
+            <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.faqs.*'], 'active') }}">
+                <a href="{{ route('admin.faqs.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons ti ti-help"></i>
+                    <div data-i18n="FAQs">FAQs</div>
+                </a>
+            </li>
+
+
+            {{-- Testimonials --}}
+            <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.testimonials.*'], 'active') }}">
+                <a href="{{ route('admin.testimonials.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons ti ti-message-circle"></i>
+                    <div data-i18n="Testimonials">Testimonials</div>
+                </a>
+            </li>
+            {{-- Sliders --}}
+            {{-- <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.sliders.*'], 'active') }}">
+                            <a href="{{ route('admin.sliders.index') }}" class="menu-link">
+                                <i class="menu-icon tf-icons ti ti-slideshow"></i>
+                                <div data-i18n="Sliders">Sliders</div>
+                            </a>
+                        </li> --}}
 
             {{-- Blogs --}}
             <li
@@ -188,37 +208,19 @@
 
             {{-- Galleries --}}
             {{-- <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.galleries.*'], 'active') }}">
-                <a href="{{ route('admin.galleries.index') }}" class="menu-link">
-                    <i class="menu-icon tf-icons ti ti-slideshow"></i>
-                    <div data-i18n="Galleries">Galleries</div>
-                </a>
-            </li> --}}
-
-            {{-- Testimonials --}}
-            <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.testimonials.*'], 'active') }}">
-                <a href="{{ route('admin.testimonials.index') }}" class="menu-link">
-                    <i class="menu-icon tf-icons ti ti-message-circle"></i>
-                    <div data-i18n="Testimonials">Testimonials</div>
-                </a>
-            </li>
-
-            {{-- FAQs --}}
-            <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.faqs.*'], 'active') }}">
-                <a href="{{ route('admin.faqs.index') }}" class="menu-link">
-                    <i class="menu-icon tf-icons ti ti-help"></i>
-                    <div data-i18n="FAQs">FAQs</div>
-                </a>
-            </li>
+                            <a href="{{ route('admin.galleries.index') }}" class="menu-link">
+                                <i class="menu-icon tf-icons ti ti-slideshow"></i>
+                                <div data-i18n="Galleries">Galleries</div>
+                            </a>
+                        </li> --}}
 
 
 
-            {{-- TopNav Announcement --}}
-            <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.announcements.*'], 'active') }}">
-                <a href="{{ route('admin.announcements.index') }}" class="menu-link">
-                    <i class="menu-icon tf-icons ti ti-speakerphone"></i>
-                    <div data-i18n="Live Highlights">Live Highlights</div>
-                </a>
-            </li>
+
+
+
+
+
             {{-- Pages SEO --}}
             <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.pages.*'], 'active') }}">
                 <a href="{{ route('admin.pages.index') }}" class="menu-link">
@@ -228,23 +230,24 @@
             </li>
 
             {{-- Site Sections --}}
-            <li
-                class="menu-item {{ \App\Helpers\setSidebarActive(['admin.site-sections.*'], 'active open') }}">
+            <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.site-sections.*'], 'active open') }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     <i class="menu-icon tf-icons ti ti-layout-2"></i>
-                    <div data-i18n="Site Sections">Site Sections</div>
+                    <div data-i18n="Home Sections">Home Sections</div>
                 </a>
                 <ul class="menu-sub">
-                    <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.site-sections.index'], 'active') }}">
+                    <li
+                        class="menu-item {{ \App\Helpers\setSidebarActive(['admin.site-sections.index'], 'active') }}">
                         <a href="{{ route('admin.site-sections.index') }}" class="menu-link">
                             <div data-i18n="All Sections">All Sections</div>
                         </a>
                     </li>
-                    <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.site-sections.about'], 'active') }}">
+                    {{-- <li
+                        class="menu-item {{ \App\Helpers\setSidebarActive(['admin.site-sections.about'], 'active') }}">
                         <a href="{{ route('admin.site-sections.about') }}" class="menu-link">
                             <div data-i18n="About Sections">About Page Sections</div>
                         </a>
-                    </li>
+                    </li> --}}
                 </ul>
             </li>
         @endif

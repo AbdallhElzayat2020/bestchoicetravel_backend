@@ -125,11 +125,6 @@
                                             <span>{{ strtoupper($location) }}</span>
                                         </div>
                                     @endif
-                                    @if ($tour->category)
-                                        <div class="category-badge">
-                                            {{ strtoupper($tour->category->name) }}
-                                        </div>
-                                    @endif
                                 </div>
                                 <div class="card-content">
                                     <div class="price-section">
@@ -279,8 +274,15 @@
 
     <!-- Egypt Day Tours Section -->
     <section class="redsea-section redsea-section--daytours" id="egypt-day-tours">
-        <!-- <div class="redsea-bg"></div> -->
-        <!-- <div class="redsea-overlay"></div> -->
+        @php
+            $dayToursImage = $dayToursSection && $dayToursSection->image_path ? asset($dayToursSection->image_path) : null;
+        @endphp
+        @if ($dayToursImage)
+            <div class="redsea-bg" style="background-image: url('{{ $dayToursImage }}')"></div>
+        @else
+            <div class="redsea-bg"></div>
+        @endif
+        <div class="redsea-overlay"></div>
         <div class="container redsea-inner">
             <div class="redsea-header scroll-animate" data-animation="fadeInUp">
                 <div class="redsea-tag">

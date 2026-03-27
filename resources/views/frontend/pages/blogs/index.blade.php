@@ -45,7 +45,10 @@ $metaTitle = $blogsPage && $blogsPage->meta_title ? $blogsPage->meta_title : 'Bl
                     <div class="blogs-list">
                         @forelse($blogs as $index => $blog)
                             <article class="blog-card scroll-animate" data-animation="fadeInUp"
-                                data-delay="{{ $index * 50 }}">
+                                data-delay="{{ $index * 50 }}"
+                                onclick="window.location='{{ route('blogs.show', $blog->slug) }}'"
+                                onkeydown="if(event.key === 'Enter' || event.key === ' ') { event.preventDefault(); window.location='{{ route('blogs.show', $blog->slug) }}'; }"
+                                role="link" tabindex="0" aria-label="Open article: {{ $blog->title }}">
                                 <div class="blog-card-image">
                                     @php
                                         $cover = $blog->cover_image

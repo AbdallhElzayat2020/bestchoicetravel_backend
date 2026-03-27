@@ -1549,6 +1549,10 @@ html {
 
 /* Variant for Egypt Day Tours (uses museum/city image) */
 .redsea-section--daytours {
+    background: #0f172a;
+}
+
+.redsea-section--daytours .redsea-bg {
     background-image: url('../images/Egypt_Day_Tours.jpeg');
 }
 
@@ -3367,6 +3371,7 @@ body.modal-open {
     display: flex;
     flex-direction: column;
     height: 100%;
+    cursor: pointer;
     transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
@@ -3427,6 +3432,16 @@ body.modal-open {
     color: var(--text-dark);
     margin: 2px 0 2px;
     line-height: 1.4;
+}
+
+.blog-card-title a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.blog-card-title a:hover {
+    color: var(--brand-blue);
 }
 
 .blog-card-excerpt {
@@ -3532,8 +3547,36 @@ body.modal-open {
 .blog-category-list li {
     display: flex;
     align-items: center;
+    cursor: pointer;
+    border: 1px solid rgba(148, 163, 184, 0.45);
+    border-radius: 10px;
+    padding: 0;
+    background: #ffffff;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.blog-category-list li a {
+    display: flex;
+    align-items: center;
     gap: 10px;
-    cursor: default;
+    width: 100%;
+    padding: 8px 12px;
+    font-family: "Playfair Display", serif;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--text-dark);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.blog-category-list li:hover {
+    border-color: rgba(43, 83, 167, 0.5);
+    background: rgba(43, 83, 167, 0.06);
+}
+
+.blog-category-list li a:hover {
+    color: var(--brand-blue);
 }
 
 .blog-category-list .dot {
@@ -3544,12 +3587,18 @@ body.modal-open {
 }
 
 .blog-category-list li.active .dot {
-    background: var(--brand-blue);
+    background: #ffffff;
 }
 
 .blog-category-list li.active {
-    color: var(--text-dark);
+    color: #ffffff;
     font-weight: 600;
+    background: var(--brand-blue);
+    border-color: var(--brand-blue);
+}
+
+.blog-category-list li.active a {
+    color: #ffffff;
 }
 
 .blog-sidebar-text {

@@ -34,7 +34,15 @@ class BlogController extends Controller
             ->paginate(6)
             ->withQueryString();
 
-        $categories = BlogCategory::orderBy('sort_order')
+        $usedCategoryNames = Blog::active()
+            ->published()
+            ->whereNotNull('category')
+            ->where('category', '!=', '')
+            ->distinct()
+            ->pluck('category');
+
+        $categories = BlogCategory::whereIn('name', $usedCategoryNames)
+            ->orderBy('sort_order')
             ->orderBy('name')
             ->get();
 

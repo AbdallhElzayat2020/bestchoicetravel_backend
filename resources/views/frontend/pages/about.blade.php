@@ -32,7 +32,12 @@
     @endphp
 
     <!-- About Us Banner (full-width colored strip with title) -->
-    <section class="about-banner" id="about-intro">
+    @php
+        $aboutBannerImage = $aboutBanner && $aboutBanner->image_path
+            ? asset($aboutBanner->image_path)
+            : asset('assets/frontend/images/about.webp');
+    @endphp
+    <section class="about-banner" id="about-intro" style="background-image: url('{{ $aboutBannerImage }}');">
         <div class="about-banner-overlay"></div>
         <div class="container">
             <div class="about-banner-inner">
