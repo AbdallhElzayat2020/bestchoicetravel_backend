@@ -68,15 +68,6 @@
                                             class="btn btn-sm btn-label-primary">
                                             <i class="ti ti-edit"></i>
                                         </a>
-                                        <form action="{{ route('admin.announcements.destroy', $announcement->id) }}"
-                                            method="POST"
-                                            onsubmit="return confirm('Are you sure you want to delete this announcement?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-label-danger">
-                                                <i class="ti ti-trash"></i>
-                                            </button>
-                                        </form>
                                     </div>
                                 </td>
                             </tr>
