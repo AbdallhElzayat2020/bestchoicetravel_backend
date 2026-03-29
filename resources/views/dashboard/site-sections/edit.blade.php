@@ -202,6 +202,22 @@
                                 @enderror
                             </div>
 
+                            @if ($key === 'home_hero')
+                                <div class="mb-3">
+                                    <label class="form-label">Vimeo background video (optional)</label>
+                                    <input type="text" name="vimeo_url" class="form-control"
+                                        value="{{ old('vimeo_url', $siteSection->vimeo_url) }}"
+                                        placeholder="https://vimeo.com/123456789 أو رقم الفيديو فقط">
+                                    <div class="form-text">
+                                        إذا وُجد رابط صالح، يُعرض الفيديو كخلفية للهيرو بدل الصورة. اتركه فارغاً
+                                        لاستخدام صورة الخلفية فقط.
+                                    </div>
+                                    @error('vimeo_url')
+                                        <div class="text-danger small">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            @endif
+
                             {{-- Image (only for sections that use images) --}}
                             @if (in_array($key, ['about_banner', 'home_hero', 'home_cruises', 'home_day_tours', 'home_desert', 'home_egypt_jordan', 'home_redsea', 'about_hero']))
                                 <div class="mb-3">

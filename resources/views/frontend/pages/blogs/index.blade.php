@@ -1,18 +1,29 @@
 @extends('frontend.layouts.master')
 @php
-$blogsPage = \App\Models\Page::getBySlug('blogs');
-$metaTitle = $blogsPage && $blogsPage->meta_title ? $blogsPage->meta_title : 'Blogs';
+    $blogsPage = \App\Models\Page::getBySlug('blogs');
 @endphp
-@section('meta_title', $metaTitle)
-@if($blogsPage && $blogsPage->meta_description)
-@section('meta_description', $blogsPage->meta_description)
+@section('meta_title', $blogMetaTitle ?? ($blogsPage && $blogsPage->meta_title ? $blogsPage->meta_title : 'Blogs'))
+@php
+    $__blogDesc = $blogMetaDescription ?? ($blogsPage && $blogsPage->meta_description ? $blogsPage->meta_description : '');
+@endphp
+@if ($__blogDesc !== '')
+    @section('meta_description', $__blogDesc)
 @endif
-@if($blogsPage && $blogsPage->meta_author)
-@section('meta_author', $blogsPage->meta_author)
+@if ($blogsPage && $blogsPage->meta_author)
+    @section('meta_author', $blogsPage->meta_author)
 @endif
-@if($blogsPage && $blogsPage->meta_keywords)
-@section('meta_keywords', $blogsPage->meta_keywords)
+@if ($blogsPage && $blogsPage->meta_keywords)
+    @section('meta_keywords', $blogsPage->meta_keywords)
 @endif
+
+@push('head_extra')
+    @if (!empty($blogCanonicalUrl))
+        <link rel="canonical" href="{{ $blogCanonicalUrl }}">
+    @endif
+    @if (!empty($blogRobots))
+        <meta name="robots" content="{{ $blogRobots }}">
+    @endif
+@endpush
 
 @section('content')
     <!-- Blog Listing Page -->
@@ -43,7 +54,7 @@ $metaTitle = $blogsPage && $blogsPage->meta_title ? $blogsPage->meta_title : 'Bl
                 <div class="blogs-layout">
                     <!-- Left: blog cards -->
                     <div class="blogs-list">
-                        @forelse($blogs as $index => $blog)
+                        @forelse ($blogs as $index => $blog)
                             <article class="blog-card scroll-animate" data-animation="fadeInUp"
                                 data-delay="{{ $index * 50 }}"
                                 onclick="window.location='{{ route('blogs.show', $blog->slug) }}'"
@@ -63,13 +74,13 @@ $metaTitle = $blogsPage && $blogsPage->meta_title ? $blogsPage->meta_title : 'Bl
                                             <i class="fa-regular fa-calendar"></i>
                                             {{ optional($blog->published_at)->format('M d, Y') }}
                                         </span>
-                                        @if($blog->category)
+                                        @if ($blog->category)
                                             <span>
                                                 <i class="fa-solid fa-tag"></i>
                                                 {{ $blog->category }}
                                             </span>
                                         @endif
-                                        @if($blog->author)
+                                        @if ($blog->author)
                                             <span>
                                                 <i class="fa-regular fa-user"></i>
                                                 {{ $blog->author }}
@@ -81,7 +92,7 @@ $metaTitle = $blogsPage && $blogsPage->meta_title ? $blogsPage->meta_title : 'Bl
                                             {{ $blog->title }}
                                         </a>
                                     </h2>
-                                    @if($blog->short_description)
+                                    @if ($blog->short_description)
                                         <p class="blog-card-excerpt">
                                             {{ Str::limit(strip_tags($blog->short_description), 180) }}
                                         </p>
@@ -98,7 +109,7 @@ $metaTitle = $blogsPage && $blogsPage->meta_title ? $blogsPage->meta_title : 'Bl
                             </p>
                         @endforelse
 
-                        @if($blogs->hasPages())
+                        @if ($blogs->hasPages())
                             <div class="blogs-pagination">
                                 {{ $blogs->links() }}
                             </div>
@@ -110,38 +121,48 @@ $metaTitle = $blogsPage && $blogsPage->meta_title ? $blogsPage->meta_title : 'Bl
                         <div class="blog-sidebar-card blog-sidebar-search scroll-animate" data-animation="fadeInUp"
                             data-delay="0">
                             <h3 class="blog-sidebar-title">Search</h3>
-                            <form class="blog-search-box" method="GET" action="{{ route('blogs.index') }}">
-                                <input type="text" name="q" value="{{ $search ?? request('q') }}"
-                                    placeholder="Search articles..." aria-label="Search blog">
-                                @if($activeCategory ?? request('category'))
-                                    <input type="hidden" name="category"
-                                        value="{{ $activeCategory ?? request('category') }}">
+                            <form class="blog-search-box" method="GET" action="{{ route('blogs.index') }}"
+                                role="search">
+                                <input type="search" name="q" value="{{ $search ?? '' }}"
+                                    placeholder="Search articles..." aria-label="Search blog" autocomplete="off"
+                                    maxlength="200" inputmode="search">
+                                @if ($activeCategorySlug ?? null)
+                                    <input type="hidden" name="category_name" value="{{ $activeCategorySlug }}">
                                 @endif
-                                <button type="submit" aria-label="Search">
-                                    <i class="fa-solid fa-magnifying-glass"></i>
-                                </button>
+                                <span class="blog-search-actions">
+                                    <button type="submit" class="blog-search-submit" aria-label="Search">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                    </button>
+                                </span>
                             </form>
+                            @if (!empty($hasActiveFilters))
+                                <a href="{{ route('blogs.index') }}" class="blog-search-clear">
+                                    <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                                    Clear search &amp; filters
+                                </a>
+                            @endif
                         </div>
 
                         <div class="blog-sidebar-card scroll-animate" data-animation="fadeInUp" data-delay="50">
                             <h3 class="blog-sidebar-title">Categories</h3>
                             <ul class="blog-category-list">
                                 @php
-                                    $currentSearch = $search ?? request('q');
-                                    $currentCategory = $activeCategory ?? request('category');
+                                    $currentSearch = $search ?? '';
+                                    $currentSlug = $activeCategorySlug ?? null;
                                 @endphp
-                                <li class="{{ $currentCategory ? '' : 'active' }}">
+                                <li class="{{ $currentSlug ? '' : 'active' }}">
                                     <a href="{{ route('blogs.index', array_filter(['q' => $currentSearch])) }}">
                                         <span class="dot"></span>
                                         All Articles
                                     </a>
                                 </li>
-                                @foreach($categories ?? [] as $category)
+                                @foreach ($categories ?? [] as $category)
                                     @php
-                                        $isActive = $currentCategory === $category->name;
+                                        $isActive = $currentSlug === $category->slug;
                                     @endphp
                                     <li class="{{ $isActive ? 'active' : '' }}">
-                                        <a href="{{ route('blogs.index', array_filter(['category' => $category->name, 'q' => $currentSearch])) }}">
+                                        <a
+                                            href="{{ route('blogs.index', array_filter(['category_name' => $category->slug, 'q' => $currentSearch])) }}">
                                             <span class="dot"></span>
                                             {{ $category->name }}
                                         </a>

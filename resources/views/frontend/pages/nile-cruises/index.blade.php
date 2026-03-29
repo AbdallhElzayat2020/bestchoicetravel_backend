@@ -35,9 +35,8 @@
                 <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                     @foreach($experiences as $experience)
                         @php
-                            $firstImage = $experience->images->first();
-                            $coverImage = $firstImage
-                                ? asset('uploads/cruise-experiences/' . $firstImage->image)
+                            $coverImage = $experience->banner_image
+                                ? asset('uploads/cruise-experiences/' . $experience->banner_image)
                                 : asset('assets/frontend/assets/images/blogs/01.png');
 
                             $shortDescription = $experience->short_description

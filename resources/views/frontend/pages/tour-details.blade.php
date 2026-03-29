@@ -66,8 +66,8 @@
                                     : asset('assets/frontend/assets/images/blogs/01.png');
                             @endphp
 
-                            <div class="row g-3 align-items-stretch">
-                                <div class="col-md-8">
+                            <div class="row g-3 g-lg-4 tour-gallery-row align-items-stretch">
+                                <div class="col-md-8 tour-gallery-col-main">
                                     @if ($hasGalleryImages)
                                         <div class="swiper tour-gallery-main">
                                             <div class="swiper-wrapper">
@@ -88,11 +88,11 @@
                                         </div>
                                     @else
                                         <div class="tour-gallery-single">
-                                            <img src="{{ $fallbackCover }}" alt="{{ $tour->title }}" class="img-fluid w-100" />
+                                            <img src="{{ $fallbackCover }}" alt="{{ $tour->title }}" loading="lazy" />
                                         </div>
                                     @endif
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-4 tour-gallery-col-thumbs">
                                     @if ($hasGalleryImages)
                                         <div class="swiper tour-gallery-thumbs">
                                             <div class="swiper-wrapper">
@@ -147,40 +147,80 @@
                                 <span class="tour-booking-new" id="tour-booking-per-person">${{ number_format($displayPrice, 0) }}</span>
                                 <span class="tour-booking-per">per person</span>
                             </div>
-                            <form class="tour-booking-form" id="booking-form">
+                            @if (session('success'))
+                                <div class="alert alert-success alert-dismissible fade show tour-booking-flash mb-3" role="alert">
+                                    {{ session('success') }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            @endif
+                            @if ($errors->any())
+                                <div class="alert alert-danger tour-booking-flash mb-3" role="alert">
+                                    <strong>Could not submit booking.</strong>
+                                    <ul class="mb-0 mt-1 ps-3 small">
+                                        @foreach ($errors->all() as $err)
+                                            <li>{{ $err }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                            <form class="tour-booking-form" id="booking-form" action="{{ route('bookings.store') }}" method="POST" novalidate>
+                                @csrf
+                                <input type="hidden" name="tour_id" value="{{ $tour->id }}">
                                 <input type="hidden" id="base-tour-price" name="base_tour_price" value="{{ $basePrice }}">
-                                <input type="hidden" id="total-price-input" name="total_price" value="">
-                                <input type="hidden" id="selected-variants" name="selected_variants" value="[]">
-                                <div class="mb-2">
-                                    <label class="form-label">Full Name</label>
-                                    <input type="text" id="full_name" name="full_name" class="form-control" placeholder="Full name" />
+                                <input type="hidden" id="total-price-input" name="total_price" value="{{ old('total_price') }}">
+                                <input type="hidden" id="selected-variants" name="selected_variants" value="{{ old('selected_variants', '[]') }}">
+                                <div class="tour-booking-field mb-2">
+                                    <label class="form-label" for="full_name">Full Name</label>
+                                    <input type="text" id="full_name" name="full_name"
+                                        class="form-control @error('full_name') is-invalid @enderror" placeholder="Full name"
+                                        value="{{ old('full_name') }}" autocomplete="name" />
+                                    <div class="tour-booking-field__error" id="booking-feedback-full_name" role="alert" aria-live="polite">@error('full_name'){{ $message }}@enderror</div>
                                 </div>
-                                <div class="mb-2">
-                                    <label class="form-label">Email</label>
-                                    <input type="email" id="email" name="email" class="form-control" placeholder="you@example.com" />
+                                <div class="tour-booking-field mb-2">
+                                    <label class="form-label" for="email">Email</label>
+                                    <input type="email" id="email" name="email"
+                                        class="form-control @error('email') is-invalid @enderror" placeholder="you@example.com"
+                                        value="{{ old('email') }}" autocomplete="email" inputmode="email" />
+                                    <div class="tour-booking-field__error" id="booking-feedback-email" role="alert" aria-live="polite">@error('email'){{ $message }}@enderror</div>
                                 </div>
-                                <div class="mb-2">
-                                    <label class="form-label">Phone</label>
-                                    <input type="tel" id="phone" name="phone" class="form-control" placeholder="+20 123 456 7890" />
+                                <div class="tour-booking-field mb-2">
+                                    <label class="form-label" for="phone">Phone</label>
+                                    <input type="tel" id="phone" name="phone"
+                                        class="form-control @error('phone') is-invalid @enderror" placeholder="+20 123 456 7890"
+                                        value="{{ old('phone') }}" autocomplete="tel" />
+                                    <div class="tour-booking-field__error" id="booking-feedback-phone" role="alert" aria-live="polite">@error('phone'){{ $message }}@enderror</div>
                                 </div>
-                                <div class="mb-2">
-                                    <label class="form-label">Nationality</label>
-                                    <input type="text" id="nationality" name="nationality" class="form-control" placeholder="e.g. Egyptian, Italian" />
+                                <div class="tour-booking-field mb-2">
+                                    <label class="form-label" for="nationality">Nationality</label>
+                                    <input type="text" id="nationality" name="nationality"
+                                        class="form-control @error('nationality') is-invalid @enderror"
+                                        placeholder="e.g. Egyptian, Italian" value="{{ old('nationality') }}" autocomplete="country-name" />
+                                    <div class="tour-booking-field__error" id="booking-feedback-nationality" role="alert" aria-live="polite">@error('nationality'){{ $message }}@enderror</div>
                                 </div>
-                                <div class="mb-2">
-                                    <label class="form-label">No. of Travellers</label>
-                                    <input type="number" id="no_of_travellers" name="no_of_travellers" class="form-control" min="1" value="1" />
+                                <div class="tour-booking-field mb-2">
+                                    <label class="form-label" for="no_of_travellers">No. of Travellers</label>
+                                    <input type="number" id="no_of_travellers" name="no_of_travellers"
+                                        class="form-control @error('no_of_travellers') is-invalid @enderror" min="1" step="1"
+                                        value="{{ old('no_of_travellers', 1) }}" inputmode="numeric" />
+                                    <div class="tour-booking-field__error" id="booking-feedback-no_of_travellers" role="alert" aria-live="polite">@error('no_of_travellers'){{ $message }}@enderror</div>
                                 </div>
                                 <div class="mb-2">
                                     <label class="form-label">Extra Options</label>
                                     <div class="tour-extras-list">
+                                        @php
+                                            $oldExtras = old('extra_options', []);
+                                            if (! is_array($oldExtras)) {
+                                                $oldExtras = [];
+                                            }
+                                        @endphp
                                         @forelse ($tour->variants ?? [] as $variant)
                                             @php $addPrice = (float) ($variant->additional_price ?? 0); @endphp
                                             <label class="form-check">
                                                 <input class="form-check-input variant-checkbox" type="checkbox" name="extra_options[]"
                                                     value="{{ $variant->id }}"
                                                     data-price="{{ $addPrice }}"
-                                                    data-title="{{ $variant->title }}">
+                                                    data-title="{{ $variant->title }}"
+                                                    @checked(in_array((string) $variant->id, array_map('strval', $oldExtras), true))>
                                                 <span class="form-check-label">{{ $variant->title }} (${{ number_format($addPrice, 0) }})</span>
                                             </label>
                                         @empty
@@ -189,12 +229,18 @@
                                     </div>
                                 </div>
                                 <div class="tour-booking-summary">
-                                    <div id="tour-booking-breakdown" class="tour-booking-breakdown mb-2 small text-muted"></div>
+                                    <div id="tour-booking-breakdown"
+                                        class="tour-booking-breakdown"
+                                        aria-live="polite"
+                                        aria-atomic="true"></div>
                                     <div class="tour-booking-row tour-booking-total">
                                         <span>Total:</span>
                                         <span id="total-price">${{ number_format($basePrice, 0) }}</span>
                                     </div>
                                 </div>
+                                @if (!empty($recaptchaSiteKey ?? null))
+                                    <div class="g-recaptcha mb-2" data-sitekey="{{ $recaptchaSiteKey }}"></div>
+                                @endif
                                 <button type="submit" class="btn btn-primary w-100 mt-2">
                                     Booking Now
                                 </button>
@@ -405,7 +451,7 @@
 
 
 
-@push('js')
+@push('scripts')
     @if (!empty($recaptchaSiteKey ?? null))
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     @endif
@@ -417,6 +463,12 @@
                 const str = String(val).replace(/,/g, '').trim();
                 const n = parseFloat(str);
                 return isNaN(n) ? 0 : n;
+            }
+
+            function escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text == null ? '' : String(text);
+                return div.innerHTML;
             }
 
             const baseTourPrice = parsePrice(document.getElementById('base-tour-price')?.value);
@@ -460,14 +512,56 @@
                 }
 
                 if (breakdownElement) {
-                    const parts = [];
-                    parts.push('Base: $' + Math.round(baseTourPrice * noOfTravellers).toLocaleString());
-                    selectedExtras.forEach(function(extra) {
-                        const lineTotal = extra.price * noOfTravellers;
-                        parts.push(extra.title + ': $' + Math.round(lineTotal).toLocaleString());
-                    });
-                    breakdownElement.innerHTML = parts.join(' &bull; ');
-                    breakdownElement.style.display = parts.length > 1 ? 'block' : 'none';
+                    const showBreakdown =
+                        Math.round(pricePerPerson * 100) > Math.round(baseTourPrice * 100);
+                    if (!showBreakdown) {
+                        breakdownElement.innerHTML = '';
+                        breakdownElement.style.display = 'none';
+                    } else {
+                        const rows = [];
+                        rows.push({
+                            label: 'Base tour',
+                            amount: Math.round(baseTourPrice * noOfTravellers),
+                        });
+                        if (accommodationSelect && accommodationSelect.value) {
+                            const opt = accommodationSelect.options[accommodationSelect.selectedIndex];
+                            const accP = parsePrice(opt.getAttribute('data-price'));
+                            const accLabel =
+                                opt.getAttribute('data-label') ||
+                                opt.textContent.replace(/\s+/g, ' ').trim() ||
+                                'Accommodation';
+                            rows.push({
+                                label: accLabel,
+                                amount: Math.round(accP * noOfTravellers),
+                            });
+                        }
+                        selectedExtras.forEach(function(extra) {
+                            rows.push({
+                                label: extra.title,
+                                amount: Math.round(extra.price * noOfTravellers),
+                            });
+                        });
+                        let html =
+                            '<div class="tour-breakdown-panel" role="region" aria-label="Price breakdown">';
+                        html +=
+                            '<div class="tour-breakdown-panel__head"><i class="fa-solid fa-receipt" aria-hidden="true"></i> Price breakdown</div>';
+                        html += '<ul class="tour-breakdown-panel__list">';
+                        rows.forEach(function(row) {
+                            html += '<li class="tour-breakdown-panel__row">';
+                            html +=
+                                '<span class="tour-breakdown-panel__label">' +
+                                escapeHtml(row.label) +
+                                '</span>';
+                            html +=
+                                '<span class="tour-breakdown-panel__value">$' +
+                                row.amount.toLocaleString() +
+                                '</span>';
+                            html += '</li>';
+                        });
+                        html += '</ul></div>';
+                        breakdownElement.innerHTML = html;
+                        breakdownElement.style.display = 'block';
+                    }
                 }
 
                 const totalPriceInput = document.getElementById('total-price-input');
@@ -585,64 +679,133 @@
             // Initialize total
             calculateTotal();
 
-            // Handle form submission
+            // Real-time booking form validation
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            function setFieldState(fieldId, isInvalid, message) {
+                const input = document.getElementById(fieldId);
+                const feedback = document.getElementById('booking-feedback-' + fieldId);
+                if (!input) return;
+                if (isInvalid) {
+                    input.classList.add('is-invalid');
+                    input.setAttribute('aria-invalid', 'true');
+                    if (feedback) {
+                        feedback.textContent = message || '';
+                    }
+                } else {
+                    input.classList.remove('is-invalid');
+                    input.setAttribute('aria-invalid', 'false');
+                    if (feedback) feedback.textContent = '';
+                }
+            }
+
+            function validateFullName() {
+                const el = document.getElementById('full_name');
+                if (!el) return true;
+                const v = el.value.trim();
+                if (!v) {
+                    setFieldState('full_name', true, 'Please enter your full name.');
+                    return false;
+                }
+                setFieldState('full_name', false);
+                return true;
+            }
+
+            function validateEmail() {
+                const el = document.getElementById('email');
+                if (!el) return true;
+                const v = el.value.trim();
+                if (!v) {
+                    setFieldState('email', true, 'Please enter your email.');
+                    return false;
+                }
+                if (!emailPattern.test(v)) {
+                    setFieldState('email', true, 'Please enter a valid email address.');
+                    return false;
+                }
+                setFieldState('email', false);
+                return true;
+            }
+
+            function validatePhone() {
+                const el = document.getElementById('phone');
+                if (!el) return true;
+                const v = el.value.trim();
+                if (!v) {
+                    setFieldState('phone', true, 'Please enter your phone number.');
+                    return false;
+                }
+                setFieldState('phone', false);
+                return true;
+            }
+
+            function validateNationality() {
+                const el = document.getElementById('nationality');
+                if (!el) return true;
+                const v = el.value.trim();
+                if (!v) {
+                    setFieldState('nationality', true, 'Please enter your nationality.');
+                    return false;
+                }
+                setFieldState('nationality', false);
+                return true;
+            }
+
+            function validateNoOfTravellers() {
+                const el = document.getElementById('no_of_travellers');
+                if (!el) return true;
+                const n = parseInt(el.value, 10);
+                if (el.value === '' || isNaN(n) || n < 1) {
+                    setFieldState('no_of_travellers', true, 'Enter at least 1 traveller.');
+                    return false;
+                }
+                setFieldState('no_of_travellers', false);
+                return true;
+            }
+
+            function validateBookingFormAll() {
+                const a = validateFullName();
+                const b = validateEmail();
+                const c = validatePhone();
+                const d = validateNationality();
+                const f = validateNoOfTravellers();
+                return a && b && c && d && f;
+            }
+
             const bookingForm = document.getElementById('booking-form');
             if (bookingForm) {
+                const fieldValidators = {
+                    full_name: validateFullName,
+                    email: validateEmail,
+                    phone: validatePhone,
+                    nationality: validateNationality,
+                    no_of_travellers: validateNoOfTravellers,
+                };
+
+                Object.keys(fieldValidators).forEach(function(fieldId) {
+                    const input = document.getElementById(fieldId);
+                    if (!input) return;
+                    const run = fieldValidators[fieldId];
+                    input.addEventListener('input', function() {
+                        run();
+                    });
+                    input.addEventListener('blur', function() {
+                        run();
+                    });
+                });
+
                 bookingForm.addEventListener('submit', function(e) {
-                    // Ensure all hidden fields are updated before submission
                     calculateTotal();
 
-                    // Validate required fields
-                    const fullName = document.getElementById('full_name');
-                    const email = document.getElementById('email');
-                    const phone = document.getElementById('phone');
-                    const nationality = document.getElementById('nationality');
-                    const noOfTravellers = document.getElementById('no_of_travellers');
-
-                    let isValid = true;
-
-                    if (!fullName || !fullName.value.trim()) {
-                        isValid = false;
-                        if (fullName) {
-                            fullName.classList.add('border-red-500');
-                        }
-                    }
-
-                    if (!email || !email.value.trim() || !email.validity.valid) {
-                        isValid = false;
-                        if (email) {
-                            email.classList.add('border-red-500');
-                        }
-                    }
-
-                    if (!phone || !phone.value.trim()) {
-                        isValid = false;
-                        if (phone) {
-                            phone.classList.add('border-red-500');
-                        }
-                    }
-
-                    if (!nationality || !nationality.value.trim()) {
-                        isValid = false;
-                        if (nationality) {
-                            nationality.classList.add('border-red-500');
-                        }
-                    }
-
-                    if (!noOfTravellers || !noOfTravellers.value || parseInt(noOfTravellers.value) < 1) {
-                        isValid = false;
-                        if (noOfTravellers) {
-                            noOfTravellers.classList.add('border-red-500');
-                        }
-                    }
-
-                    if (!isValid) {
+                    if (!validateBookingFormAll()) {
                         e.preventDefault();
-                        alert('Please fill in all required fields correctly.');
+                        const firstInvalid = bookingForm.querySelector('.form-control.is-invalid');
+                        if (firstInvalid) {
+                            firstInvalid.focus({ preventScroll: false });
+                        }
                         return false;
                     }
 
-                    // Show loading state
                     const submitButton = bookingForm.querySelector('button[type="submit"]');
                     if (submitButton) {
                         submitButton.disabled = true;

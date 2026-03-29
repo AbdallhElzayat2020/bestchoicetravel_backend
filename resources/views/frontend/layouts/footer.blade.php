@@ -16,14 +16,25 @@
             </div>
             <div class="footer-section">
                 <h3 class="footer-title">Tours</h3>
+                @php
+                    $footerCruiseRows = collect($sharedCruiseGroupsWithExperiences ?? [])
+                        ->sortBy(fn ($d) => $d['group']->sort_order)
+                        ->flatMap(function ($d) {
+                            $group = $d['group'];
+                            return $d['experiences']->map(
+                                fn ($experience) => ['group' => $group, 'experience' => $experience],
+                            );
+                        });
+                @endphp
                 <ul class="footer-links">
-                    <li><a href="#packages">Egypt Tour Packages</a></li>
-                    <li><a href="#packages">Egypt Desert Tours</a></li>
-                    <li><a href="#packages">Red Sea Vacations</a></li>
-                    <li><a href="#packages">Nile Cruises</a></li>
-                    <li><a href="#packages">Dahabiya Nile Cruises</a></li>
-                    <li><a href="#packages">Egypt Day Tours</a></li>
-                    <li><a href="#packages">Egypt & Jordan Tours</a></li>
+                    @forelse ($footerCruiseRows as $row)
+                        <li>
+                            <a
+                                href="{{ url($row['group']->slug . '/' . $row['experience']->slug) }}">{{ $row['experience']->title }}</a>
+                        </li>
+                    @empty
+                        <li><a href="{{ route('home') }}#packages">Packages</a></li>
+                    @endforelse
                 </ul>
             </div>
             <div class="footer-section">

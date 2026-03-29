@@ -8,7 +8,6 @@ use App\Models\CruiseExperience;
 use App\Models\CruiseGroup;
 use App\Models\Page;
 use App\Models\Setting;
-use App\Models\Tour;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
 
@@ -40,6 +39,8 @@ class SharedDataServiceProvider extends ServiceProvider
                 'sharedCruiseGroups' => $sharedData['cruiseGroups'],
                 'sharedCruiseGroupsWithExperiences' => $sharedData['cruiseGroupsWithExperiences'],
                 'sharedAnnouncements' => $sharedData['announcements'],
+                'sharedAnnouncementBar' => $sharedData['sharedAnnouncementBar'],
+                'announcementBarEnabled' => $sharedData['announcementBarEnabled'],
                 'sharedTermsPage' => $sharedData['termsPage'],
                 'sharedPrivacyPage' => $sharedData['privacyPage'],
                 'mainCruisesMenuName' => $sharedData['mainCruisesMenuName'],
@@ -87,10 +88,12 @@ class SharedDataServiceProvider extends ServiceProvider
             ];
         }
 
-        // Get active announcements (used in navbar)
-        $announcements = Announcement::where('status', 'active')
+        // Active announcements (list) + single row for top bar (dynamic from DB)
+        $announcements = Announcement::active()
             ->orderBy('sort_order')
+            ->orderBy('id')
             ->get();
+        $sharedAnnouncementBar = $announcements->first();
 
         // Get static pages for footer (cached, single query)
         $staticPages = Cache::remember('static_pages', 3600, function () {
@@ -116,12 +119,15 @@ class SharedDataServiceProvider extends ServiceProvider
         $navbarLogo = $settings['navbar_logo'] ?? null;
         $footerLogo = $settings['footer_logo'] ?? null;
 
+        $announcementBarEnabled = ($settings['announcement_bar_enabled'] ?? '0') === '1';
+
         return [
             'categories' => $categories,
             'cruiseExperiences' => $cruiseExperiences,
             'cruiseGroups' => $cruiseGroups,
             'cruiseGroupsWithExperiences' => $cruiseGroupsWithExperiences,
             'announcements' => $announcements,
+            'sharedAnnouncementBar' => $sharedAnnouncementBar,
             'termsPage' => $termsPage,
             'privacyPage' => $privacyPage,
             'mainCruisesMenuName' => $mainCruisesMenuName,
@@ -130,7 +136,7 @@ class SharedDataServiceProvider extends ServiceProvider
             'address' => $address,
             'navbarLogo' => $navbarLogo,
             'footerLogo' => $footerLogo,
+            'announcementBarEnabled' => $announcementBarEnabled,
         ];
     }
 }
-

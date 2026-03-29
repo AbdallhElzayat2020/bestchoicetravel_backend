@@ -23,7 +23,7 @@ class CruiseExperienceController extends Controller
         // Get all active cruise experiences for this group with pagination
         $experiences = CruiseExperience::active()
             ->where('cruise_group_id', $cruiseGroup->id)
-            ->with(['images', 'cruiseGroup'])
+            ->with(['cruiseGroup'])
             ->orderBy('sort_order')
             ->latest()
             ->paginate(12);
@@ -46,7 +46,7 @@ class CruiseExperienceController extends Controller
 
         $experience = CruiseExperience::active()
             ->where('cruise_group_id', $cruiseGroup->id)
-            ->with(['images', 'cruiseGroup', 'faqs'])
+            ->with(['cruiseGroup', 'faqs'])
             ->where('slug', $slug)
             ->firstOrFail();
 

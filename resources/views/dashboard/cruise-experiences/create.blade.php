@@ -204,17 +204,6 @@
                             @enderror
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Gallery Images</label>
-                            <input type="file" id="experience_images_input" name="images[]"
-                                class="form-control @error('images.*') is-invalid @enderror" multiple accept="image/*">
-                            <small class="text-muted">You can select multiple images. Recommended similar style to tour
-                                gallery.</small>
-                            @error('images.*')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                            <div id="experienceImagesPreview" class="row g-2 mt-2"></div>
-                        </div>
                     </div>
 
                     <div class="col-lg-12">
@@ -441,37 +430,6 @@
                         $('.note-btn-group').removeClass('open');
                         $('.note-dropdown-menu').removeClass('open').hide();
                     }
-                });
-            }
-
-            // Preview selected gallery images with ability to clear all
-            const imagesInput = document.getElementById('experience_images_input');
-            const imagesPreview = document.getElementById('experienceImagesPreview');
-
-            if (imagesInput && imagesPreview) {
-                imagesInput.addEventListener('change', function (e) {
-                    imagesPreview.innerHTML = '';
-                    const files = Array.from(e.target.files || []);
-
-                    if (!files.length) {
-                        return;
-                    }
-
-                    files.forEach(file => {
-                        const reader = new FileReader();
-                        reader.onload = function (ev) {
-                            const col = document.createElement('div');
-                            col.className = 'col-4 col-md-3';
-                            col.innerHTML = `
-                                <div class="border rounded" style="overflow:hidden;">
-                                    <img src="${ev.target.result}" alt="Preview"
-                                         class="img-fluid" style="height:100px;object-fit:cover;width:100%;">
-                                </div>
-                            `;
-                            imagesPreview.appendChild(col);
-                        };
-                        reader.readAsDataURL(file);
-                    });
                 });
             }
         });

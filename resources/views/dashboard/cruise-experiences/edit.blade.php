@@ -218,45 +218,6 @@
                             @enderror
                         </div>
 
-                        @if ($experience->images->count())
-                            <div class="mb-3">
-                                <label class="form-label">Existing Images</label>
-                                <div class="row g-3">
-                                    @foreach ($experience->images as $image)
-                                        <div class="col-6 col-md-4 col-lg-3">
-                                            <div class="position-relative experience-image-wrapper">
-                                                <img src="{{ asset('uploads/cruise-experiences/' . $image->image) }}"
-                                                    alt="Image {{ $loop->iteration }}" class="img-thumbnail mb-2 w-100"
-                                                    style="max-height: 140px; object-fit: cover;">
-                                                <button type="button"
-                                                    class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1"
-                                                    onclick="markExperienceImageForDeletion({{ $image->id }}, this);">
-                                                    <i class="ti ti-trash"></i>
-                                                </button>
-                                            </div>
-                                            <div class="form-check text-center">
-                                                <input class="form-check-input" type="checkbox" name="deleted_images[]"
-                                                    value="{{ $image->id }}" id="del-img-{{ $image->id }}"
-                                                    style="display:none;">
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                                <small class="text-muted d-block mt-1">Click the trash icon to mark an image for deletion,
-                                    then save.</small>
-                            </div>
-                        @endif
-
-                        <div class="mb-3">
-                            <label class="form-label">Add New Images</label>
-                            <input type="file" id="experience_new_images_input" name="images[]"
-                                class="form-control @error('images.*') is-invalid @enderror" multiple accept="image/*">
-                            <small class="text-muted">You can add more images to the gallery.</small>
-                            @error('images.*')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                            <div id="experienceNewImagesPreview" class="row g-2 mt-2"></div>
-                        </div>
                     </div>
                 </div>
 
@@ -498,60 +459,6 @@
                     }
                 });
             }
-
-            // Preview newly selected gallery images
-            const newImagesInput = document.getElementById('experience_new_images_input');
-            const newImagesPreview = document.getElementById('experienceNewImagesPreview');
-
-            if (newImagesInput && newImagesPreview) {
-                newImagesInput.addEventListener('change', function(e) {
-                    newImagesPreview.innerHTML = '';
-                    const files = Array.from(e.target.files || []);
-
-                    if (!files.length) return;
-
-                    files.forEach(file => {
-                        const reader = new FileReader();
-                        reader.onload = function(ev) {
-                            const col = document.createElement('div');
-                            col.className = 'col-4 col-md-3';
-                            col.innerHTML = `
-                                <div class="border rounded" style="overflow:hidden;">
-                                    <img src="${ev.target.result}" alt="Preview"
-                                         class="img-fluid" style="height:100px;object-fit:cover;width:100%;">
-                                </div>
-                            `;
-                            newImagesPreview.appendChild(col);
-                        };
-                        reader.readAsDataURL(file);
-                    });
-                });
-            }
-
-            // Helper to confirm delete of existing image (no extra form inside update form)
-            window.markExperienceImageForDeletion = function(imageId, btn) {
-                if (!confirm(
-                        'Are you sure you want to delete this image? It will be removed after saving changes.'
-                        )) {
-                    return;
-                }
-
-                const checkbox = document.getElementById('del-img-' + imageId);
-                if (checkbox) {
-                    checkbox.checked = true;
-                }
-
-                const wrapper = btn.closest('.experience-image-wrapper');
-                if (wrapper) {
-                    wrapper.style.opacity = '0.4';
-                    wrapper.style.filter = 'grayscale(0.7)';
-                }
-
-                // Disable and hide delete button so it can't be clicked again
-                btn.disabled = true;
-                btn.style.pointerEvents = 'none';
-                btn.style.opacity = '0';
-            };
         });
     </script>
 @endpush

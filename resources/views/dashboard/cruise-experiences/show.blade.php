@@ -20,61 +20,13 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-8">
-                    @if($experience->images->count())
-                        <h6 class="mb-3">Gallery</h6>
-                        @php
-                            $coverImage = $experience->images->first()
-                                ? asset('uploads/cruise-experiences/' . $experience->images->first()->image)
-                                : asset('assets/frontend/assets/images/destination-01.png');
-                            $firstImage = $experience->images->first();
-                            $mainImage = $firstImage ? asset('uploads/cruise-experiences/' . $firstImage->image) : $coverImage;
-                            // Get side images (skip first one if it's used as main)
-                            $sideImages = $experience->images->skip(1)->take(2);
-                        @endphp
-                        <div class="row g-3 mb-4">
-                            <div class="col-12 col-lg-8">
-                                <a data-fancybox="cruise-gallery" href="{{ $mainImage }}" class="d-block">
-                                    <img src="{{ $coverImage }}" alt="{{ $experience->title }}"
-                                        class="img-fluid rounded" style="width: 100%; height: 360px; object-fit: cover;">
-                                </a>
-                            </div>
-                            <div class="col-12 col-lg-4">
-                                <div class="d-flex flex-column gap-3" style="max-height: 360px; overflow-y: auto;">
-                                    @if($sideImages->count() > 0)
-                                        @foreach($sideImages as $index => $image)
-                                            <a data-fancybox="cruise-gallery" href="{{ asset('uploads/cruise-experiences/' . $image->image) }}" class="d-block">
-                                                <img src="{{ asset('uploads/cruise-experiences/' . $image->image) }}"
-                                                    alt="Image {{ $index + 2 }}"
-                                                    class="img-fluid rounded" style="width: 100%; height: 170px; object-fit: cover;">
-                                            </a>
-                                        @endforeach
-                                    @endif
-                                    @if($experience->images->count() > 3)
-                                        <div class="position-relative">
-                                            <a data-fancybox="cruise-gallery"
-                                                href="{{ asset('uploads/cruise-experiences/' . $experience->images->skip(3)->first()->image) }}"
-                                                class="d-block">
-                                                <img src="{{ asset('uploads/cruise-experiences/' . $experience->images->skip(3)->first()->image) }}"
-                                                    alt="Image 4"
-                                                    class="img-fluid rounded" style="width: 100%; height: 170px; object-fit: cover;">
-                                            </a>
-                                            @if($experience->images->count() > 4)
-                                                <a href="{{ asset('uploads/cruise-experiences/' . $experience->images->skip(4)->first()->image) }}"
-                                                    data-fancybox="cruise-gallery"
-                                                    class="btn btn-sm btn-white position-absolute bottom-2 end-2 shadow-sm text-decoration-none">
-                                                    <i class="ti ti-grid-dots me-1"></i>
-                                                    Gallery
-                                                </a>
-                                            @endif
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
+                    @if($experience->banner_image)
+                        <h6 class="mb-3">Banner</h6>
+                        <div class="mb-4">
+                            <img src="{{ asset('uploads/cruise-experiences/' . $experience->banner_image) }}"
+                                alt="{{ $experience->title }}" class="img-fluid rounded"
+                                style="width: 100%; max-height: 360px; object-fit: cover;">
                         </div>
-                        {{-- Add all images to Fancybox gallery (hidden links for navigation) --}}
-                        @foreach($experience->images as $image)
-                            <a data-fancybox="cruise-gallery" href="{{ asset('uploads/cruise-experiences/' . $image->image) }}" style="display: none;"></a>
-                        @endforeach
                     @endif
 
                     @if($experience->description)
@@ -201,23 +153,3 @@
     </div>
 @endsection
 
-@push('css')
-    <link href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" rel="stylesheet" />
-@endpush
-
-@push('js')
-    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            Fancybox.bind("[data-fancybox='cruise-gallery']", {
-                Toolbar: {
-                    display: {
-                        left: ["infobar"],
-                        middle: [],
-                        right: ["slideshow", "download", "thumbs", "close"],
-                    },
-                },
-            });
-        });
-    </script>
-@endpush

@@ -4,16 +4,15 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\CruiseExperience;
-use App\Models\CruiseExperienceImage;
 use App\Models\CruiseExperienceFaq;
-use App\Models\Faq;
 use App\Models\CruiseGroup;
+use App\Models\Faq;
 use App\Models\Tour;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class CruiseExperienceController extends Controller
 {
@@ -92,8 +91,6 @@ class CruiseExperienceController extends Controller
                 'meta_keywords' => 'nullable|string',
                 'status' => 'required|in:active,inactive',
                 'sort_order' => 'nullable|integer|min:0',
-                'images' => 'nullable|array',
-                'images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:5120',
                 'tour_ids' => 'nullable|array',
                 'tour_ids.*' => 'exists:tours,id',
                 'faq_ids' => 'nullable|array',
@@ -116,25 +113,9 @@ class CruiseExperienceController extends Controller
             // Handle banner image upload
             if ($request->hasFile('banner_image')) {
                 $banner = $request->file('banner_image');
-                $bannerName = time() . '_' . uniqid() . '_banner.' . $banner->getClientOriginalExtension();
+                $bannerName = time().'_'.uniqid().'_banner.'.$banner->getClientOriginalExtension();
                 $path = $banner->storeAs('', $bannerName, 'cruise_experiences');
                 $experience->update(['banner_image' => $path]);
-            }
-
-            // Handle images
-            if ($request->hasFile('images')) {
-                foreach ($request->file('images') as $index => $image) {
-                    if ($image && $image->isValid()) {
-                        $imageName = time() . '_' . uniqid() . '_' . $index . '.' . $image->getClientOriginalExtension();
-                        $path = $image->storeAs('', $imageName, 'cruise_experiences');
-
-                        CruiseExperienceImage::create([
-                            'cruise_experience_id' => $experience->id,
-                            'image' => $path,
-                            'sort_order' => $index,
-                        ]);
-                    }
-                }
             }
 
             // Sync related tours
@@ -149,7 +130,7 @@ class CruiseExperienceController extends Controller
 
                 foreach ($faqIds as $index => $faqId) {
                     $faq = $faqs->get($faqId);
-                    if (!$faq) {
+                    if (! $faq) {
                         continue;
                     }
 
@@ -169,7 +150,7 @@ class CruiseExperienceController extends Controller
         } catch (ValidationException $e) {
             return back()->withErrors($e->errors())->withInput();
         } catch (\Exception $e) {
-            Log::error('Error creating cruise experience: ' . $e->getMessage());
+            Log::error('Error creating cruise experience: '.$e->getMessage());
 
             return back()
                 ->with('error', 'An error occurred while creating the cruise experience. Please try again.')
@@ -182,7 +163,7 @@ class CruiseExperienceController extends Controller
      */
     public function show(string $id)
     {
-        $experience = CruiseExperience::with(['images', 'tours'])->findOrFail($id);
+        $experience = CruiseExperience::with('tours')->findOrFail($id);
 
         return view('dashboard.cruise-experiences.show', compact('experience'));
     }
@@ -192,7 +173,7 @@ class CruiseExperienceController extends Controller
      */
     public function edit(Request $request, string $id)
     {
-        $experience = CruiseExperience::with('images', 'tours', 'cruiseGroup', 'faqs')->findOrFail($id);
+        $experience = CruiseExperience::with('tours', 'cruiseGroup', 'faqs')->findOrFail($id);
         $cruiseGroups = CruiseGroup::active()->orderBy('sort_order')->get();
         $tours = Tour::active()->orderBy('title')->get();
         $selectedTourIds = $experience->tours->pluck('id')->toArray();
@@ -208,12 +189,12 @@ class CruiseExperienceController extends Controller
     public function update(Request $request, string $id)
     {
         try {
-            $experience = CruiseExperience::with('images')->findOrFail($id);
+            $experience = CruiseExperience::findOrFail($id);
 
             $validated = $request->validate([
                 'cruise_group_id' => 'required|exists:cruise_groups,id',
-                'title' => 'required|string|max:255|unique:cruise_experiences,title,' . $id,
-                'slug' => 'nullable|string|max:255|unique:cruise_experiences,slug,' . $id . '|regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/',
+                'title' => 'required|string|max:255|unique:cruise_experiences,title,'.$id,
+                'slug' => 'nullable|string|max:255|unique:cruise_experiences,slug,'.$id.'|regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/',
                 'short_description' => 'nullable|string',
                 'banner_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
                 'description' => 'nullable|string',
@@ -222,10 +203,6 @@ class CruiseExperienceController extends Controller
                 'meta_keywords' => 'nullable|string',
                 'status' => 'required|in:active,inactive',
                 'sort_order' => 'nullable|integer|min:0',
-                'images' => 'nullable|array',
-                'images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:5120',
-                'deleted_images' => 'nullable|array',
-                'deleted_images.*' => 'exists:cruise_experience_images,id',
                 'tour_ids' => 'nullable|array',
                 'tour_ids.*' => 'exists:tours,id',
                 'faq_ids' => 'nullable|array',
@@ -233,7 +210,7 @@ class CruiseExperienceController extends Controller
             ]);
 
             // Generate slug if provided, otherwise keep existing
-            if (!empty($validated['slug'])) {
+            if (! empty($validated['slug'])) {
                 $validated['slug'] = Str::slug($validated['slug']);
             }
 
@@ -251,37 +228,9 @@ class CruiseExperienceController extends Controller
                 }
 
                 $banner = $request->file('banner_image');
-                $bannerName = time() . '_' . uniqid() . '_banner.' . $banner->getClientOriginalExtension();
+                $bannerName = time().'_'.uniqid().'_banner.'.$banner->getClientOriginalExtension();
                 $path = $banner->storeAs('', $bannerName, 'cruise_experiences');
                 $experience->update(['banner_image' => $path]);
-            }
-
-            // Delete selected images
-            if ($request->filled('deleted_images')) {
-                $imagesToDelete = CruiseExperienceImage::whereIn('id', $request->deleted_images)->get();
-                foreach ($imagesToDelete as $image) {
-                    if ($image->image) {
-                        Storage::disk('cruise_experiences')->delete($image->image);
-                    }
-                }
-                CruiseExperienceImage::whereIn('id', $request->deleted_images)->delete();
-            }
-
-            // Add new images
-            if ($request->hasFile('images')) {
-                $currentMaxSort = $experience->images()->max('sort_order') ?? 0;
-                foreach ($request->file('images') as $index => $image) {
-                    if ($image && $image->isValid()) {
-                        $imageName = time() . '_' . uniqid() . '_' . $index . '.' . $image->getClientOriginalExtension();
-                        $path = $image->storeAs('', $imageName, 'cruise_experiences');
-
-                        CruiseExperienceImage::create([
-                            'cruise_experience_id' => $experience->id,
-                            'image' => $path,
-                            'sort_order' => $currentMaxSort + $index + 1,
-                        ]);
-                    }
-                }
             }
 
             // Sync related tours
@@ -299,7 +248,7 @@ class CruiseExperienceController extends Controller
 
                 foreach ($faqIds as $index => $faqId) {
                     $faq = $faqs->get($faqId);
-                    if (!$faq) {
+                    if (! $faq) {
                         continue;
                     }
 
@@ -319,7 +268,7 @@ class CruiseExperienceController extends Controller
         } catch (ValidationException $e) {
             return back()->withErrors($e->errors())->withInput();
         } catch (\Exception $e) {
-            Log::error('Error updating cruise experience: ' . $e->getMessage());
+            Log::error('Error updating cruise experience: '.$e->getMessage());
 
             return back()
                 ->with('error', 'An error occurred while updating the cruise experience. Please try again.')
@@ -347,7 +296,7 @@ class CruiseExperienceController extends Controller
             return redirect()->route('admin.cruise-experiences.index')
                 ->with('success', 'Cruise experience deleted successfully.');
         } catch (\Exception $e) {
-            Log::error('Error deleting cruise experience: ' . $e->getMessage());
+            Log::error('Error deleting cruise experience: '.$e->getMessage());
 
             return back()
                 ->with('error', 'An error occurred while deleting the cruise experience. Please try again.');

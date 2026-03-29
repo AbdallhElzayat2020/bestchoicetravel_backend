@@ -18,6 +18,14 @@
 
     @php
         $heroSection = $siteSections['home_hero'] ?? null;
+        $heroVimeoSrc = $heroSection
+            ? \App\Helpers\vimeo_embed_src($heroSection->vimeo_url ?? null)
+            : null;
+        // عند وجود سجل الهيرو في الداشبورد: اعرض العناصر فقط إذا حُفظت فعلاً (بدون نصوص/أزرار افتراضية)
+        $heroTitleFilled = $heroSection && filled(trim((string) ($heroSection->title ?? '')));
+        $heroSubtitleFilled = $heroSection && filled(trim((string) ($heroSection->subtitle ?? '')));
+        $heroButtonFilled = $heroSection && filled(trim((string) ($heroSection->button_text ?? '')));
+        $heroShowContent = !$heroSection || $heroTitleFilled || $heroSubtitleFilled || $heroButtonFilled;
         $cruisesSection = $siteSections['home_cruises'] ?? null;
         $dayToursSection = $siteSections['home_day_tours'] ?? null;
         $desertSection = $siteSections['home_desert'] ?? null;
@@ -26,46 +34,81 @@
     @endphp
 
     <!-- Home/Hero Section -->
-    <section class="hero-section section-padding" id="home">
+    <section
+        class="hero-section section-padding {{ $heroSection && !$heroShowContent ? 'hero-section--media-only' : '' }}"
+        id="home">
         <div class="hero-image">
             @php
                 $heroImage = $heroSection && $heroSection->image_path
                     ? asset($heroSection->image_path)
                     : asset('assets/frontend/images/hero-bg.png');
             @endphp
-            <img src="{{ $heroImage }}" alt="Egypt Pyramids" loading="eager"
-                class="hero-bg-image"
-                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1539650116574-75c0c6d73a6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=90';">
+            @if ($heroVimeoSrc)
+                <div class="hero-video-wrap" aria-hidden="true">
+                    <iframe class="hero-video-iframe"
+                        src="{{ $heroVimeoSrc }}"
+                        title="Home hero video"
+                        loading="eager"
+                        allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                </div>
+            @else
+                <img src="{{ $heroImage }}" alt="Egypt Pyramids" loading="eager"
+                    class="hero-bg-image"
+                    onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1539650116574-75c0c6d73a6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=90';">
+            @endif
         </div>
-        <div class="hero-overlay"></div>
-        <div class="hero-darkening-overlay"></div>
-        <div class="hero-content">
-            <div class="container">
-                <div class="hero-text">
-                    <h1 class="hero-title scroll-animate" data-animation="fadeInUp" data-delay="0">
-                        @if ($heroSection && $heroSection->title)
-                            {!! nl2br(e($heroSection->title)) !!}
-                        @else
-                            Discover <span class="highlight">Egypt's Magic</span>
+        @if ($heroShowContent)
+            <div class="hero-overlay"></div>
+            <div class="hero-darkening-overlay"></div>
+        @else
+            <div class="hero-overlay hero-overlay--light"></div>
+        @endif
+        @if ($heroShowContent)
+            <div class="hero-content">
+                <div class="container">
+                    <div class="hero-text">
+                        @if ($heroTitleFilled)
+                            <h1 class="hero-title scroll-animate" data-animation="fadeInUp" data-delay="0">
+                                {!! nl2br(e($heroSection->title)) !!}
+                            </h1>
+                        @elseif (!$heroSection)
+                            <h1 class="hero-title scroll-animate" data-animation="fadeInUp" data-delay="0">
+                                Discover <span class="highlight">Egypt's Magic</span>
+                            </h1>
                         @endif
-                    </h1>
-                    <p class="hero-subtitle scroll-animate" data-animation="fadeInUp" data-delay="200">
-                        {{ $heroSection && $heroSection->subtitle ? $heroSection->subtitle : 'Luxury, tailor-made journeys to explore the wonders of ancient and modern Egypt.' }}
-                    </p>
-                    <div class="hero-buttons scroll-animate" data-animation="fadeInUp" data-delay="400">
-                        @php
-                            $heroBtnText = $heroSection && $heroSection->button_text ? $heroSection->button_text : 'Egypt Tours';
-                            $heroBtnLink = $heroSection && $heroSection->button_link ? $heroSection->button_link : '#packages';
-                        @endphp
-                        <a href="{{ $heroBtnLink }}" class="btn btn-primary">{{ $heroBtnText }}</a>
-                    </div>
 
+                        @if ($heroSubtitleFilled)
+                            <p class="hero-subtitle scroll-animate" data-animation="fadeInUp" data-delay="200">
+                                {{ $heroSection->subtitle }}
+                            </p>
+                        @elseif (!$heroSection)
+                            <p class="hero-subtitle scroll-animate" data-animation="fadeInUp" data-delay="200">
+                                Luxury, tailor-made journeys to explore the wonders of ancient and modern Egypt.
+                            </p>
+                        @endif
+
+                        @if ($heroButtonFilled)
+                            <div class="hero-buttons scroll-animate" data-animation="fadeInUp" data-delay="400">
+                                @php
+                                    $heroBtnLink = $heroSection->button_link
+                                        ? $heroSection->button_link
+                                        : '#packages';
+                                @endphp
+                                <a href="{{ $heroBtnLink }}" class="btn btn-primary">{{ $heroSection->button_text }}</a>
+                            </div>
+                        @elseif (!$heroSection)
+                            <div class="hero-buttons scroll-animate" data-animation="fadeInUp" data-delay="400">
+                                <a href="#packages" class="btn btn-primary">Egypt Tours</a>
+                            </div>
+                        @endif
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="scroll-indicator">
-            <div class="scroll-arrow"></div>
-        </div>
+            <div class="scroll-indicator">
+                <div class="scroll-arrow"></div>
+            </div>
+        @endif
     </section>
 
     <!-- Featured Packages Section -->

@@ -50,10 +50,18 @@
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer">
 
+    @stack('head_extra')
     @stack('css')
 </head>
 
-<body>
+@php
+    $showAnnouncementBar =
+        !empty($announcementBarEnabled ?? false) &&
+        isset($sharedAnnouncementBar) &&
+        $sharedAnnouncementBar;
+@endphp
+
+<body @class(['has-announcement-bar' => $showAnnouncementBar])>
     <!-- Scroll progress bar -->
     <div class="scroll-progress">
         <div class="scroll-progress-bar" id="scrollProgressBar"></div>
@@ -72,6 +80,10 @@
     </div>
 
 
+
+    @if ($showAnnouncementBar)
+        @include('frontend.layouts.announcement-bar')
+    @endif
 
     <!-- Bootstrap Navbar -->
     @include('frontend.layouts.navbar')

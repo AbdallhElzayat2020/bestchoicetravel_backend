@@ -15,6 +15,7 @@ class SiteSection extends Model
         'button_text',
         'button_link',
         'image_path',
+        'vimeo_url',
         'status',
         'sort_order',
     ];
@@ -29,4 +30,3 @@ class SiteSection extends Model
         return $query->where('status', 'active');
     }
 }
-

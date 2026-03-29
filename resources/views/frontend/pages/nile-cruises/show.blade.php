@@ -6,13 +6,8 @@
         $experience->meta_description ?:
         \Illuminate\Support\Str::limit(strip_tags($experience->short_description ?: $experience->description), 160);
     $metaKeywords = $experience->meta_keywords;
-    $firstImage = $experience->images->first();
     $bannerPath = $experience->banner_image ? asset('uploads/cruise-experiences/' . $experience->banner_image) : null;
-    $coverImageUrl =
-        $bannerPath ?:
-        ($firstImage
-            ? asset('uploads/cruise-experiences/' . $firstImage->image)
-            : asset('assets/frontend/assets/images/destination-01.png'));
+    $coverImageUrl = $bannerPath ?: asset('assets/frontend/assets/images/destination-01.png');
 @endphp
 
 @section('meta_title', $metaTitle)
@@ -46,55 +41,39 @@
         <section class="tours-section section-padding" id="egypt-tours">
             <div class="container">
                 <div class="tours-section-header">
-
                     <div class="tours-section-heading">
                         <h2 class="section-title scroll-animate" data-animation="fadeInUp" data-delay="50">
                             Signature <span class="highlight">{{ $experience->title }}</span>
                         </h2>
-                        @php
-                            $longDescription = $experience->description
-                                ? \Illuminate\Support\Str::of($experience->description)->stripTags(
-                                    '<p><br><ul><ol><li><strong><em><b><i>',
-                                )
-                                : null;
-                        @endphp
-                        @if ($longDescription)
-                            <div class="section-description scroll-animate" data-animation="fadeInUp" data-delay="100">
+                    </div>
+                    @php
+                        $longDescription = $experience->description
+                            ? \Illuminate\Support\Str::of($experience->description)->stripTags(
+                                '<p><br><ul><ol><li><strong><em><b><i>',
+                            )
+                            : null;
+                    @endphp
+                    @if ($longDescription)
+                        {{-- Full container width (not the narrow heading column) --}}
+                        <div
+                            class="tours-section-long-description scroll-animate"
+                            data-animation="fadeInUp"
+                            data-delay="100">
+                            <div class="tours-section-prose">
                                 {!! $longDescription !!}
                             </div>
-                        @elseif ($bannerSubtitle)
-                            <p class="section-description scroll-animate" data-animation="fadeInUp" data-delay="100">
+                        </div>
+                    @elseif ($bannerSubtitle)
+                        <div class="tours-section-heading">
+                            <p
+                                class="section-description tours-section-prose tours-section-prose--short scroll-animate"
+                                data-animation="fadeInUp"
+                                data-delay="100">
                                 {{ $bannerSubtitle }}
                             </p>
-                        @endif
-                    </div>
-                </div>
-
-                @if ($experience->images->count())
-                    <div class="tours-section-gallery scroll-animate mt-4" data-animation="fadeInUp" data-delay="150">
-                        <div class="row g-3 justify-content-center">
-                            @foreach ($experience->images as $image)
-                                @php
-                                    $imgSrc = asset('uploads/cruise-experiences/' . $image->image);
-                                @endphp
-                                <div class="col-6 col-md-3 col-lg-3">
-                                    <button type="button" class="gallery-image-btn" data-img-src="{{ $imgSrc }}"
-                                        aria-label="Open image">
-                                        <div class="gallery-image-inner">
-                                            <img src="{{ $imgSrc }}" alt="{{ $experience->title }} image"
-                                                class="img-fluid w-100 gallery-image">
-                                            <div class="gallery-image-overlay">
-                                                <span class="gallery-image-icon">
-                                                    <i class="fa-solid fa-eye"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </button>
-                                </div>
-                            @endforeach
                         </div>
-                    </div>
-                @endif
+                    @endif
+                </div>
 
                 <div class="tours-grid" data-tours-grid>
                     @if ($relatedTours->count())
@@ -192,18 +171,18 @@
         </section>
 
 
-        <section class="faq-section section-padding my-3" id="faq">
-            <div class="container">
-                <div class="section-header scroll-animate" data-animation="fadeInUp">
+        @if ($experience->faqs && $experience->faqs->isNotEmpty())
+            <section class="faq-section section-padding my-3" id="faq">
+                <div class="container">
+                    <div class="section-header scroll-animate" data-animation="fadeInUp">
 
-                    <h2 class="section-title">
-                        Answers to <span class="highlight">Common Questions</span>
-                    </h2>
-                </div>
+                        <h2 class="section-title">
+                            Answers to <span class="highlight">Common Questions</span>
+                        </h2>
+                    </div>
 
-                <div class="faq-layout">
-                    <div class="faq-list">
-                        @if ($experience->faqs && $experience->faqs->count())
+                    <div class="faq-layout">
+                        <div class="faq-list">
                             @foreach ($experience->faqs as $index => $faq)
                                 <div class="faq-item scroll-animate" data-animation="fadeInUp"
                                     data-delay="{{ $index * 50 }}">
@@ -218,13 +197,11 @@
                                     </div>
                                 </div>
                             @endforeach
-                        @else
-                            <p class="text-center text-muted mt-3">No FAQs available for this cruise yet.</p>
-                        @endif
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        @endif
 
     </main>
 
@@ -250,129 +227,6 @@
             background: #7a6230;
         }
 
-        .tours-section-gallery .col-6 {
-            display: flex;
-            justify-content: center;
-        }
-
-        .tours-section-gallery .gallery-image-btn {
-            padding: 0;
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .tours-section-gallery .gallery-image-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-        }
-
-        .tours-section-gallery .gallery-image-inner {
-            position: relative;
-            width: 100%;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .tours-section-gallery .gallery-image-inner img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            aspect-ratio: 16 / 9;
-            transition: filter 0.2s ease;
-        }
-
-        .tours-section-gallery .gallery-image-overlay {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0, 0, 0, 0.35);
-            opacity: 0;
-            transition: opacity 0.2s ease;
-        }
-
-        .tours-section-gallery .gallery-image-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.95);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #8b7138;
-            font-size: 20px;
-        }
-
-        .tours-section-gallery .gallery-image-btn:hover .gallery-image-inner img {
-            filter: blur(1.5px) brightness(0.75);
-        }
-
-        .tours-section-gallery .gallery-image-btn:hover .gallery-image-overlay {
-            opacity: 1;
-        }
-
-        .experience-lightbox {
-            position: fixed;
-            inset: 0;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1050;
-        }
-
-        .experience-lightbox.open {
-            display: flex;
-        }
-
-        .experience-lightbox-backdrop {
-            position: absolute;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.9);
-        }
-
-        .experience-lightbox-dialog {
-            position: relative;
-            z-index: 1;
-            max-width: 95vw;
-            max-height: 95vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .experience-lightbox-image {
-            max-width: 95vw;
-            max-height: 95vh;
-            object-fit: contain;
-            border-radius: 12px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-        }
-
-        .experience-lightbox-close {
-            position: absolute;
-            top: -40px;
-            right: -10px;
-            width: 32px;
-            height: 32px;
-            border-radius: 999px;
-            border: none;
-            background: rgba(255, 255, 255, 0.9);
-            color: #000;
-            font-size: 20px;
-            line-height: 1;
-            cursor: pointer;
-        }
-
-        @media (max-width: 768px) {
-            .experience-lightbox-close {
-                top: 12px;
-                right: 12px;
-            }
-        }
-
         .tours-card-link-wrapper {
             display: block;
             color: inherit;
@@ -394,60 +248,3 @@
     </style>
 @endpush
 
-@push('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const buttons = document.querySelectorAll('.gallery-image-btn');
-            if (!buttons.length) return;
-
-            let lightbox = document.getElementById('experienceLightbox');
-            if (!lightbox) {
-                const wrapper = document.createElement('div');
-                wrapper.id = 'experienceLightbox';
-                wrapper.className = 'experience-lightbox';
-                wrapper.innerHTML = `
-                    <div class="experience-lightbox-backdrop"></div>
-                    <div class="experience-lightbox-dialog">
-                        <button type="button" class="experience-lightbox-close" aria-label="Close">&times;</button>
-                        <img src="" alt="Preview" class="experience-lightbox-image">
-                    </div>
-                `;
-                document.body.appendChild(wrapper);
-                lightbox = wrapper;
-            }
-
-            const lightboxImg = lightbox.querySelector('.experience-lightbox-image');
-            const lightboxClose = lightbox.querySelector('.experience-lightbox-close');
-            const lightboxBackdrop = lightbox.querySelector('.experience-lightbox-backdrop');
-
-            const openLightbox = (src, alt) => {
-                if (!src) return;
-                lightboxImg.src = src;
-                lightboxImg.alt = alt || 'Preview';
-                lightbox.classList.add('open');
-                document.body.classList.add('modal-open');
-            };
-
-            const closeLightbox = () => {
-                lightbox.classList.remove('open');
-                document.body.classList.remove('modal-open');
-            };
-
-            lightboxClose.addEventListener('click', closeLightbox);
-            lightboxBackdrop.addEventListener('click', closeLightbox);
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && lightbox.classList.contains('open')) {
-                    closeLightbox();
-                }
-            });
-
-            buttons.forEach((btn) => {
-                btn.addEventListener('click', () => {
-                    const src = btn.dataset.imgSrc;
-                    const img = btn.querySelector('img');
-                    openLightbox(src, img ? img.alt : '');
-                });
-            });
-        });
-    </script>
-@endpush

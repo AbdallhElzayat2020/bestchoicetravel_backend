@@ -110,33 +110,54 @@ if (document.querySelector('.testimonials-carousel')) {
     });
 }
 
-// Tour gallery Swipers (details page)
+// Tour gallery Swipers (details page) — initialized in DOMContentLoaded (correct layout width; loop+thumbs breaks slides)
+
 let tourGallery = null;
 let tourThumbs = null;
-if (document.querySelector('.tour-gallery-main')) {
-    tourThumbs = new Swiper('.tour-gallery-thumbs', {
-        direction: 'vertical',
-        slidesPerView: 4,
-        spaceBetween: 10,
-        freeMode: true,
-        watchSlidesProgress: true,
-    });
-
-    // eslint-disable-next-line no-unused-vars
-    tourGallery = new Swiper('.tour-gallery-main', {
-        spaceBetween: 10,
-        loop: true,
-        navigation: {
-            nextEl: '.tour-gallery-next',
-            prevEl: '.tour-gallery-prev',
-        },
-        thumbs: {
-            swiper: tourThumbs,
-        },
-    });
-}
 
 document.addEventListener('DOMContentLoaded', () => {
+    const tourMainEl = document.querySelector('.tour-gallery-main');
+    const tourThumbsEl = document.querySelector('.tour-gallery-thumbs');
+    if (tourMainEl && tourThumbsEl) {
+        const slideCount = tourMainEl.querySelectorAll('.swiper-slide').length;
+        const thumbSlidesPerView = Math.min(4, Math.max(slideCount, 1));
+
+        tourThumbs = new Swiper('.tour-gallery-thumbs', {
+            direction: 'vertical',
+            slidesPerView: thumbSlidesPerView,
+            spaceBetween: 12,
+            freeMode: true,
+            watchSlidesProgress: true,
+            observer: true,
+            observeParents: true,
+        });
+
+        // loop + thumbs causes duplicate slides and huge incorrect widths; use rewind instead
+        tourGallery = new Swiper('.tour-gallery-main', {
+            slidesPerView: 1,
+            spaceBetween: 0,
+            loop: false,
+            rewind: true,
+            speed: 400,
+            navigation: {
+                nextEl: '.tour-gallery-next',
+                prevEl: '.tour-gallery-prev',
+            },
+            thumbs: {
+                swiper: tourThumbs,
+            },
+            observer: true,
+            observeParents: true,
+        });
+
+        const refreshTourSwipers = () => {
+            if (tourGallery) tourGallery.update();
+            if (tourThumbs) tourThumbs.update();
+        };
+        requestAnimationFrame(refreshTourSwipers);
+        window.addEventListener('load', refreshTourSwipers);
+    }
+
     const tourGalleryMain = document.querySelector('.tour-gallery-main');
     const tourLightbox = document.getElementById('tourLightbox');
     const tourLightboxBackdrop = document.getElementById('tourLightboxBackdrop');
@@ -419,12 +440,16 @@ window.addEventListener('scroll', () => {
         whatsappBtn.classList.toggle('show', shouldShowFloating);
     }
 
-    // Hero section: keep image stable (no extra dark overlay now)
+    // Hero section: keep image / video stable (no extra dark overlay now)
     if (heroSection && currentScroll === 0) {
         const heroImage = document.querySelector('.hero-bg-image');
         if (heroImage) {
             heroImage.style.transform = 'scale(1.1) translateY(0)';
             heroImage.style.filter = 'brightness(1) blur(0)';
+        }
+        const heroVideo = document.querySelector('.hero-video-iframe');
+        if (heroVideo) {
+            heroVideo.style.filter = 'brightness(1) blur(0)';
         }
     }
 });
@@ -443,12 +468,12 @@ const sections = document.querySelectorAll('section[id]');
 
 function activateNavLink() {
     const scrollY = window.pageYOffset;
-    
+
     sections.forEach(section => {
         const sectionHeight = section.offsetHeight;
         const sectionTop = section.offsetTop - 100;
         const sectionId = section.getAttribute('id');
-        
+
         if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
             navLinks.forEach(link => {
                 link.classList.remove('active');
@@ -468,7 +493,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         e.preventDefault();
         const targetId = this.getAttribute('href');
         const target = document.querySelector(targetId);
-        
+
         if (target) {
             const offsetTop = target.offsetTop - 70; // Account for fixed navbar
             window.scrollTo({
@@ -508,25 +533,25 @@ document.addEventListener('DOMContentLoaded', () => {
     animateElements.forEach(el => {
         scrollObserver.observe(el);
     });
-    
+
     // Hero section initial animation
     const heroTitle = document.querySelector('.hero-title');
     const heroSubtitle = document.querySelector('.hero-subtitle');
     const heroButtons = document.querySelector('.hero-buttons');
     const heroFeatures = document.querySelector('.hero-features');
-    
+
     setTimeout(() => {
         if (heroTitle) heroTitle.classList.add('animate');
     }, 100);
-    
+
     setTimeout(() => {
         if (heroSubtitle) heroSubtitle.classList.add('animate');
     }, 300);
-    
+
     setTimeout(() => {
         if (heroButtons) heroButtons.classList.add('animate');
     }, 500);
-    
+
     setTimeout(() => {
         if (heroFeatures) heroFeatures.classList.add('animate');
     }, 700);
@@ -566,20 +591,20 @@ document.addEventListener('DOMContentLoaded', () => {
     sections.forEach(section => {
         sectionObserver.observe(section);
     });
-    
+
     // FAQ accordion behaviour
     const faqItems = document.querySelectorAll('.faq-item');
     if (faqItems.length) {
         faqItems.forEach(item => {
             const questionBtn = item.querySelector('.faq-question');
             if (!questionBtn) return;
-            
+
             questionBtn.addEventListener('click', () => {
                 const isActive = item.classList.contains('active');
-                
+
                 // Close all
                 faqItems.forEach(i => i.classList.remove('active'));
-                
+
                 // Toggle current
                 if (!isActive) {
                     item.classList.add('active');
@@ -592,7 +617,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // Image loading handler - ensure images load properly
 document.addEventListener('DOMContentLoaded', () => {
     const images = document.querySelectorAll('img');
-    
+
     // Fallback images array
     const fallbackImages = {
         'hero': 'https://images.unsplash.com/photo-1539650116574-75c0c6d73a6e?w=1920&h=1080&fit=crop',
@@ -602,11 +627,11 @@ document.addEventListener('DOMContentLoaded', () => {
         'redsea': 'https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=800&h=400&fit=crop',
         'alexandria': 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop'
     };
-    
+
     images.forEach(img => {
         // Add loading class
         img.classList.add('img-loading');
-        
+
         // If image is already loaded
         if (img.complete && img.naturalHeight !== 0) {
             img.classList.remove('img-loading');
@@ -617,16 +642,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.classList.remove('img-loading');
                 this.classList.add('loaded');
             });
-            
+
             // Handle image load errors with fallback
             img.addEventListener('error', function handleError() {
                 console.warn('Image failed to load, trying fallback:', this.src);
                 this.classList.remove('img-loading');
-                
+
                 // Try to determine which fallback to use
                 const alt = this.alt.toLowerCase();
                 let fallbackSrc = '';
-                
+
                 if (alt.includes('pyramid') || alt.includes('egypt')) {
                     fallbackSrc = fallbackImages.hero;
                 } else if (alt.includes('aswan') || alt.includes('nubian')) {
@@ -642,7 +667,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     fallbackSrc = fallbackImages.hero;
                 }
-                
+
                 // Try fallback
                 if (fallbackSrc && this.src !== fallbackSrc) {
                     this.src = fallbackSrc;
@@ -659,7 +684,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     });
-    
+
     // Preload hero image for better performance
     const heroImg = document.querySelector('.hero-bg-image');
     if (heroImg) {
@@ -716,4 +741,27 @@ document.addEventListener('DOMContentLoaded', () => {
             closeDesertVideo();
         }
     });
+
+    // Announcement bar: one full pass (right → left), then repeat. Duration ≈ viewport + text width.
+    const announcementTrack = document.getElementById('announcementBarTrack');
+    if (
+        announcementTrack &&
+        !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) {
+        const setAnnouncementDuration = () => {
+            const textWidth = announcementTrack.scrollWidth;
+            if (textWidth <= 0) {
+                return;
+            }
+            const distancePx = window.innerWidth + textWidth;
+            const pxPerSecond = 26;
+            const seconds = Math.min(240, Math.max(40, distancePx / pxPerSecond));
+            announcementTrack.style.setProperty(
+                '--announcement-marquee-duration',
+                `${seconds}s`
+            );
+        };
+        requestAnimationFrame(setAnnouncementDuration);
+        window.addEventListener('resize', setAnnouncementDuration);
+    }
 });

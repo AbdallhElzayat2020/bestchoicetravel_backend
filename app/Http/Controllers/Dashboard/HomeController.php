@@ -3,23 +3,23 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Announcement;
+use App\Models\Blog;
+use App\Models\Booking;
 use App\Models\Category;
+use App\Models\Contact;
+use App\Models\Country;
+use App\Models\CruiseExperience;
+use App\Models\Gallery;
+use App\Models\Page;
+use App\Models\Role;
+use App\Models\Slider;
+use App\Models\State;
+use App\Models\Subscriber;
+use App\Models\Testimonial;
 use App\Models\Tour;
 use App\Models\TourVariant;
-use App\Models\CruiseExperience;
-use App\Models\Country;
-use App\Models\State;
-use App\Models\Booking;
-use App\Models\Slider;
-use App\Models\Blog;
-use App\Models\Gallery;
-use App\Models\Testimonial;
-use App\Models\Page;
-use App\Models\Announcement;
-use App\Models\Contact;
-use App\Models\Subscriber;
 use App\Models\User;
-use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
@@ -35,8 +35,8 @@ class HomeController extends Controller
             return Contact::where('is_read', false)->count();
         });
 
-        // Load all cruise experiences once with images, then group them
-        $allCruiseExperiences = CruiseExperience::with('images')
+        // Load all cruise experiences once, then group them
+        $allCruiseExperiences = CruiseExperience::query()
             ->latest()
             ->get();
 

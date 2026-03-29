@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Announcement;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 
 class AnnouncementController extends Controller
@@ -14,7 +15,27 @@ class AnnouncementController extends Controller
     public function index()
     {
         $announcements = Announcement::orderBy('sort_order')->orderBy('created_at', 'desc')->paginate(15);
-        return view('dashboard.announcements.index', compact('announcements'));
+        $announcementBarEnabled = Setting::get('announcement_bar_enabled', '0') === '1';
+
+        return view('dashboard.announcements.index', compact('announcements', 'announcementBarEnabled'));
+    }
+
+    /**
+     * Toggle the fixed announcement strip on the public site (requires at least one active announcement).
+     */
+    public function toggleBar(Request $request)
+    {
+        $enabled = $request->boolean('enabled');
+        Setting::set('announcement_bar_enabled', $enabled ? '1' : '0');
+
+        return redirect()
+            ->route('admin.announcements.index')
+            ->with(
+                'success',
+                $enabled
+                    ? 'Announcement bar is enabled. It appears above the navbar when there are active announcements.'
+                    : 'Announcement bar is disabled. The navbar stays at the top as usual.'
+            );
     }
 
     /**
