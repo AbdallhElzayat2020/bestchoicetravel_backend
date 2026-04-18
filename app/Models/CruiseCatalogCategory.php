@@ -10,6 +10,8 @@ class CruiseCatalogCategory extends Model
 {
     protected $fillable = [
         'name',
+        'h1_title',
+        'h2_title',
         'slug',
         'description',
         'status',

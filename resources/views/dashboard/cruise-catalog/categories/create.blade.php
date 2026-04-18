@@ -31,6 +31,16 @@
                         placeholder="Auto from name if empty">
                 </div>
                 <div class="mb-3">
+                    <label class="form-label">H1 title</label>
+                    <input type="text" name="h1_title" class="form-control" value="{{ old('h1_title') }}"
+                        placeholder="Optional heading for category banner">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">H2 title</label>
+                    <input type="text" name="h2_title" class="form-control" value="{{ old('h2_title') }}"
+                        placeholder="Optional blue heading under banner">
+                </div>
+                <div class="mb-3">
                     <label class="form-label">Description</label>
                     <textarea name="description" class="form-control" rows="3">{{ old('description') }}</textarea>
                 </div>

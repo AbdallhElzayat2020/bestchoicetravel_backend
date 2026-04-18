@@ -1,25 +1,23 @@
 @extends('frontend.layouts.master')
 
 @php
-    $metaTitle = $category->name . ' - Cruise Vessels';
+    $heroH1 = $category->h1_title ?: $category->name;
+    $heroH2 = $category->h2_title ?: $category->name;
+    $heroDescription = $category->description ? \Illuminate\Support\Str::limit(strip_tags($category->description), 170) : null;
+    $metaTitle = $heroH1 . ' - Cruise Vessels';
     $metaDescription = $category->description
         ? \Illuminate\Support\Str::limit(strip_tags($category->description), 160)
-        : ('Explore our vessels in ' . $category->name . '.');
+        : 'Explore our vessels in ' . $category->name . '.';
 @endphp
 
 @section('meta_title', $metaTitle)
 @section('meta_description', $metaDescription)
 
 @section('content')
-    <section class="py-5 border-top">
+    <section class="border-top">
         <div class="container">
-            <nav aria-label="Breadcrumb">
-                <ol class="breadcrumb mb-2">
-                    <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">{{ $category->name }}</li>
-                </ol>
-            </nav>
-            <h1 class="display-6 fw-bold text-dark mb-2">{{ $category->name }}</h1>
+
+            <h1 class="display-6 fw-bold text-dark mb-2">{{ $heroH1 }}</h1>
             @if ($category->description)
                 <div class="text-muted cruise-category-description">
                     {!! $category->description !!}
@@ -28,9 +26,31 @@
         </div>
     </section>
 
-    <section class="pt-3 pb-5">
+    <section class=" pb-5">
         <div class="container">
             @if ($vessels->count())
+                @php
+                    $firstVessel = $vessels->first();
+                    $bannerImage =
+                        $firstVessel && $firstVessel->cover_image
+                            ? asset('uploads/cruise-catalog/' . $firstVessel->cover_image)
+                            : asset('assets/frontend/assets/images/blogs/01.png');
+                    $dynamicSectionTitle = $heroH2;
+                @endphp
+
+                <div class="cruise-category-banner mb-4">
+                    <img src="{{ $bannerImage }}" alt="{{ $category->name }}" class="cruise-category-banner__image">
+                    <div class="cruise-category-banner__overlay"></div>
+                    <div class="cruise-category-banner__content">
+                        <h2 class="cruise-category-banner__title mb-1">{{ $heroH1 }}</h2>
+                        @if ($heroDescription)
+                            <p class="cruise-category-banner__desc mb-0">{{ $heroDescription }}</p>
+                        @endif
+                    </div>
+                </div>
+
+                <h2 class="cruise-dynamic-title mb-4">{{ $dynamicSectionTitle }}</h2>
+
                 <div class="row g-4">
                     @foreach ($vessels as $vessel)
                         @php
@@ -54,7 +74,8 @@
                                     <p class="text-dark-grey small mb-2">{{ $shortText }}</p>
                                     <div class="related-tour-price-row">
                                         <span class="related-tour-price-label">From</span>
-                                        <span class="related-tour-price">${{ number_format((float) $vessel->price_tier_1, 0) }}</span>
+                                        <span
+                                            class="related-tour-price">${{ number_format((float) $vessel->price_tier_1, 0) }}</span>
                                         <span class="related-tour-price-unit">/ person</span>
                                     </div>
                                 </div>
@@ -85,6 +106,83 @@
             box-shadow: 0 10px 30px rgba(18, 23, 41, .08);
             transition: transform .25s ease, box-shadow .25s ease;
         }
+
+        .cruise-category-banner {
+            position: relative;
+            border-radius: 18px;
+            overflow: hidden;
+            height: 560px;
+            background: #0f2f5f;
+            width: 100vw;
+            margin-left: calc(50% - 50vw);
+            margin-right: calc(50% - 50vw);
+        }
+
+        .cruise-category-banner__image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+
+        .cruise-category-banner__overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(12, 24, 44, .35) 0%, rgba(12, 24, 44, .68) 100%);
+        }
+
+        .cruise-category-banner__content {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .cruise-category-banner__tag {
+            font-size: .75rem;
+            font-weight: 700;
+            letter-spacing: .08em;
+            opacity: .9;
+        }
+
+        .cruise-category-banner__title {
+            font-size: clamp(2.2rem, 3.8vw, 3.2rem);
+            font-weight: 800;
+            line-height: 1.15;
+        }
+
+        .cruise-category-banner__desc {
+            max-width: 760px;
+            font-size: .95rem;
+            line-height: 1.5;
+            opacity: .96;
+        }
+
+        @media (max-width: 991.98px) {
+            .cruise-category-banner {
+                height: 420px;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            .cruise-category-banner {
+                height: 320px;
+            }
+        }
+
+        .cruise-dynamic-title {
+            color: #1d4ea3;
+            font-size: clamp(1.6rem, 2.4vw, 2.4rem);
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
         .cruise-category-description {
             max-width: 760px;
         }

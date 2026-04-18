@@ -25,6 +25,8 @@ class CruiseCatalogCategoryController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'h1_title' => 'nullable|string|max:255',
+            'h2_title' => 'nullable|string|max:255',
             'slug' => 'nullable|string|max:255|unique:cruise_catalog_categories,slug',
             'description' => 'nullable|string',
             'status' => 'required|in:active,inactive',
@@ -52,6 +54,8 @@ class CruiseCatalogCategoryController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'h1_title' => 'nullable|string|max:255',
+            'h2_title' => 'nullable|string|max:255',
             'slug' => 'nullable|string|max:255|unique:cruise_catalog_categories,slug,'.$cruise_catalog_category->id,
             'description' => 'nullable|string',
             'status' => 'required|in:active,inactive',
