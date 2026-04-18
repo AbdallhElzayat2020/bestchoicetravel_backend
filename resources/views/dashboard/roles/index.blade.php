@@ -12,14 +12,14 @@
             </a>
         </div>
         <div class="card-body">
-            @if(session('success'))
+            @if (session('success'))
                 <div class="alert alert-success alert-dismissible" role="alert">
                     {{ session('success') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
 
-            @if(session('error'))
+            @if (session('error'))
                 <div class="alert alert-danger alert-dismissible" role="alert">
                     {{ session('error') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -32,7 +32,6 @@
                         <tr>
                             <th>#</th>
                             <th>Name</th>
-                            <th>Slug</th>
                             <th>Description</th>
                             <th>Users Count</th>
                             <th>Status</th>
@@ -44,13 +43,12 @@
                             <tr>
                                 <td>{{ $role->id }}</td>
                                 <td>{{ $role->name }}</td>
-                                <td><code>{{ $role->slug }}</code></td>
                                 <td>{{ $role->description ?? '-' }}</td>
                                 <td>
                                     <span class="badge bg-label-info">{{ $role->users_count }}</span>
                                 </td>
                                 <td>
-                                    @if($role->status == 'active')
+                                    @if ($role->status == 'active')
                                         <span class="badge bg-label-success">Active</span>
                                     @else
                                         <span class="badge bg-label-danger">Inactive</span>
@@ -62,7 +60,7 @@
                                             class="btn btn-sm btn-label-primary">
                                             <i class="ti ti-edit"></i>
                                         </a>
-                                        @if($role->slug !== 'admin')
+                                        @if ($role->slug !== 'admin')
                                             <form action="{{ route('admin.roles.destroy', $role->id) }}" method="POST"
                                                 onsubmit="return confirm('Are you sure you want to delete this role?');">
                                                 @csrf
