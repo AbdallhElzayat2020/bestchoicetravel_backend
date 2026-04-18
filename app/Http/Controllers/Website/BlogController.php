@@ -15,7 +15,7 @@ class BlogController extends Controller
         $search = $this->sanitizeBlogSearch($request->query('q'));
 
         // Canonical param is category_name=… (value is the category slug). Legacy category_slug → redirect.
-        if ($request->filled('category_slug') && ! $request->filled('category_name')) {
+        if ($request->filled('category_slug') && !$request->filled('category_name')) {
             return redirect()->route('blogs.index', $this->blogIndexQueryParams(
                 $search,
                 (string) $request->query('category_slug'),
@@ -55,8 +55,8 @@ class BlogController extends Controller
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('title', 'like', '%'.$search.'%')
-                    ->orWhere('short_description', 'like', '%'.$search.'%');
+                $q->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('short_description', 'like', '%' . $search . '%');
             });
         }
 
@@ -89,11 +89,11 @@ class BlogController extends Controller
             : 'Travel stories, guides and tips for your Egypt journey.';
 
         if ($search) {
-            $blogMetaTitle = 'Search: "'.Str::limit($search, 55).'" | '.$baseTitle;
-            $blogMetaDescription = 'Search results for "'.Str::limit($search, 120).'" on our travel blog — articles about Egypt tours, Nile cruises and destinations.';
+            $blogMetaTitle = 'Search: "' . Str::limit($search, 55) . '" | ' . $baseTitle;
+            $blogMetaDescription = 'Search results for "' . Str::limit($search, 120) . '" on our travel blog — articles about Egypt tours, Nile cruises and destinations.';
         } elseif ($activeCategoryName) {
-            $blogMetaTitle = $activeCategoryName.' | '.$baseTitle;
-            $blogMetaDescription = 'Read articles about '.$activeCategoryName.' — travel inspiration and practical tips for Egypt.';
+            $blogMetaTitle = $activeCategoryName . ' | ' . $baseTitle;
+            $blogMetaDescription = 'Read articles about ' . $activeCategoryName . ' — travel inspiration and practical tips for Egypt.';
         } else {
             $blogMetaTitle = $baseTitle;
             $blogMetaDescription = $baseDescription;
@@ -148,7 +148,7 @@ class BlogController extends Controller
         $params = array_filter([
             'category_name' => $categorySlug,
             'q' => $search,
-        ], fn ($v) => $v !== null && $v !== '');
+        ], fn($v) => $v !== null && $v !== '');
 
         $page = (int) $request->query('page', 1);
         if ($page > 1) {

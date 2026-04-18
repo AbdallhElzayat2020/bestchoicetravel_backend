@@ -45,9 +45,9 @@ $metaKeywords = $page->meta_keywords ?? null;
                 <div class="tours-section-header">
 
                     <div class="tours-section-heading">
-                        <h2 class="section-title scroll-animate" data-animation="fadeInUp" data-delay="50">
-                            Signature <span class="highlight">{{ $page->name }}</span>
-                        </h2>
+                        {{-- <h2 class="section-title scroll-animate" data-animation="fadeInUp" data-delay="50">
+                             <span class="highlight">{{ $page->name }}</span>
+                        </h2> --}}
                         @if ($heroSubtitle)
                             <p class="section-description scroll-animate" data-animation="fadeInUp" data-delay="100">
                                 {{ $heroSubtitle }}

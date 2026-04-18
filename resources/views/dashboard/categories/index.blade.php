@@ -8,7 +8,7 @@
             <h5 class="mb-0">Categories</h5>
             <a href="{{ route('admin.categories.create') }}" class="btn btn-primary">
                 <i class="ti ti-plus me-1"></i>
-                Add New Category
+                Add New
             </a>
         </div>
         <div class="card-body">

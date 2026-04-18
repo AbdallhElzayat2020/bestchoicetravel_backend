@@ -8,11 +8,11 @@
             <h5 class="mb-0">Sliders</h5>
             <a href="{{ route('admin.sliders.create') }}" class="btn btn-primary">
                 <i class="ti ti-plus me-1"></i>
-                Add New Slider
+                Add New
             </a>
         </div>
         <div class="card-body">
-            @if(session('success'))
+            @if (session('success'))
                 <div class="alert alert-success alert-dismissible" role="alert">
                     {{ session('success') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -38,8 +38,9 @@
                             <tr>
                                 <td>{{ $slider->id }}</td>
                                 <td>
-                                    @if($slider->image)
-                                        <img src="{{ asset('uploads/sliders/' . $slider->image) }}" alt="{{ $slider->title }}"
+                                    @if ($slider->image)
+                                        <img src="{{ asset('uploads/sliders/' . $slider->image) }}"
+                                            alt="{{ $slider->title }}"
                                             style="width: 100px; height: 60px; object-fit: cover; border-radius: 4px;">
                                     @else
                                         <span class="text-muted">No Image</span>
@@ -47,14 +48,14 @@
                                 </td>
                                 <td><strong>{{ $slider->title }}</strong></td>
                                 <td>
-                                    @if($slider->description)
+                                    @if ($slider->description)
                                         {{ \Illuminate\Support\Str::limit($slider->description, 50) }}
                                     @else
                                         <span class="text-muted">N/A</span>
                                     @endif
                                 </td>
                                 <td>
-                                    @if($slider->link)
+                                    @if ($slider->link)
                                         <a href="{{ $slider->link }}" target="_blank" class="text-primary">
                                             <i class="ti ti-external-link"></i> View Link
                                         </a>
@@ -63,7 +64,7 @@
                                     @endif
                                 </td>
                                 <td>
-                                    @if($slider->status == 'active')
+                                    @if ($slider->status == 'active')
                                         <span class="badge bg-label-success">Active</span>
                                     @else
                                         <span class="badge bg-label-danger">Inactive</span>

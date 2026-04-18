@@ -5,6 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    {{-- Favicon (same as navbar logo) --}}
+    <link rel="icon" type="image/png" href="{{ asset('assets/frontend/images/logo_main.png') }}">
+    <link rel="shortcut icon" type="image/png" href="{{ asset('assets/frontend/images/logo_main.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('assets/frontend/images/logo_main.png') }}">
+
     @php
         $defaultTitle = 'Travel Egypt - Discover Ancient Wonders';
         $defaultDescription = 'Tailor-made tours across Egypt: Nile cruises, Cairo, Luxor, Aswan and Red Sea escapes.';

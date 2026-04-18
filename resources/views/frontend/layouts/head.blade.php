@@ -2,9 +2,10 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {{-- Favicon --}}
-    <link rel="icon" type="image/x-icon" href="{{ asset('assets/frontend/images/logo.png') }}">
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/frontend/images/logo.png') }}">
+    {{-- Favicon (same as navbar logo) --}}
+    <link rel="icon" type="image/png" href="{{ asset('assets/frontend/images/logo_main.png') }}">
+    <link rel="shortcut icon" type="image/png" href="{{ asset('assets/frontend/images/logo_main.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('assets/frontend/images/logo_main.png') }}">
     <link rel="stylesheet" href="{{ asset('assets/frontend/css/styles.css') }}">
     <!-- GoogleFonts -->
     <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;700&display=swap" rel="stylesheet">
@@ -58,7 +59,7 @@
     <meta property="og:description"
         content="@hasSection('meta_description')@yield('meta_description')@else Discover amazing travel destinations and book your next adventure with us. @endif">
     <meta property="og:image"
-        content="@hasSection('meta_image')@yield('meta_image')@else {{ asset('assets/frontend/images/logo.png') }} @endif">
+        content="@hasSection('meta_image')@yield('meta_image')@else {{ asset('assets/frontend/images/logo_main.png') }} @endif">
     <meta property="og:site_name" content="{{ config('app.name', 'Travel Website') }}">
 
     <!-- Twitter -->
@@ -68,7 +69,7 @@
     <meta name="twitter:description"
         content="@hasSection('meta_description')@yield('meta_description')@else Discover amazing travel destinations and book your next adventure with us. @endif">
     <meta name="twitter:image"
-        content="@hasSection('meta_image')@yield('meta_image')@else {{ asset('assets/frontend/images/logo.png') }} @endif">
+        content="@hasSection('meta_image')@yield('meta_image')@else {{ asset('assets/frontend/images/logo_main.png') }} @endif">
     <style>
         #announcement-bar {
             position: relative;

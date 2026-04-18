@@ -8,7 +8,7 @@
             <h5 class="mb-0">Countries</h5>
             <a href="{{ route('admin.countries.create') }}" class="btn btn-primary">
                 <i class="ti ti-plus me-1"></i>
-                Add New Country
+                Add New
             </a>
         </div>
         <div class="card-body">

@@ -8,7 +8,7 @@
             <h5 class="mb-0">Testimonials</h5>
             <a href="{{ route('admin.testimonials.create') }}" class="btn btn-primary">
                 <i class="ti ti-plus me-1"></i>
-                Add New Testimonial
+                Add New
             </a>
         </div>
         <div class="card-body">

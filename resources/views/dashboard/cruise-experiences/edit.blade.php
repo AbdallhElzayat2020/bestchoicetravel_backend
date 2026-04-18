@@ -174,6 +174,28 @@
                         </div>
 
                         <div class="mb-3">
+                            <label for="h1_title" class="form-label">H1 Title (Frontend Hero)</label>
+                            <input type="text" name="h1_title" id="h1_title"
+                                class="form-control @error('h1_title') is-invalid @enderror"
+                                value="{{ old('h1_title', $experience->h1_title) }}"
+                                placeholder="If empty, main Title will be used">
+                            @error('h1_title')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="h2_title" class="form-label">H2 Title (Tours Section Heading)</label>
+                            <input type="text" name="h2_title" id="h2_title"
+                                class="form-control @error('h2_title') is-invalid @enderror"
+                                value="{{ old('h2_title', $experience->h2_title) }}"
+                                placeholder="Example: Egypt Nile Cruises">
+                            @error('h2_title')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
                             <label for="slug" class="form-label">Slug</label>
                             <input type="text" name="slug" id="slug"
                                 class="form-control @error('slug') is-invalid @enderror"

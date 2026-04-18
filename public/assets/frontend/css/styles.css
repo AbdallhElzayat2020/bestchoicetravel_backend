@@ -350,7 +350,7 @@ html {
 /* Announcement strip above fixed navbar — infinite horizontal marquee */
 :root {
     --announcement-bar-height: 42px;
-    --announcement-marquee-duration: 60s;
+    --announcement-marquee-duration: 58s;
 }
 
 .announcement-bar {
@@ -362,7 +362,7 @@ html {
     height: var(--announcement-bar-height);
     background-color: #f9e600;
     color: #8b7138;
-    border-bottom: 2px solid #2d3748;
+    border-bottom: 0;
     box-sizing: border-box;
     overflow: hidden;
 }
@@ -399,7 +399,7 @@ html {
     font-weight: 700;
     font-size: clamp(0.8125rem, 2.2vw, 1rem);
     line-height: 1.25;
-    color: #8b7138;
+    color: #dc2626;
     white-space: nowrap;
 }
 
@@ -869,20 +869,23 @@ body.has-announcement-bar .main-navbar.fixed-top {
     letter-spacing: 1px;
 }
 
-/* Navbar primary button a bit smaller */
+/* Navbar primary button: same brand blue as site buttons, slightly compact */
 .main-navbar .btn-primary {
     padding: 10px 24px;
     font-size: 14px;
     border-radius: 10px;
-    background: #8b7138;
-    border-color: #8b7138;
-    box-shadow: 0 8px 24px rgba(196, 122, 44, 0.45);
+    background: var(--primary-color);
+    border: none;
+    border-color: var(--primary-color);
+    color: #fff;
+    box-shadow: var(--shadow-primary);
 }
 
 .main-navbar .btn-primary:hover {
-    background: #a48644;
-    border-color: #a48644;
-    box-shadow: 0 10px 28px rgba(168, 100, 31, 0.5);
+    background: var(--primary-dark);
+    border-color: var(--primary-dark);
+    color: #fff;
+    box-shadow: 0 10px 28px rgba(43, 83, 167, 0.35);
 }
 
 .btn-primary {
@@ -3450,7 +3453,7 @@ body.modal-open {
 }
 
 .blogs-hero {
-    padding-top: 140px;
+    padding-top: 175px;
     padding-bottom: 40px;
 }
 
@@ -3945,6 +3948,10 @@ body.modal-open {
 }
 
 @media (max-width: 768px) {
+    .blogs-hero {
+        padding-top: 155px;
+    }
+
     .blogs-hero-title {
         font-size: 30px;
     }
@@ -4185,7 +4192,7 @@ body.modal-open {
 
 .contact-hero-title .highlight {
     position: relative;
-    color: var(--brand-yellow);
+    color: #ffffff;
 }
 
 .contact-hero-subtitle {
@@ -5815,6 +5822,12 @@ body.modal-open {
 
 .tour-hero {
     background: #f5f2ed;
+}
+
+@media (min-width: 993px) {
+    .tour-hero {
+        padding-top: 90px;
+    }
 }
 
 .tour-breadcrumb {

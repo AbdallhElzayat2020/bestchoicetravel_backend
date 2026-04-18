@@ -14,36 +14,17 @@
 
                 {{-- Navbar Settings --}}
                 <div class="mb-4">
-                    <h6 class="mb-3">Cruises Menu Settings</h6>
-
-                    {{-- Main Menu Name --}}
-                    <div class="mb-3">
-                        <label for="main_cruises_menu_name" class="form-label">Main Cruises Menu Name <span
-                                class="text-danger">*</span></label>
-                        <input type="text" class="form-control @error('main_cruises_menu_name') is-invalid @enderror"
-                            id="main_cruises_menu_name" name="main_cruises_menu_name"
-                            value="{{ old('main_cruises_menu_name', $mainCruisesMenuName) }}" required>
-                        <small class="text-muted">This name will appear as the main menu item (e.g., "Dahabiya & Cruises")</small>
-                        @error('main_cruises_menu_name')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="alert alert-info">
-                        <i class="ti ti-info-circle me-2"></i>
-                        <strong>Note:</strong> Cruise groups are now managed from <a href="{{ route('admin.cruise-groups.index') }}" class="alert-link">Cruise Groups</a> page.
-                    </div>
 
                     <div class="mb-3">
                         <label for="navbar_logo" class="form-label">Navbar Logo</label>
-                        @if($navbarLogo)
+                        @if ($navbarLogo)
                             <div class="mb-2">
                                 <img src="{{ asset('uploads/settings/' . $navbarLogo) }}" alt="Navbar Logo"
                                     style="max-width: 200px; max-height: 80px; border-radius: 4px;">
                             </div>
                         @endif
-                        <input type="file" class="form-control @error('navbar_logo') is-invalid @enderror" id="navbar_logo"
-                            name="navbar_logo" accept="image/*">
+                        <input type="file" class="form-control @error('navbar_logo') is-invalid @enderror"
+                            id="navbar_logo" name="navbar_logo" accept="image/*">
                         <small class="text-muted">Leave empty to keep current logo. Recommended size: 200x60px</small>
                         @error('navbar_logo')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -58,8 +39,8 @@
                     <h6 class="mb-3">Contact Information</h6>
                     <div class="mb-3">
                         <label for="phone" class="form-label">Phone Number <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone"
-                            value="{{ old('phone', $phone) }}" required>
+                        <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone"
+                            name="phone" value="{{ old('phone', $phone) }}" required>
                         <small class="text-muted">e.g., +20 101 515 7744 / +20 101 515 7746</small>
                         @error('phone')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -78,8 +59,8 @@
 
                     <div class="mb-3">
                         <label for="address" class="form-label">Address <span class="text-danger">*</span></label>
-                        <textarea class="form-control @error('address') is-invalid @enderror" id="address" name="address"
-                            rows="3" required>{{ old('address', $address) }}</textarea>
+                        <textarea class="form-control @error('address') is-invalid @enderror" id="address" name="address" rows="3"
+                            required>{{ old('address', $address) }}</textarea>
                         <small class="text-muted">Full address for footer</small>
                         @error('address')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -94,14 +75,14 @@
                     <h6 class="mb-3">Footer Logo</h6>
                     <div class="mb-3">
                         <label for="footer_logo" class="form-label">Footer Logo</label>
-                        @if($footerLogo)
+                        @if ($footerLogo)
                             <div class="mb-2">
                                 <img src="{{ asset('uploads/settings/' . $footerLogo) }}" alt="Footer Logo"
                                     style="max-width: 200px; max-height: 80px; border-radius: 4px;">
                             </div>
                         @endif
-                        <input type="file" class="form-control @error('footer_logo') is-invalid @enderror" id="footer_logo"
-                            name="footer_logo" accept="image/*">
+                        <input type="file" class="form-control @error('footer_logo') is-invalid @enderror"
+                            id="footer_logo" name="footer_logo" accept="image/*">
                         <small class="text-muted">Leave empty to keep current logo. Recommended size: 200x60px</small>
                         @error('footer_logo')
                             <div class="invalid-feedback">{{ $message }}</div>

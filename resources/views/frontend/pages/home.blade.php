@@ -5,22 +5,20 @@
 @endphp
 @section('meta_title', $metaTitle)
 @if ($homePage && $homePage->meta_description)
-@section('meta_description', $homePage->meta_description)
+    @section('meta_description', $homePage->meta_description)
 @endif
 @if ($homePage && $homePage->meta_author)
-@section('meta_author', $homePage->meta_author)
+    @section('meta_author', $homePage->meta_author)
 @endif
 @if ($homePage && $homePage->meta_keywords)
-@section('meta_keywords', $homePage->meta_keywords)
+    @section('meta_keywords', $homePage->meta_keywords)
 @endif
 
 @section('content')
 
     @php
         $heroSection = $siteSections['home_hero'] ?? null;
-        $heroVimeoSrc = $heroSection
-            ? \App\Helpers\vimeo_embed_src($heroSection->vimeo_url ?? null)
-            : null;
+        $heroVimeoSrc = $heroSection ? \App\Helpers\vimeo_embed_src($heroSection->vimeo_url ?? null) : null;
         // عند وجود سجل الهيرو في الداشبورد: اعرض العناصر فقط إذا حُفظت فعلاً (بدون نصوص/أزرار افتراضية)
         $heroTitleFilled = $heroSection && filled(trim((string) ($heroSection->title ?? '')));
         $heroSubtitleFilled = $heroSection && filled(trim((string) ($heroSection->subtitle ?? '')));
@@ -34,27 +32,23 @@
     @endphp
 
     <!-- Home/Hero Section -->
-    <section
-        class="hero-section section-padding {{ $heroSection && !$heroShowContent ? 'hero-section--media-only' : '' }}"
+    <section class="hero-section section-padding {{ $heroSection && !$heroShowContent ? 'hero-section--media-only' : '' }}"
         id="home">
         <div class="hero-image">
             @php
-                $heroImage = $heroSection && $heroSection->image_path
-                    ? asset($heroSection->image_path)
-                    : asset('assets/frontend/images/hero-bg.png');
+                $heroImage =
+                    $heroSection && $heroSection->image_path
+                        ? asset($heroSection->image_path)
+                        : asset('assets/frontend/images/hero-bg.png');
             @endphp
             @if ($heroVimeoSrc)
                 <div class="hero-video-wrap" aria-hidden="true">
-                    <iframe class="hero-video-iframe"
-                        src="{{ $heroVimeoSrc }}"
-                        title="Home hero video"
-                        loading="eager"
+                    <iframe class="hero-video-iframe" src="{{ $heroVimeoSrc }}" title="Home hero video" loading="eager"
                         allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
                         referrerpolicy="strict-origin-when-cross-origin"></iframe>
                 </div>
             @else
-                <img src="{{ $heroImage }}" alt="Egypt Pyramids" loading="eager"
-                    class="hero-bg-image"
+                <img src="{{ $heroImage }}" alt="Egypt Pyramids" loading="eager" class="hero-bg-image"
                     onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1539650116574-75c0c6d73a6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=90';">
             @endif
         </div>
@@ -91,11 +85,10 @@
                         @if ($heroButtonFilled)
                             <div class="hero-buttons scroll-animate" data-animation="fadeInUp" data-delay="400">
                                 @php
-                                    $heroBtnLink = $heroSection->button_link
-                                        ? $heroSection->button_link
-                                        : '#packages';
+                                    $heroBtnLink = $heroSection->button_link ? $heroSection->button_link : '#packages';
                                 @endphp
-                                <a href="{{ $heroBtnLink }}" class="btn btn-primary">{{ $heroSection->button_text }}</a>
+                                <a href="{{ $heroBtnLink }}"
+                                    class="btn btn-primary">{{ stripos($heroSection->button_text, 'book') !== false ? 'Submit Enquiry' : $heroSection->button_text }}</a>
                             </div>
                         @elseif (!$heroSection)
                             <div class="hero-buttons scroll-animate" data-animation="fadeInUp" data-delay="400">
@@ -231,13 +224,13 @@
                 <div class="cruises-image-col scroll-animate" data-animation="fadeInLeft">
                     <div class="cruises-image-container">
                         @php
-                            $cruisesImage = $cruisesSection && $cruisesSection->image_path
-                                ? asset($cruisesSection->image_path)
-                                : asset('assets/frontend/images/Aswan.webp');
+                            $cruisesImage =
+                                $cruisesSection && $cruisesSection->image_path
+                                    ? asset($cruisesSection->image_path)
+                                    : asset('assets/frontend/images/Aswan.webp');
                         @endphp
-                        <img src="{{ $cruisesImage }}" alt="Nile River Cruise"
-                            class="cruises-main-image">
-                        
+                        <img src="{{ $cruisesImage }}" alt="Nile River Cruise" class="cruises-main-image">
+
                     </div>
                 </div>
 
@@ -303,8 +296,14 @@
                     <!-- CTA Buttons -->
                     <div class="cruises-cta-buttons scroll-animate" data-animation="fadeInUp" data-delay="500">
                         @php
-                            $cruiseBtnText = $cruisesSection && $cruisesSection->button_text ? $cruisesSection->button_text : 'Book Your Nile Cruise';
-                            $cruiseBtnLink = $cruisesSection && $cruisesSection->button_link ? $cruisesSection->button_link : '#packages';
+                            $cruiseBtnText =
+                                $cruisesSection && $cruisesSection->button_text
+                                    ? $cruisesSection->button_text
+                                    : 'Book Your Nile Cruise';
+                            $cruiseBtnLink =
+                                $cruisesSection && $cruisesSection->button_link
+                                    ? $cruisesSection->button_link
+                                    : '#packages';
                         @endphp
                         <a href="{{ $cruiseBtnLink }}" class="btn btn-primary">{{ $cruiseBtnText }}</a>
                     </div>
@@ -318,7 +317,8 @@
     <!-- Egypt Day Tours Section -->
     <section class="redsea-section redsea-section--daytours" id="egypt-day-tours">
         @php
-            $dayToursImage = $dayToursSection && $dayToursSection->image_path ? asset($dayToursSection->image_path) : null;
+            $dayToursImage =
+                $dayToursSection && $dayToursSection->image_path ? asset($dayToursSection->image_path) : null;
         @endphp
         @if ($dayToursImage)
             <div class="redsea-bg" style="background-image: url('{{ $dayToursImage }}')"></div>
@@ -351,38 +351,38 @@
             </div>
 
             <!-- <div class="redsea-stats-grid">
-                            <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="100">
-                                <div class="redsea-stat-icon">
-                                    <i class="fa-solid fa-fish"></i>
+                                <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="100">
+                                    <div class="redsea-stat-icon">
+                                        <i class="fa-solid fa-fish"></i>
+                                    </div>
+                                    <div class="redsea-stat-number">1000+</div>
+                                    <div class="redsea-stat-label">Fish Species</div>
                                 </div>
-                                <div class="redsea-stat-number">1000+</div>
-                                <div class="redsea-stat-label">Fish Species</div>
-                            </div>
 
-                            <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="200">
-                                <div class="redsea-stat-icon">
-                                    <i class="fa-solid fa-sun"></i>
+                                <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="200">
+                                    <div class="redsea-stat-icon">
+                                        <i class="fa-solid fa-sun"></i>
+                                    </div>
+                                    <div class="redsea-stat-number">365</div>
+                                    <div class="redsea-stat-label">Sunny Days</div>
                                 </div>
-                                <div class="redsea-stat-number">365</div>
-                                <div class="redsea-stat-label">Sunny Days</div>
-                            </div>
 
-                            <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="300">
-                                <div class="redsea-stat-icon">
-                                    <i class="fa-solid fa-hotel"></i>
+                                <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="300">
+                                    <div class="redsea-stat-icon">
+                                        <i class="fa-solid fa-hotel"></i>
+                                    </div>
+                                    <div class="redsea-stat-number">50+</div>
+                                    <div class="redsea-stat-label">Luxury Resorts</div>
                                 </div>
-                                <div class="redsea-stat-number">50+</div>
-                                <div class="redsea-stat-label">Luxury Resorts</div>
-                            </div>
 
-                            <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="400">
-                                <div class="redsea-stat-icon">
-                                    <i class="fa-solid fa-water"></i>
+                                <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="400">
+                                    <div class="redsea-stat-icon">
+                                        <i class="fa-solid fa-water"></i>
+                                    </div>
+                                    <div class="redsea-stat-number">30m</div>
+                                    <div class="redsea-stat-label">Underwater Visibility</div>
                                 </div>
-                                <div class="redsea-stat-number">30m</div>
-                                <div class="redsea-stat-label">Underwater Visibility</div>
-                            </div>
-                        </div> -->
+                            </div> -->
 
             <div class="redsea-cta scroll-animate" data-animation="fadeInUp" data-delay="500">
                 <a href="#packages" class="btn btn-brown">Egypt Day Tours</a>
@@ -397,12 +397,12 @@
                 <div class="desert-image-col scroll-animate" data-animation="fadeInLeft">
                     <div class="desert-image-wrapper">
                         @php
-                            $desertImage = $desertSection && $desertSection->image_path
-                                ? asset($desertSection->image_path)
-                                : asset('assets/frontend/images/desert-safar.jpg');
+                            $desertImage =
+                                $desertSection && $desertSection->image_path
+                                    ? asset($desertSection->image_path)
+                                    : asset('assets/frontend/images/desert-safar.jpg');
                         @endphp
-                        <img src="{{ $desertImage }}" alt="Egyptian Desert Safari"
-                            class="desert-image">
+                        <img src="{{ $desertImage }}" alt="Egyptian Desert Safari" class="desert-image">
                         <div class="desert-image-gradient"></div>
                     </div>
                 </div>
@@ -425,7 +425,7 @@
                         {{ $desertSection && $desertSection->description
                             ? $desertSection->description
                             : "Ride across Egypt's golden dunes at sunset, camp under a sky filled with stars, and
-                        feel the silence of the desert with our expert Bedouin guides and premium desert camps." }}
+                                                feel the silence of the desert with our expert Bedouin guides and premium desert camps." }}
                     </p>
 
                     <div class="desert-feature-list">
@@ -447,8 +447,14 @@
 
                     <div class="desert-cta">
                         @php
-                            $desertBtnText = $desertSection && $desertSection->button_text ? $desertSection->button_text : 'Book Your Adventure';
-                            $desertBtnLink = $desertSection && $desertSection->button_link ? $desertSection->button_link : '#packages';
+                            $desertBtnText =
+                                $desertSection && $desertSection->button_text
+                                    ? $desertSection->button_text
+                                    : 'Book Your Adventure';
+                            $desertBtnLink =
+                                $desertSection && $desertSection->button_link
+                                    ? $desertSection->button_link
+                                    : '#packages';
                         @endphp
                         <a href="{{ $desertBtnLink }}" class="btn btn-primary">{{ $desertBtnText }}</a>
                     </div>
@@ -479,7 +485,7 @@
                         {{ $egyptJordanSection && $egyptJordanSection->description
                             ? $egyptJordanSection->description
                             : "Ride across Egypt's golden dunes at sunset, camp under a sky filled with stars, and
-                        feel the silence of the desert with our expert Bedouin guides and premium desert camps." }}
+                                                feel the silence of the desert with our expert Bedouin guides and premium desert camps." }}
                     </p>
 
                     <div class="desert-feature-list">
@@ -501,8 +507,14 @@
 
                     <div class="desert-cta">
                         @php
-                            $egyptJordanBtnText = $egyptJordanSection && $egyptJordanSection->button_text ? $egyptJordanSection->button_text : 'Book Your Adventure';
-                            $egyptJordanBtnLink = $egyptJordanSection && $egyptJordanSection->button_link ? $egyptJordanSection->button_link : '#packages';
+                            $egyptJordanBtnText =
+                                $egyptJordanSection && $egyptJordanSection->button_text
+                                    ? $egyptJordanSection->button_text
+                                    : 'Book Your Adventure';
+                            $egyptJordanBtnLink =
+                                $egyptJordanSection && $egyptJordanSection->button_link
+                                    ? $egyptJordanSection->button_link
+                                    : '#packages';
                         @endphp
                         <a href="{{ $egyptJordanBtnLink }}" class="btn btn-primary">{{ $egyptJordanBtnText }}</a>
                     </div>
@@ -511,12 +523,12 @@
                 <div class="desert-image-col scroll-animate" data-animation="fadeInRight">
                     <div class="desert-image-wrapper">
                         @php
-                            $egyptJordanImage = $egyptJordanSection && $egyptJordanSection->image_path
-                                ? asset($egyptJordanSection->image_path)
-                                : asset('assets/frontend/images/jordan.jpeg');
+                            $egyptJordanImage =
+                                $egyptJordanSection && $egyptJordanSection->image_path
+                                    ? asset($egyptJordanSection->image_path)
+                                    : asset('assets/frontend/images/jordan.jpeg');
                         @endphp
-                        <img src="{{ $egyptJordanImage }}" alt="Egypt & Jordan Tours"
-                            class="desert-image">
+                        <img src="{{ $egyptJordanImage }}" alt="Egypt & Jordan Tours" class="desert-image">
                         <div class="desert-image-gradient"></div>
                     </div>
                 </div>
@@ -556,43 +568,43 @@
                     {{ $redseaSection && $redseaSection->description
                         ? $redseaSection->description
                         : "Dive into a magical world of colorful coral reefs and incredible marine life. Enjoy unforgettable
-                    diving experiences in crystal-clear waters along Egypt's Red Sea coast." }}
+                                        diving experiences in crystal-clear waters along Egypt's Red Sea coast." }}
                 </p>
             </div>
 
             <!-- <div class="redsea-stats-grid">
-                                    <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="100">
-                                        <div class="redsea-stat-icon">
-                                            <i class="fa-solid fa-fish"></i>
+                                        <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="100">
+                                            <div class="redsea-stat-icon">
+                                                <i class="fa-solid fa-fish"></i>
+                                            </div>
+                                            <div class="redsea-stat-number">1000+</div>
+                                            <div class="redsea-stat-label">Fish Species</div>
                                         </div>
-                                        <div class="redsea-stat-number">1000+</div>
-                                        <div class="redsea-stat-label">Fish Species</div>
-                                    </div>
 
-                                    <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="200">
-                                        <div class="redsea-stat-icon">
-                                            <i class="fa-solid fa-sun"></i>
+                                        <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="200">
+                                            <div class="redsea-stat-icon">
+                                                <i class="fa-solid fa-sun"></i>
+                                            </div>
+                                            <div class="redsea-stat-number">365</div>
+                                            <div class="redsea-stat-label">Sunny Days</div>
                                         </div>
-                                        <div class="redsea-stat-number">365</div>
-                                        <div class="redsea-stat-label">Sunny Days</div>
-                                    </div>
 
-                                    <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="300">
-                                        <div class="redsea-stat-icon">
-                                            <i class="fa-solid fa-hotel"></i>
+                                        <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="300">
+                                            <div class="redsea-stat-icon">
+                                                <i class="fa-solid fa-hotel"></i>
+                                            </div>
+                                            <div class="redsea-stat-number">50+</div>
+                                            <div class="redsea-stat-label">Luxury Resorts</div>
                                         </div>
-                                        <div class="redsea-stat-number">50+</div>
-                                        <div class="redsea-stat-label">Luxury Resorts</div>
-                                    </div>
 
-                                    <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="400">
-                                        <div class="redsea-stat-icon">
-                                            <i class="fa-solid fa-water"></i>
+                                        <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="400">
+                                            <div class="redsea-stat-icon">
+                                                <i class="fa-solid fa-water"></i>
+                                            </div>
+                                            <div class="redsea-stat-number">30m</div>
+                                            <div class="redsea-stat-label">Underwater Visibility</div>
                                         </div>
-                                        <div class="redsea-stat-number">30m</div>
-                                        <div class="redsea-stat-label">Underwater Visibility</div>
-                                    </div>
-                                </div> -->
+                                    </div> -->
 
             <div class="redsea-cta scroll-animate" data-animation="fadeInUp" data-delay="500">
                 <a href="#packages" class="btn btn-primary">View Egypt Day Tours</a>
@@ -929,8 +941,8 @@
         <div class="container">
             <div class="contact-grid contact-grid--reviews">
                 <!-- Trustpilot -->
-                <a href="https://www.trustpilot.com" target="_blank" rel="noopener" class="review-trust-card scroll-animate"
-                    data-animation="fadeInUp" data-delay="100">
+                <a href="https://www.trustpilot.com" target="_blank" rel="noopener"
+                    class="review-trust-card scroll-animate" data-animation="fadeInUp" data-delay="100">
                     <div class="review-trust-icon review-trust-icon--trustpilot">
                         <img src="{{ asset('assets/frontend/images/Trustpilot.png') }}" alt="Trustpilot"
                             class="review-trust-img">

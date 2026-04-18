@@ -12,7 +12,7 @@
             <h5 class="mb-0">Galleries</h5>
             <a href="{{ route('admin.galleries.create') }}" class="btn btn-primary">
                 <i class="ti ti-plus me-1"></i>
-                Add New Gallery
+                Add New
             </a>
         </div>
         <div class="card-body">

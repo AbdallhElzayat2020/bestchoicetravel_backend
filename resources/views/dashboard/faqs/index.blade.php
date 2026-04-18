@@ -8,7 +8,7 @@
             <h5 class="mb-0">FAQs</h5>
             <a href="{{ route('admin.faqs.create') }}" class="btn btn-primary">
                 <i class="ti ti-plus me-1"></i>
-                Add New FAQ
+                Add New
             </a>
         </div>
         <div class="card-body">

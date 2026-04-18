@@ -8,6 +8,8 @@
     $metaKeywords = $experience->meta_keywords;
     $bannerPath = $experience->banner_image ? asset('uploads/cruise-experiences/' . $experience->banner_image) : null;
     $coverImageUrl = $bannerPath ?: asset('assets/frontend/assets/images/destination-01.png');
+    $heroH1 = $experience->h1_title ?: $experience->title;
+    $sectionH2 = $experience->h2_title ?: ('Egypt ' . $experience->title);
 @endphp
 
 @section('meta_title', $metaTitle)
@@ -24,7 +26,7 @@
             <div class="about-banner-overlay"></div>
             <div class="container">
                 <div class="about-banner-inner">
-                    <h1 class="about-banner-title">{{ $experience->title }}</h1>
+                    <h1 class="about-banner-title">{{ $heroH1 }}</h1>
                     @php
                         $bannerSubtitle = $experience->short_description
                             ? \Illuminate\Support\Str::limit(strip_tags($experience->short_description), 160)
@@ -43,7 +45,7 @@
                 <div class="tours-section-header">
                     <div class="tours-section-heading">
                         <h2 class="section-title scroll-animate" data-animation="fadeInUp" data-delay="50">
-                            Signature <span class="highlight">{{ $experience->title }}</span>
+                            {{ $sectionH2 }}
                         </h2>
                     </div>
                     @php

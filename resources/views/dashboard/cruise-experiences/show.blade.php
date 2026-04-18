@@ -94,6 +94,18 @@
                             <th>Slug</th>
                             <td><code>{{ $experience->slug }}</code></td>
                         </tr>
+                        @if($experience->h1_title)
+                            <tr>
+                                <th>H1 Title</th>
+                                <td>{{ $experience->h1_title }}</td>
+                            </tr>
+                        @endif
+                        @if($experience->h2_title)
+                            <tr>
+                                <th>H2 Title</th>
+                                <td>{{ $experience->h2_title }}</td>
+                            </tr>
+                        @endif
                         <tr>
                             <th>Status</th>
                             <td>

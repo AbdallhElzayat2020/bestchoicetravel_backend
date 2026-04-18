@@ -15,6 +15,8 @@ class CruiseExperience extends Model
         'cruise_group_id',
         'group_key',
         'title',
+        'h1_title',
+        'h2_title',
         'slug',
         'short_description',
         'banner_image',

@@ -24,14 +24,6 @@
     <main class="tour-page">
         <section class="tour-hero section-padding">
             <div class="container">
-                <div class="tour-breadcrumb scroll-animate" data-animation="fadeInUp">
-                    <a href="index.html#home">Home</a>
-                    <span>/</span>
-                    <a href="index.html#packages">Packages</a>
-                    <span>/</span>
-                    <span>Classic Pyramids &amp; Cairo Highlights</span>
-                </div>
-
                 <div class="tour-hero-header row g-4 align-items-center">
                     <div class="col-lg-8">
                         <h1 class="tour-title scroll-animate" data-animation="fadeInUp" data-delay="50">
@@ -242,7 +234,7 @@
                                     <div class="g-recaptcha mb-2" data-sitekey="{{ $recaptchaSiteKey }}"></div>
                                 @endif
                                 <button type="submit" class="btn btn-primary w-100 mt-2">
-                                    Booking Now
+                                    Submit Enquiry
                                 </button>
                             </form>
                         </aside>

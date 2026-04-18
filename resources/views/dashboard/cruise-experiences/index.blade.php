@@ -12,7 +12,7 @@
             <h5 class="mb-0">Cruises Page</h5>
             <a href="{{ route('admin.cruise-experiences.create', $cruiseGroupId ? ['cruise_group_id' => $cruiseGroupId] : []) }}" class="btn btn-primary">
                 <i class="ti ti-plus me-1"></i>
-                Add New Cruise Page
+                Add New
             </a>
         </div>
         <div class="card-body">

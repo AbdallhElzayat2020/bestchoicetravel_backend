@@ -12,7 +12,7 @@
             <h5 class="mb-0">Blogs</h5>
             <a href="{{ route('admin.blogs.create') }}" class="btn btn-primary">
                 <i class="ti ti-plus me-1"></i>
-                Add New Blog
+                Add New
             </a>
         </div>
         <div class="card-body">

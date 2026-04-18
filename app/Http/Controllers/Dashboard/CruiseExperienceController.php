@@ -82,6 +82,8 @@ class CruiseExperienceController extends Controller
             $validated = $request->validate([
                 'cruise_group_id' => 'required|exists:cruise_groups,id',
                 'title' => 'required|string|max:255|unique:cruise_experiences,title',
+                'h1_title' => 'nullable|string|max:255',
+                'h2_title' => 'nullable|string|max:255',
                 'slug' => 'nullable|string|max:255|unique:cruise_experiences,slug|regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/',
                 'short_description' => 'nullable|string',
                 'banner_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
@@ -194,6 +196,8 @@ class CruiseExperienceController extends Controller
             $validated = $request->validate([
                 'cruise_group_id' => 'required|exists:cruise_groups,id',
                 'title' => 'required|string|max:255|unique:cruise_experiences,title,'.$id,
+                'h1_title' => 'nullable|string|max:255',
+                'h2_title' => 'nullable|string|max:255',
                 'slug' => 'nullable|string|max:255|unique:cruise_experiences,slug,'.$id.'|regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/',
                 'short_description' => 'nullable|string',
                 'banner_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',

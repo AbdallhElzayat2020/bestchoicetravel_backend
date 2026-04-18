@@ -8,7 +8,7 @@
             <h5 class="mb-0">States</h5>
             <a href="{{ route('admin.states.create') }}" class="btn btn-primary">
                 <i class="ti ti-plus me-1"></i>
-                Add New State
+                Add New
             </a>
         </div>
         <div class="card-body">

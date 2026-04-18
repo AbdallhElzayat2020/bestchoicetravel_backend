@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm fixed-top main-navbar">
     <div class="container px-lg-1">
-        <a class="navbar-brand logo d-flex align-items-center gap-2" href="#home">
+        <a class="navbar-brand logo d-flex align-items-center gap-2" href="{{ route('home') }}">
             <img src="{{ asset('assets/frontend/images/logo_main.png') }}" alt="Logo" class="brand-logo-img"
                 height="70">
         </a>
