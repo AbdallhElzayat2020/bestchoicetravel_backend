@@ -64,8 +64,8 @@
                     @endforeach
 
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#"
-                            id="navCruiseMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="navCruiseMenu" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             {{ $mainCruisesMenuName ?? 'Nile River Cruises' }}
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navCruiseMenu">

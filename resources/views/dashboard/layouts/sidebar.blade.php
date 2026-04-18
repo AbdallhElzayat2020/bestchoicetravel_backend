@@ -105,25 +105,27 @@
             <li class="menu-item {{ $isCruiseCatalogActive ? 'active open' : '' }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     <i class="menu-icon tf-icons ti ti-anchor"></i>
-                    <div data-i18n="Cruise Catalog">Cruise Catalog</div>
+                    <div data-i18n="Cruises">Cruises</div>
                 </a>
                 <ul class="menu-sub">
                     <li
                         class="menu-item {{ \App\Helpers\setSidebarActive(['admin.cruise-catalog.categories.*'], 'active') }}">
                         <a href="{{ route('admin.cruise-catalog.categories.index') }}" class="menu-link">
-                            <div data-i18n="Catalog Categories">Categories</div>
+                            <div data-i18n="Categories">Categories</div>
                         </a>
                     </li>
-                    <li
-                        class="menu-item {{ \App\Helpers\setSidebarActive(['admin.cruise-catalog.programs.*'], 'active') }}">
-                        <a href="{{ route('admin.cruise-catalog.programs.index') }}" class="menu-link">
-                            <div data-i18n="Cruise Programs">Programs</div>
-                        </a>
-                    </li>
+
                     <li
                         class="menu-item {{ \App\Helpers\setSidebarActive(['admin.cruise-catalog.vessels.*'], 'active') }}">
                         <a href="{{ route('admin.cruise-catalog.vessels.index') }}" class="menu-link">
-                            <div data-i18n="Cruise Vessels">Vessels</div>
+                            <div data-i18n="Vessels">Vessels</div>
+                        </a>
+                    </li>
+
+                    <li
+                        class="menu-item {{ \App\Helpers\setSidebarActive(['admin.cruise-catalog.programs.*'], 'active') }}">
+                        <a href="{{ route('admin.cruise-catalog.programs.index') }}" class="menu-link">
+                            <div data-i18n="Tours">Tours</div>
                         </a>
                     </li>
                 </ul>
@@ -346,12 +348,12 @@
                 </ul>
             </li>
             {{-- Settings --}}
-            {{-- <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.settings.*'], 'active') }}">
+            <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.settings.*'], 'active') }}">
                 <a href="{{ route('admin.settings.edit') }}" class="menu-link">
                     <i class="menu-icon tf-icons ti ti-settings"></i>
                     <div data-i18n="Settings">Settings</div>
                 </a>
-            </li> --}}
+            </li>
         @endif
 
     </ul>

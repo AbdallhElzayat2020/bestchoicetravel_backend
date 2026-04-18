@@ -14,8 +14,21 @@
 
                 {{-- Navbar Settings --}}
                 <div class="mb-4">
+                    <h6 class="mb-3">Navbar Settings</h6>
 
                     <div class="mb-3">
+                        <label for="main_cruises_menu_name" class="form-label">Main Cruises Menu Name <span
+                                class="text-danger">*</span></label>
+                        <input type="text" class="form-control @error('main_cruises_menu_name') is-invalid @enderror"
+                            id="main_cruises_menu_name" name="main_cruises_menu_name"
+                            value="{{ old('main_cruises_menu_name', $mainCruisesMenuName) }}" required>
+                        <small class="text-muted">This is the navbar link label (e.g. Dahabiya & Cruises).</small>
+                        @error('main_cruises_menu_name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    {{-- <div class="mb-3">
                         <label for="navbar_logo" class="form-label">Navbar Logo</label>
                         @if ($navbarLogo)
                             <div class="mb-2">
@@ -29,13 +42,13 @@
                         @error('navbar_logo')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
-                    </div>
+                    </div> --}}
                 </div>
 
                 <hr class="my-4">
 
                 {{-- Contact Information --}}
-                <div class="mb-4">
+                {{-- <div class="mb-4">
                     <h6 class="mb-3">Contact Information</h6>
                     <div class="mb-3">
                         <label for="phone" class="form-label">Phone Number <span class="text-danger">*</span></label>
@@ -66,12 +79,11 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-                </div>
+                </div> --}}
 
-                <hr class="my-4">
 
                 {{-- Footer Logo --}}
-                <div class="mb-4">
+                {{-- <div class="mb-4">
                     <h6 class="mb-3">Footer Logo</h6>
                     <div class="mb-3">
                         <label for="footer_logo" class="form-label">Footer Logo</label>
@@ -88,7 +100,7 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="d-flex justify-content-end gap-2">
                     <a href="{{ route('admin.dashboard') }}" class="btn btn-label-secondary">
