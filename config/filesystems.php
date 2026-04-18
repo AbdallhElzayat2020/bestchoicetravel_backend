@@ -128,6 +128,15 @@ return [
             'report' => false,
         ],
 
+        'cruise_catalog' => [
+            'driver' => 'local',
+            'root' => public_path('uploads/cruise-catalog'),
+            'url' => env('APP_URL') . '/uploads/cruise-catalog',
+            'visibility' => 'public',
+            'throw' => false,
+            'report' => false,
+        ],
+
         'settings' => [
             'driver' => 'local',
             'root' => public_path('uploads/settings'),

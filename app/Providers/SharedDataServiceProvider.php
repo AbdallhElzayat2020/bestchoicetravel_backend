@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Announcement;
 use App\Models\Category;
+use App\Models\CruiseCatalogCategory;
 use App\Models\CruiseExperience;
 use App\Models\CruiseGroup;
 use App\Models\Page;
@@ -38,6 +39,7 @@ class SharedDataServiceProvider extends ServiceProvider
                 'sharedCruiseExperiences' => $sharedData['cruiseExperiences'],
                 'sharedCruiseGroups' => $sharedData['cruiseGroups'],
                 'sharedCruiseGroupsWithExperiences' => $sharedData['cruiseGroupsWithExperiences'],
+                'sharedCruiseCatalogCategories' => $sharedData['cruiseCatalogCategories'],
                 'sharedAnnouncements' => $sharedData['announcements'],
                 'sharedAnnouncementBar' => $sharedData['sharedAnnouncementBar'],
                 'announcementBarEnabled' => $sharedData['announcementBarEnabled'],
@@ -88,6 +90,12 @@ class SharedDataServiceProvider extends ServiceProvider
             ];
         }
 
+        // Cruise catalog categories from dashboard (used in navbar dropdown)
+        $cruiseCatalogCategories = CruiseCatalogCategory::active()
+            ->orderBy('sort_order')
+            ->orderBy('name')
+            ->get();
+
         // Active announcements (list) + single row for top bar (dynamic from DB)
         $announcements = Announcement::active()
             ->orderBy('sort_order')
@@ -126,6 +134,7 @@ class SharedDataServiceProvider extends ServiceProvider
             'cruiseExperiences' => $cruiseExperiences,
             'cruiseGroups' => $cruiseGroups,
             'cruiseGroupsWithExperiences' => $cruiseGroupsWithExperiences,
+            'cruiseCatalogCategories' => $cruiseCatalogCategories,
             'announcements' => $announcements,
             'sharedAnnouncementBar' => $sharedAnnouncementBar,
             'termsPage' => $termsPage,

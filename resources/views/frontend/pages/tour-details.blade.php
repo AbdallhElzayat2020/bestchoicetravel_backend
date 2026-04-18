@@ -31,10 +31,6 @@
                         </h1>
                         <div class="tour-meta scroll-animate" data-animation="fadeInUp" data-delay="150">
                             <div class="tour-meta-item">
-                                <i class="fa-solid fa-location-dot"></i>
-                                <span>Giza &amp; Cairo, Egypt</span>
-                            </div>
-                            <div class="tour-meta-item">
                                 <i class="fa-solid fa-clock"></i>
                                 <span>3 Days / 2 Nights</span>
                             </div>

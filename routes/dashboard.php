@@ -7,6 +7,9 @@ use App\Http\Controllers\Dashboard\BookingController;
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\ContactController;
 use App\Http\Controllers\Dashboard\CountryController;
+use App\Http\Controllers\Dashboard\CruiseCatalogCategoryController;
+use App\Http\Controllers\Dashboard\CruiseCatalogProgramController;
+use App\Http\Controllers\Dashboard\CruiseCatalogVesselController;
 use App\Http\Controllers\Dashboard\CruiseExperienceController;
 use App\Http\Controllers\Dashboard\CruiseGroupController;
 use App\Http\Controllers\Dashboard\FaqController;
@@ -102,6 +105,19 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
 
     // Cruise Experiences Routes
     Route::resource('cruise-experiences', CruiseExperienceController::class);
+
+    // Cruise catalog (categories → programs w/ days → vessels w/ 3 prices + gallery)
+    Route::prefix('cruise-catalog')->name('cruise-catalog.')->group(function () {
+        Route::resource('categories', CruiseCatalogCategoryController::class)
+            ->parameters(['categories' => 'cruise_catalog_category'])
+            ->except(['show']);
+        Route::resource('programs', CruiseCatalogProgramController::class)->except(['show']);
+        Route::delete('vessels/{vessel}/cover', [CruiseCatalogVesselController::class, 'destroyCover'])
+            ->name('vessels.cover.destroy');
+        Route::delete('vessels/{vessel}/gallery/{vesselImage}', [CruiseCatalogVesselController::class, 'destroyGalleryImage'])
+            ->name('vessels.gallery.destroy');
+        Route::resource('vessels', CruiseCatalogVesselController::class)->except(['show']);
+    });
 
     // Tour Variants Routes
     Route::resource('tour-variants', TourVariantController::class);

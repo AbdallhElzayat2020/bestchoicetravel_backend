@@ -35,9 +35,9 @@
 
                         @if ($hasExperiences)
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle {{ $isCruiseGroup ? 'active' : '' }}" href="{{ url($group->slug) }}"
-                                    id="navCruiseGroup-{{ $group->id }}" role="button" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
+                                <a class="nav-link dropdown-toggle {{ $isCruiseGroup ? 'active' : '' }}"
+                                    href="{{ url($group->slug) }}" id="navCruiseGroup-{{ $group->id }}"
+                                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     {{ $group->name }}
                                 </a>
 
@@ -55,12 +55,34 @@
                         @else
                             {{-- Group without experiences yet: simple link, no empty dropdown --}}
                             <li class="nav-item">
-                                <a class="nav-link {{ $isCruiseGroup ? 'active' : '' }}" href="{{ url($group->slug) }}">
+                                <a class="nav-link {{ $isCruiseGroup ? 'active' : '' }}"
+                                    href="{{ url($group->slug) }}">
                                     {{ $group->name }}
                                 </a>
                             </li>
                         @endif
                     @endforeach
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#"
+                            id="navCruiseMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ $mainCruisesMenuName ?? 'Nile River Cruises' }}
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navCruiseMenu">
+                            @forelse (($sharedCruiseCatalogCategories ?? collect()) as $catalogCategory)
+                                <li>
+                                    <a class="dropdown-item fw-semibold"
+                                        href="{{ route('cruise-catalog.category', $catalogCategory->slug) }}">
+                                        {{ $catalogCategory->name }}
+                                    </a>
+                                </li>
+                            @empty
+                                <li>
+                                    <span class="dropdown-item-text text-muted">No cruise categories yet</span>
+                                </li>
+                            @endforelse
+                        </ul>
+                    </li>
                 @endif
 
                 <li class="nav-item">

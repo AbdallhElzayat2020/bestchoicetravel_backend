@@ -99,6 +99,36 @@
                 </ul>
             </li>
 
+            @php
+                $isCruiseCatalogActive = request()->routeIs('admin.cruise-catalog.*');
+            @endphp
+            <li class="menu-item {{ $isCruiseCatalogActive ? 'active open' : '' }}">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    <i class="menu-icon tf-icons ti ti-anchor"></i>
+                    <div data-i18n="Cruise Catalog">Cruise Catalog</div>
+                </a>
+                <ul class="menu-sub">
+                    <li
+                        class="menu-item {{ \App\Helpers\setSidebarActive(['admin.cruise-catalog.categories.*'], 'active') }}">
+                        <a href="{{ route('admin.cruise-catalog.categories.index') }}" class="menu-link">
+                            <div data-i18n="Catalog Categories">Categories</div>
+                        </a>
+                    </li>
+                    <li
+                        class="menu-item {{ \App\Helpers\setSidebarActive(['admin.cruise-catalog.programs.*'], 'active') }}">
+                        <a href="{{ route('admin.cruise-catalog.programs.index') }}" class="menu-link">
+                            <div data-i18n="Cruise Programs">Programs</div>
+                        </a>
+                    </li>
+                    <li
+                        class="menu-item {{ \App\Helpers\setSidebarActive(['admin.cruise-catalog.vessels.*'], 'active') }}">
+                        <a href="{{ route('admin.cruise-catalog.vessels.index') }}" class="menu-link">
+                            <div data-i18n="Cruise Vessels">Vessels</div>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
             <li
                 class="menu-item {{ \App\Helpers\setSidebarActive(['admin.tours.*', 'admin.tour-variants.*'], 'active open') }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
