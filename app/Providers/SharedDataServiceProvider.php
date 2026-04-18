@@ -92,6 +92,9 @@ class SharedDataServiceProvider extends ServiceProvider
 
         // Cruise catalog categories from dashboard (used in navbar dropdown)
         $cruiseCatalogCategories = CruiseCatalogCategory::active()
+            ->whereHas('vessels', function ($query) {
+                $query->where('status', 'active');
+            })
             ->orderBy('sort_order')
             ->orderBy('name')
             ->get();
@@ -118,7 +121,7 @@ class SharedDataServiceProvider extends ServiceProvider
         $settings = Setting::getAll();
 
         // Get settings from cached array
-        $mainCruisesMenuName = $settings['main_cruises_menu_name'] ?? 'Dahabiya & Cruises';
+        $mainCruisesMenuName = $settings['main_cruises_menu_name'] ?? 'Nile Cruises';
 
         // Get settings from cached array
         $phone = $settings['phone'] ?? '+20 101 515 7744 / +20 101 515 7746';

@@ -5,10 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Str;
 
 class SettingController extends Controller
 {
@@ -21,7 +18,7 @@ class SettingController extends Controller
         $settings = Setting::getAll();
 
         // Main menu name
-        $mainCruisesMenuName = $settings['main_cruises_menu_name'] ?? 'Dahabiya & Cruises';
+        $mainCruisesMenuName = $settings['main_cruises_menu_name'] ?? 'Nile Cruises';
 
         $phone = $settings['phone'] ?? '+20 101 515 7744 / +20 101 515 7746';
         $email = $settings['email'] ?? 'info@grandnilecruises.com';
@@ -46,9 +43,10 @@ class SettingController extends Controller
     {
         $validated = $request->validate([
             'main_cruises_menu_name' => 'required|string|max:255',
-            'phone' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'address' => 'required|string',
+            // Optional: only validated when present (fields may be hidden on the form)
+            'phone' => 'sometimes|nullable|string|max:255',
+            'email' => 'sometimes|nullable|email|max:255',
+            'address' => 'sometimes|nullable|string',
             'navbar_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'footer_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
@@ -88,13 +86,15 @@ class SettingController extends Controller
         // Save cruise groups settings
         Setting::set('main_cruises_menu_name', $validated['main_cruises_menu_name']);
 
-        Setting::set('phone', $validated['phone']);
-        Setting::set('email', $validated['email']);
-        Setting::set('address', $validated['address']);
-
-        // Clear route cache
-        Artisan::call('route:clear');
-        Artisan::call('route:cache');
+        if ($request->filled('phone')) {
+            Setting::set('phone', $validated['phone']);
+        }
+        if ($request->filled('email')) {
+            Setting::set('email', $validated['email']);
+        }
+        if ($request->filled('address')) {
+            Setting::set('address', $validated['address']);
+        }
 
         return redirect()->back()
             ->with('success', 'Settings updated successfully');

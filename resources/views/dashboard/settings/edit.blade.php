@@ -8,6 +8,29 @@
             <h5 class="mb-0">Website Settings</h5>
         </div>
         <div class="card-body">
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+            @if (session('error'))
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    {{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+            @if ($errors->any())
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <ul class="mb-0 ps-3">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
             <form action="{{ route('admin.settings.update') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
@@ -22,7 +45,7 @@
                         <input type="text" class="form-control @error('main_cruises_menu_name') is-invalid @enderror"
                             id="main_cruises_menu_name" name="main_cruises_menu_name"
                             value="{{ old('main_cruises_menu_name', $mainCruisesMenuName) }}" required>
-                        <small class="text-muted">This is the navbar link label (e.g. Dahabiya & Cruises).</small>
+                        <small class="text-muted">This is the navbar link label (e.g. Nile Cruises).</small>
                         @error('main_cruises_menu_name')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror

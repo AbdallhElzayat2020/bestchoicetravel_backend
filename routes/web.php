@@ -31,11 +31,21 @@ Route::get('/category/{slug}', [TourController::class, 'byCategory'])
     ->name('tours.category');
 Route::get('/tours/{slug}', [TourController::class, 'show'])
     ->name('tours.show');
-Route::get('/cruise-catalog/{categorySlug}', [CruiseCatalogController::class, 'category'])
+Route::get('/cruise-catalog/{categorySlug}', function ($categorySlug) {
+    return redirect()->route('cruise-catalog.category', ['categorySlug' => $categorySlug], 301);
+});
+Route::get('/cruise-catalog/{categorySlug}/{vesselSlug}', function ($categorySlug, $vesselSlug) {
+    return redirect()->route('cruise-catalog.vessel', [
+        'categorySlug' => $categorySlug,
+        'vesselSlug' => $vesselSlug,
+    ], 301);
+});
+
+Route::get('/nile-cruises/{categorySlug}', [CruiseCatalogController::class, 'category'])
     ->name('cruise-catalog.category');
-Route::get('/cruise-catalog/{categorySlug}/{vesselSlug}', [CruiseCatalogController::class, 'vessel'])
+Route::get('/nile-cruises/{categorySlug}/{vesselSlug}', [CruiseCatalogController::class, 'vessel'])
     ->name('cruise-catalog.vessel');
-Route::post('/cruise-catalog/{categorySlug}/{vesselSlug}/enquiry', [CruiseCatalogController::class, 'submitEnquiry'])
+Route::post('/nile-cruises/{categorySlug}/{vesselSlug}/enquiry', [CruiseCatalogController::class, 'submitEnquiry'])
     ->name('cruise-catalog.enquiry');
 // Cruise Groups routes - dynamically loaded from database
 try {
