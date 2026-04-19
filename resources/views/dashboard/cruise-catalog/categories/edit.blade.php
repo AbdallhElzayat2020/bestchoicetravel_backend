@@ -19,7 +19,8 @@
                 </div>
             @endif
 
-            <form action="{{ route('admin.cruise-catalog.categories.update', $category) }}" method="POST">
+            <form action="{{ route('admin.cruise-catalog.categories.update', $category) }}" method="POST"
+                enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="mb-3">
@@ -41,6 +42,17 @@
                     <label class="form-label">H2 title</label>
                     <input type="text" name="h2_title" class="form-control"
                         value="{{ old('h2_title', $category->h2_title) }}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Category banner</label>
+                    @if ($category->banner_image)
+                        <div class="mb-2">
+                            <img src="{{ asset('uploads/cruise-catalog/' . $category->banner_image) }}"
+                                alt="Current banner" class="rounded border" style="max-width: 100%; max-height: 180px; object-fit: cover;">
+                        </div>
+                    @endif
+                    <input type="file" name="banner_image" class="form-control" accept="image/*">
+                    <small class="text-muted d-block mt-1">Upload a new image to replace the current banner.</small>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Description</label>

@@ -16,6 +16,7 @@
                 $isBlog = request()->routeIs('blogs.*');
                 $isAbout = request()->routeIs('about-us');
                 $isContact = request()->routeIs('contact-us');
+                $isTripPlanner = request()->routeIs('trip-planner');
             @endphp
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center gap-lg-2">
                 <li class="nav-item">
@@ -98,7 +99,8 @@
                 </li>
 
                 <li class="nav-item mt-3 mt-lg-0">
-                    <a class="btn btn-primary px-4" href="#packages">Trip Planner</a>
+                    <a class="btn btn-primary px-4" href="{{ route('trip-planner') }}"
+                        @if ($isTripPlanner) aria-current="page" @endif>Trip Planner</a>
                 </li>
             </ul>
         </div>

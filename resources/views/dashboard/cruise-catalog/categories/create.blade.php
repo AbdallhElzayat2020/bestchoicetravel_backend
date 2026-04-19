@@ -19,7 +19,8 @@
                 </div>
             @endif
 
-            <form action="{{ route('admin.cruise-catalog.categories.store') }}" method="POST">
+            <form action="{{ route('admin.cruise-catalog.categories.store') }}" method="POST"
+                enctype="multipart/form-data">
                 @csrf
                 <div class="mb-3">
                     <label class="form-label">Name <span class="text-danger">*</span></label>
@@ -39,6 +40,12 @@
                     <label class="form-label">H2 title</label>
                     <input type="text" name="h2_title" class="form-control" value="{{ old('h2_title') }}"
                         placeholder="Optional blue heading under banner">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Category banner</label>
+                    <input type="file" name="banner_image" class="form-control" accept="image/*">
+                    <small class="text-muted d-block mt-1">Wide image for the category page hero (JPEG/PNG/WebP, max 5MB).
+                        Optional — if empty, the first vessel cover is used on the site.</small>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Description</label>

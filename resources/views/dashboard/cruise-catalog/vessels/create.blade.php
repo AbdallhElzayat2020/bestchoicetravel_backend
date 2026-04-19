@@ -56,22 +56,9 @@
 
                 <div class="row">
                     <div class="col-md-4 mb-3">
-                        <label class="form-label">Price — tier 1 <span class="text-danger">*</span></label>
+                        <label class="form-label">Price (per person) <span class="text-danger">*</span></label>
                         <input type="number" step="0.01" name="price_tier_1" class="form-control"
                             value="{{ old('price_tier_1') }}" min="0" required>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label class="form-label">Price — tier 2</label>
-                        <input type="number" step="0.01" name="price_tier_2" class="form-control"
-                            value="{{ old('price_tier_2') }}" min="0">
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label class="form-label">Price — tier 3</label>
-                        <input type="number" step="0.01" name="price_tier_3" class="form-control"
-                            value="{{ old('price_tier_3') }}" min="0">
-                    </div>
-                    <div class="col-12">
-                        <small class="text-muted">Tier 1 is required. Tier 2 and Tier 3 are optional.</small>
                     </div>
                 </div>
 

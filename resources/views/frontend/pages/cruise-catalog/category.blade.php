@@ -28,16 +28,18 @@
 
     <section class=" pb-5">
         <div class="container">
-            @if ($vessels->count())
-                @php
-                    $firstVessel = $vessels->first();
-                    $bannerImage =
-                        $firstVessel && $firstVessel->cover_image
-                            ? asset('uploads/cruise-catalog/' . $firstVessel->cover_image)
-                            : asset('assets/frontend/assets/images/blogs/01.png');
-                    $dynamicSectionTitle = $heroH2;
-                @endphp
+            @php
+                $firstVessel = $vessels->first();
+                $bannerImage = $category->banner_image
+                    ? asset('uploads/cruise-catalog/' . $category->banner_image)
+                    : ($firstVessel && $firstVessel->cover_image
+                        ? asset('uploads/cruise-catalog/' . $firstVessel->cover_image)
+                        : asset('assets/frontend/assets/images/blogs/01.png'));
+                $dynamicSectionTitle = $heroH2;
+                $showBanner = $category->banner_image || $vessels->count() > 0;
+            @endphp
 
+            @if ($showBanner)
                 <div class="cruise-category-banner mb-4">
                     <img src="{{ $bannerImage }}" alt="{{ $category->name }}" class="cruise-category-banner__image">
                     <div class="cruise-category-banner__overlay"></div>
@@ -48,7 +50,9 @@
                         @endif
                     </div>
                 </div>
+            @endif
 
+            @if ($vessels->count())
                 <h2 class="cruise-dynamic-title mb-4">{{ $dynamicSectionTitle }}</h2>
 
                 <div class="row g-4">

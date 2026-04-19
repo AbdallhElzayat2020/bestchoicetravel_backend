@@ -351,38 +351,38 @@
             </div>
 
             <!-- <div class="redsea-stats-grid">
-                                <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="100">
-                                    <div class="redsea-stat-icon">
-                                        <i class="fa-solid fa-fish"></i>
+                                    <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="100">
+                                        <div class="redsea-stat-icon">
+                                            <i class="fa-solid fa-fish"></i>
+                                        </div>
+                                        <div class="redsea-stat-number">1000+</div>
+                                        <div class="redsea-stat-label">Fish Species</div>
                                     </div>
-                                    <div class="redsea-stat-number">1000+</div>
-                                    <div class="redsea-stat-label">Fish Species</div>
-                                </div>
 
-                                <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="200">
-                                    <div class="redsea-stat-icon">
-                                        <i class="fa-solid fa-sun"></i>
+                                    <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="200">
+                                        <div class="redsea-stat-icon">
+                                            <i class="fa-solid fa-sun"></i>
+                                        </div>
+                                        <div class="redsea-stat-number">365</div>
+                                        <div class="redsea-stat-label">Sunny Days</div>
                                     </div>
-                                    <div class="redsea-stat-number">365</div>
-                                    <div class="redsea-stat-label">Sunny Days</div>
-                                </div>
 
-                                <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="300">
-                                    <div class="redsea-stat-icon">
-                                        <i class="fa-solid fa-hotel"></i>
+                                    <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="300">
+                                        <div class="redsea-stat-icon">
+                                            <i class="fa-solid fa-hotel"></i>
+                                        </div>
+                                        <div class="redsea-stat-number">50+</div>
+                                        <div class="redsea-stat-label">Luxury Resorts</div>
                                     </div>
-                                    <div class="redsea-stat-number">50+</div>
-                                    <div class="redsea-stat-label">Luxury Resorts</div>
-                                </div>
 
-                                <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="400">
-                                    <div class="redsea-stat-icon">
-                                        <i class="fa-solid fa-water"></i>
+                                    <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="400">
+                                        <div class="redsea-stat-icon">
+                                            <i class="fa-solid fa-water"></i>
+                                        </div>
+                                        <div class="redsea-stat-number">30m</div>
+                                        <div class="redsea-stat-label">Underwater Visibility</div>
                                     </div>
-                                    <div class="redsea-stat-number">30m</div>
-                                    <div class="redsea-stat-label">Underwater Visibility</div>
-                                </div>
-                            </div> -->
+                                </div> -->
 
             <div class="redsea-cta scroll-animate" data-animation="fadeInUp" data-delay="500">
                 <a href="#packages" class="btn btn-brown">Egypt Day Tours</a>
@@ -425,7 +425,7 @@
                         {{ $desertSection && $desertSection->description
                             ? $desertSection->description
                             : "Ride across Egypt's golden dunes at sunset, camp under a sky filled with stars, and
-                                                feel the silence of the desert with our expert Bedouin guides and premium desert camps." }}
+                                                                        feel the silence of the desert with our expert Bedouin guides and premium desert camps." }}
                     </p>
 
                     <div class="desert-feature-list">
@@ -485,7 +485,7 @@
                         {{ $egyptJordanSection && $egyptJordanSection->description
                             ? $egyptJordanSection->description
                             : "Ride across Egypt's golden dunes at sunset, camp under a sky filled with stars, and
-                                                feel the silence of the desert with our expert Bedouin guides and premium desert camps." }}
+                                                                        feel the silence of the desert with our expert Bedouin guides and premium desert camps." }}
                     </p>
 
                     <div class="desert-feature-list">
@@ -568,43 +568,43 @@
                     {{ $redseaSection && $redseaSection->description
                         ? $redseaSection->description
                         : "Dive into a magical world of colorful coral reefs and incredible marine life. Enjoy unforgettable
-                                        diving experiences in crystal-clear waters along Egypt's Red Sea coast." }}
+                                                            diving experiences in crystal-clear waters along Egypt's Red Sea coast." }}
                 </p>
             </div>
 
             <!-- <div class="redsea-stats-grid">
-                                        <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="100">
-                                            <div class="redsea-stat-icon">
-                                                <i class="fa-solid fa-fish"></i>
+                                            <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="100">
+                                                <div class="redsea-stat-icon">
+                                                    <i class="fa-solid fa-fish"></i>
+                                                </div>
+                                                <div class="redsea-stat-number">1000+</div>
+                                                <div class="redsea-stat-label">Fish Species</div>
                                             </div>
-                                            <div class="redsea-stat-number">1000+</div>
-                                            <div class="redsea-stat-label">Fish Species</div>
-                                        </div>
 
-                                        <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="200">
-                                            <div class="redsea-stat-icon">
-                                                <i class="fa-solid fa-sun"></i>
+                                            <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="200">
+                                                <div class="redsea-stat-icon">
+                                                    <i class="fa-solid fa-sun"></i>
+                                                </div>
+                                                <div class="redsea-stat-number">365</div>
+                                                <div class="redsea-stat-label">Sunny Days</div>
                                             </div>
-                                            <div class="redsea-stat-number">365</div>
-                                            <div class="redsea-stat-label">Sunny Days</div>
-                                        </div>
 
-                                        <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="300">
-                                            <div class="redsea-stat-icon">
-                                                <i class="fa-solid fa-hotel"></i>
+                                            <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="300">
+                                                <div class="redsea-stat-icon">
+                                                    <i class="fa-solid fa-hotel"></i>
+                                                </div>
+                                                <div class="redsea-stat-number">50+</div>
+                                                <div class="redsea-stat-label">Luxury Resorts</div>
                                             </div>
-                                            <div class="redsea-stat-number">50+</div>
-                                            <div class="redsea-stat-label">Luxury Resorts</div>
-                                        </div>
 
-                                        <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="400">
-                                            <div class="redsea-stat-icon">
-                                                <i class="fa-solid fa-water"></i>
+                                            <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="400">
+                                                <div class="redsea-stat-icon">
+                                                    <i class="fa-solid fa-water"></i>
+                                                </div>
+                                                <div class="redsea-stat-number">30m</div>
+                                                <div class="redsea-stat-label">Underwater Visibility</div>
                                             </div>
-                                            <div class="redsea-stat-number">30m</div>
-                                            <div class="redsea-stat-label">Underwater Visibility</div>
-                                        </div>
-                                    </div> -->
+                                        </div> -->
 
             <div class="redsea-cta scroll-animate" data-animation="fadeInUp" data-delay="500">
                 <a href="#packages" class="btn btn-primary">View Egypt Day Tours</a>
@@ -1012,46 +1012,41 @@
                         <div class="swiper-slide">
                             <div class="review-badge-card">
                                 <div class="review-badge-logo">
-                                    <img src="{{ asset('assets/frontend/images/Egypt_Day_Tours.jpeg') }}"
-                                        alt="Travel Egypt Partner" class="review-badge-img">
+                                    <img src="{{ asset('assets/frontend/images/partner_1.png') }}"
+                                        alt="Safe Travels Partner" class="review-badge-img">
                                 </div>
-                                <p class="review-badge-label">Safe Travels</p>
                             </div>
                         </div>
                         <div class="swiper-slide">
                             <div class="review-badge-card">
                                 <div class="review-badge-logo">
-                                    <img src="{{ asset('assets/frontend/images/Egypt_Day_Tours.jpeg') }}"
-                                        alt="Travel Egypt Partner" class="review-badge-img">
+                                    <img src="{{ asset('assets/frontend/images/partner_2.png') }}"
+                                        alt="Safe Travels Partner" class="review-badge-img">
                                 </div>
-                                <p class="review-badge-label">Tripadvisor</p>
                             </div>
                         </div>
                         <div class="swiper-slide">
                             <div class="review-badge-card">
                                 <div class="review-badge-logo">
-                                    <img src="{{ asset('assets/frontend/images/Egypt_Day_Tours.jpeg') }}"
-                                        alt="Travel Egypt Partner" class="review-badge-img">
+                                    <img src="{{ asset('assets/frontend/images/partner_3.jpg') }}"
+                                        alt="Safe Travels Partner" class="review-badge-img">
                                 </div>
-                                <p class="review-badge-label">Travellers' Choice Awards</p>
                             </div>
                         </div>
                         <div class="swiper-slide">
                             <div class="review-badge-card">
                                 <div class="review-badge-logo">
-                                    <img src="{{ asset('assets/frontend/images/Egypt_Day_Tours.jpeg') }}"
-                                        alt="Travel Egypt Partner" class="review-badge-img">
+                                    <img src="{{ asset('assets/frontend/images/partner_4.png') }}"
+                                        alt="Safe Travels Partner" class="review-badge-img">
                                 </div>
-                                <p class="review-badge-label">Travellers' Choice 2020</p>
                             </div>
                         </div>
                         <div class="swiper-slide">
                             <div class="review-badge-card">
                                 <div class="review-badge-logo">
-                                    <img src="{{ asset('assets/frontend/images/Egypt_Day_Tours.jpeg') }}"
-                                        alt="Travel Egypt Partner" class="review-badge-img">
+                                    <img src="{{ asset('assets/frontend/images/partner_5.png') }}"
+                                        alt="Safe Travels Partner" class="review-badge-img">
                                 </div>
-                                <p class="review-badge-label">American Society of Travel Advisors</p>
                             </div>
                         </div>
                     </div>
@@ -1076,7 +1071,7 @@
                     premium support, and unforgettable experiences.
                 </p>
                 <div class="mt-3">
-                    <a href="contact.html" class="btn btn-primary">
+                    <a href="{{ route('trip-planner') }}" class="btn btn-primary">
                         Trip Planner
                     </a>
                 </div>

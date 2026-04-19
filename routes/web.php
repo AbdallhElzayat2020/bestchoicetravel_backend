@@ -7,6 +7,7 @@ use App\Http\Controllers\Website\{
     GalleryController,
     BlogController,
     ContactController,
+    TripPlannerController,
     TourController,
     CruiseCatalogController,
     CruiseExperienceController,
@@ -71,6 +72,10 @@ Route::get('/contact-us', [ContactController::class, 'index'])
     ->name('contact-us');
 Route::post('/contact-us', [ContactController::class, 'store'])
     ->name('contact-us.store');
+Route::get('/trip-planner', [TripPlannerController::class, 'index'])
+    ->name('trip-planner');
+Route::post('/trip-planner', [TripPlannerController::class, 'store'])
+    ->name('trip-planner.store');
 Route::post('/bookings', [BookingController::class, 'store'])
     ->name('bookings.store');
 

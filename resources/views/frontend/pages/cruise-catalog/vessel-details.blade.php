@@ -193,18 +193,6 @@
                                         min="1" step="1" value="{{ old('no_of_travellers', 1) }}"
                                         inputmode="numeric" />
                                 </div>
-                                <div class="mb-2">
-                                    <label class="form-label">Extra Options</label>
-                                    <div class="tour-extras-list">
-                                        <p class="text-muted small mb-0">No extra options for this vessel.</p>
-                                    </div>
-                                </div>
-                                <div class="tour-booking-summary">
-                                    <div class="tour-booking-row tour-booking-total">
-                                        <span>Total:</span>
-                                        <span id="total-price">${{ number_format($basePrice, 0) }}</span>
-                                    </div>
-                                </div>
                                 @if (!empty($recaptchaSiteKey ?? null))
                                     <div class="g-recaptcha mb-2" data-sitekey="{{ $recaptchaSiteKey }}"></div>
                                 @endif

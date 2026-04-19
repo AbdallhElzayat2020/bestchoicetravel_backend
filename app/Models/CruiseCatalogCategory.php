@@ -14,6 +14,7 @@ class CruiseCatalogCategory extends Model
         'h2_title',
         'slug',
         'description',
+        'banner_image',
         'status',
         'sort_order',
     ];

@@ -5,7 +5,7 @@
 @section('content')
     <div class="card">
         <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
-            <h5 class="mb-0">Cruise catalog — Vessels (3 prices + programs)</h5>
+            <h5 class="mb-0">Cruise catalog — Vessels</h5>
             <a href="{{ route('admin.cruise-catalog.vessels.create') }}" class="btn btn-primary">
                 <i class="ti ti-plus me-1"></i>
                 Add New
@@ -39,7 +39,7 @@
                             <th>Cover</th>
                             <th>Title</th>
                             <th>Category</th>
-                            <th>Prices</th>
+                            <th>Price</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
@@ -59,9 +59,7 @@
                                 <td><strong>{{ $vessel->title }}</strong></td>
                                 <td>{{ $vessel->category->name ?? '—' }}</td>
                                 <td class="small">
-                                    {{ number_format($vessel->price_tier_1, 0) }} /
-                                    {{ number_format($vessel->price_tier_2, 0) }} /
-                                    {{ number_format($vessel->price_tier_3, 0) }}
+                                    ${{ number_format($vessel->price_tier_1, 0) }}
                                 </td>
                                 <td>
                                     @if ($vessel->status === 'active')

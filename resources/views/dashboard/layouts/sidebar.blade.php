@@ -290,6 +290,14 @@
                 <span class="menu-header-text">Communications</span>
             </li>
 
+            {{-- Trip Planner --}}
+            <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.trip-planners.*'], 'active') }}">
+                <a href="{{ route('admin.trip-planners.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons ti ti-map-route"></i>
+                    <div data-i18n="Trip Planner">Trip Planner</div>
+                </a>
+            </li>
+
             {{-- Contacts --}}
             <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.contacts.*'], 'active') }}">
                 <a href="{{ route('admin.contacts.index') }}" class="menu-link">

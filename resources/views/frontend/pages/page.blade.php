@@ -1,21 +1,21 @@
 @extends('frontend.layouts.master')
 
 @php
-$metaTitle = $page->meta_title ?? $page->name;
-$metaDescription = $page->meta_description ?? null;
-$metaAuthor = $page->meta_author ?? null;
-$metaKeywords = $page->meta_keywords ?? null;
+    $metaTitle = $page->meta_title ?? $page->name;
+    $metaDescription = $page->meta_description ?? null;
+    $metaAuthor = $page->meta_author ?? null;
+    $metaKeywords = $page->meta_keywords ?? null;
 @endphp
 
 @section('meta_title', $metaTitle)
 @if ($metaDescription)
-@section('meta_description', $metaDescription)
+    @section('meta_description', $metaDescription)
 @endif
 @if ($metaAuthor)
-@section('meta_author', $metaAuthor)
+    @section('meta_author', $metaAuthor)
 @endif
 @if ($metaKeywords)
-@section('meta_keywords', $metaKeywords)
+    @section('meta_keywords', $metaKeywords)
 @endif
 
 @section('content')
@@ -27,7 +27,8 @@ $metaKeywords = $page->meta_keywords ?? null;
                 ? \Illuminate\Support\Str::limit(strip_tags($page->meta_description), 160)
                 : null;
         @endphp
-        <section class="about-banner" id="about-intro" style="background-image: url('{{ asset('assets/images/Nile-Cruise.webp') }}');">
+        <section class="about-banner" id="about-intro"
+            style="background-image: url('{{ asset('assets/images/Nile-Cruise.webp') }}');">
             <div class="about-banner-overlay"></div>
             <div class="container">
                 <div class="about-banner-inner">

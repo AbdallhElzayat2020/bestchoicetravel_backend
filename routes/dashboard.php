@@ -24,6 +24,7 @@ use App\Http\Controllers\Dashboard\SliderController;
 use App\Http\Controllers\Dashboard\StateController;
 use App\Http\Controllers\Dashboard\SubCategoryController;
 use App\Http\Controllers\Dashboard\SubscriberController;
+use App\Http\Controllers\Dashboard\TripPlannerController;
 use App\Http\Controllers\Dashboard\TestimonialController;
 use App\Http\Controllers\Dashboard\TourController;
 use App\Http\Controllers\Dashboard\TourVariantController;
@@ -56,6 +57,13 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::resource('contacts', ContactController::class)->only(['index', 'show', 'destroy']);
     Route::post('contacts/{id}/mark-read', [ContactController::class, 'markAsRead'])->name('contacts.mark-read');
     Route::post('contacts/{id}/mark-unread', [ContactController::class, 'markAsUnread'])->name('contacts.mark-unread');
+
+    // Trip Planner requests
+    Route::resource('trip-planners', TripPlannerController::class)->only(['index', 'show', 'destroy']);
+    Route::post('trip-planners/{tripPlanner}/mark-read', [TripPlannerController::class, 'markAsRead'])
+        ->name('trip-planners.mark-read');
+    Route::post('trip-planners/{tripPlanner}/mark-unread', [TripPlannerController::class, 'markAsUnread'])
+        ->name('trip-planners.mark-unread');
 
     // Subscribers Routes
     Route::resource('subscribers', SubscriberController::class)->only(['index', 'destroy']);

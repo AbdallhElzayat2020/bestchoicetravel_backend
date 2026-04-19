@@ -47,8 +47,6 @@ class CruiseCatalogVesselController extends Controller
             'description' => 'nullable|string',
             'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'price_tier_1' => 'required|numeric|min:0',
-            'price_tier_2' => 'nullable|numeric|min:0',
-            'price_tier_3' => 'nullable|numeric|min:0',
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string',
             'meta_keywords' => 'nullable|string',
@@ -66,10 +64,9 @@ class CruiseCatalogVesselController extends Controller
             $validated['slug'] = Str::slug($validated['slug']);
         }
 
-        // DB columns are non-null decimals; normalize empty inputs to 0.00
         $validated['price_tier_1'] = (float) $validated['price_tier_1'];
-        $validated['price_tier_2'] = $request->filled('price_tier_2') ? (float) $validated['price_tier_2'] : 0;
-        $validated['price_tier_3'] = $request->filled('price_tier_3') ? (float) $validated['price_tier_3'] : 0;
+        $validated['price_tier_2'] = 0;
+        $validated['price_tier_3'] = 0;
 
         $programIds = $request->input('program_ids', []);
         $this->assertProgramsBelongToCategory($programIds, (int) $validated['cruise_catalog_category_id']);
@@ -123,8 +120,6 @@ class CruiseCatalogVesselController extends Controller
             'description' => 'nullable|string',
             'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'price_tier_1' => 'required|numeric|min:0',
-            'price_tier_2' => 'nullable|numeric|min:0',
-            'price_tier_3' => 'nullable|numeric|min:0',
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string',
             'meta_keywords' => 'nullable|string',
@@ -141,8 +136,8 @@ class CruiseCatalogVesselController extends Controller
         }
 
         $validated['price_tier_1'] = (float) $validated['price_tier_1'];
-        $validated['price_tier_2'] = $request->filled('price_tier_2') ? (float) $validated['price_tier_2'] : 0;
-        $validated['price_tier_3'] = $request->filled('price_tier_3') ? (float) $validated['price_tier_3'] : 0;
+        $validated['price_tier_2'] = 0;
+        $validated['price_tier_3'] = 0;
 
         $programIds = $request->input('program_ids', []);
         $this->assertProgramsBelongToCategory($programIds, (int) $validated['cruise_catalog_category_id']);
