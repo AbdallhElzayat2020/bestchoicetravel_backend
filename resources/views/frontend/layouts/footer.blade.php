@@ -89,7 +89,7 @@
         </div>
         <div class="footer-bottom">
             <p>&copy; 2026 <a href="https://bestchoice.travel" class="text-warning text-decoration-none" target="_blank"
-                    rel="noopener noreferrer">bestchoice</a>. All rights
+                    rel="noopener noreferrer">Best Choice Travel</a>. All rights
                 reserved.
             </p>
         </div>
