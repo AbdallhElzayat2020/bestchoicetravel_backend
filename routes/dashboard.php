@@ -6,6 +6,7 @@ use App\Http\Controllers\Dashboard\BlogController;
 use App\Http\Controllers\Dashboard\BookingController;
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\ContactController;
+use App\Http\Controllers\Dashboard\CruiseVesselEnquiryController;
 use App\Http\Controllers\Dashboard\CountryController;
 use App\Http\Controllers\Dashboard\CruiseCatalogCategoryController;
 use App\Http\Controllers\Dashboard\CruiseCatalogProgramController;
@@ -135,7 +136,16 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::get('pages/{page}/edit', [PageController::class, 'edit'])->name('pages.edit');
     Route::put('pages/{page}', [PageController::class, 'update'])->name('pages.update');
 
-    // Bookings Routes
+    // Bookings Routes (cruise-vessel enquiries must be registered before bookings/{booking})
+    Route::get('bookings/cruise-vessels', [CruiseVesselEnquiryController::class, 'index'])
+        ->name('bookings.cruise-vessels.index');
+    Route::get('bookings/cruise-vessels/{contact}', [CruiseVesselEnquiryController::class, 'show'])
+        ->name('bookings.cruise-vessels.show');
+    Route::post('bookings/cruise-vessels/{contact}/mark-read', [CruiseVesselEnquiryController::class, 'markAsRead'])
+        ->name('bookings.cruise-vessels.mark-read');
+    Route::post('bookings/cruise-vessels/{contact}/mark-unread', [CruiseVesselEnquiryController::class, 'markAsUnread'])
+        ->name('bookings.cruise-vessels.mark-unread');
+
     Route::get('bookings', [BookingController::class, 'index'])->name('bookings.index');
     Route::get('bookings/{booking}', [BookingController::class, 'show'])->name('bookings.show');
     Route::put('bookings/{booking}', [BookingController::class, 'update'])->name('bookings.update');

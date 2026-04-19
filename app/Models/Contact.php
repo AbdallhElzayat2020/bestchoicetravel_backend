@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Contact extends Model
 {
@@ -65,5 +66,27 @@ class Contact extends Model
     public function scopeRead($query)
     {
         return $query->where('is_read', true);
+    }
+
+    /**
+     * Cruise catalog vessel enquiry forms (stored with a fixed subject prefix).
+     */
+    public function scopeCruiseVesselEnquiries($query)
+    {
+        return $query->where('subject', 'like', 'Cruise vessel enquiry:%');
+    }
+
+    public function isCruiseVesselEnquiry(): bool
+    {
+        return str_starts_with((string) $this->subject, 'Cruise vessel enquiry:');
+    }
+
+    public function cruiseVesselTitle(): ?string
+    {
+        if (! $this->isCruiseVesselEnquiry()) {
+            return null;
+        }
+
+        return trim(Str::after((string) $this->subject, 'Cruise vessel enquiry:'));
     }
 }

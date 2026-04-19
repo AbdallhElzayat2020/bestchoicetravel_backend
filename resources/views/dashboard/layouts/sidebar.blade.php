@@ -27,11 +27,26 @@
         @endif
 
         {{-- Bookings --}}
-        <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.bookings.*'], 'active') }}">
-            <a href="{{ route('admin.bookings.index') }}" class="menu-link">
+        @php
+            $isBookingsSection = request()->routeIs('admin.bookings*');
+        @endphp
+        <li class="menu-item {{ $isBookingsSection ? 'active open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-calendar-event"></i>
-                <div data-i18n="Booked Tours">Bookings</div>
+                <div data-i18n="Bookings">Bookings</div>
             </a>
+            <ul class="menu-sub">
+                <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.bookings.index', 'admin.bookings.show', 'admin.bookings.update', 'admin.bookings.destroy'], 'active') }}">
+                    <a href="{{ route('admin.bookings.index') }}" class="menu-link">
+                        <div data-i18n="Tour bookings">Tour bookings</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.bookings.cruise-vessels.*'], 'active') }}">
+                    <a href="{{ route('admin.bookings.cruise-vessels.index') }}" class="menu-link">
+                        <div data-i18n="Reserved vessels">Reserved vessels</div>
+                    </a>
+                </li>
+            </ul>
         </li>
 
         {{-- Tours Management Section --}}
