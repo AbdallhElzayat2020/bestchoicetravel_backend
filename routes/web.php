@@ -18,23 +18,32 @@ use App\Http\Controllers\Website\{
 
 Route::get('/', [HomeController::class, 'index'])
     ->name('home');
+
 Route::post('/subscribe', [HomeController::class, 'subscribe'])
     ->name('subscribe');
+
 Route::get('/galleries', [GalleryController::class, 'index'])
     ->name('galleries.index');
+
 Route::get('/galleries/{slug}', [GalleryController::class, 'show'])
     ->name('galleries.show');
+
 Route::get('/blog', [BlogController::class, 'index'])
     ->name('blogs.index');
+
 Route::get('/blog/{slug}', [BlogController::class, 'show'])
     ->name('blogs.show');
+
 Route::get('/category/{slug}', [TourController::class, 'byCategory'])
     ->name('tours.category');
+
 Route::get('/tours/{slug}', [TourController::class, 'show'])
     ->name('tours.show');
+
 Route::get('/cruise-catalog/{categorySlug}', function ($categorySlug) {
     return redirect()->route('cruise-catalog.category', ['categorySlug' => $categorySlug], 301);
 });
+
 Route::get('/cruise-catalog/{categorySlug}/{vesselSlug}', function ($categorySlug, $vesselSlug) {
     return redirect()->route('cruise-catalog.vessel', [
         'categorySlug' => $categorySlug,
