@@ -97,6 +97,54 @@ class PermissionSeeder extends Seeder
                 'description' => 'Full access to permissions management',
                 'status' => 'active',
             ],
+            [
+                'name' => 'Bookings Management',
+                'slug' => 'bookings.manage',
+                'description' => 'Manage tour bookings',
+                'status' => 'active',
+            ],
+            [
+                'name' => 'Cruise Vessel Enquiries Management',
+                'slug' => 'bookings.cruise-vessels.manage',
+                'description' => 'Manage reserved vessels enquiries',
+                'status' => 'active',
+            ],
+            [
+                'name' => 'Trip Planner Management',
+                'slug' => 'trip-planners.manage',
+                'description' => 'Manage trip planner requests',
+                'status' => 'active',
+            ],
+            [
+                'name' => 'Cruise Catalog Management',
+                'slug' => 'cruise-catalog.manage',
+                'description' => 'Full access to cruise catalog',
+                'status' => 'active',
+            ],
+            [
+                'name' => 'Cruise Catalog Categories Management',
+                'slug' => 'cruise-catalog.categories.manage',
+                'description' => 'Manage cruise catalog categories',
+                'status' => 'active',
+            ],
+            [
+                'name' => 'Cruise Catalog Vessels Management',
+                'slug' => 'cruise-catalog.vessels.manage',
+                'description' => 'Manage cruise catalog vessels',
+                'status' => 'active',
+            ],
+            [
+                'name' => 'Cruise Catalog Programs Management',
+                'slug' => 'cruise-catalog.programs.manage',
+                'description' => 'Manage cruise catalog programs',
+                'status' => 'active',
+            ],
+            [
+                'name' => 'Settings Management',
+                'slug' => 'settings.manage',
+                'description' => 'Manage website settings',
+                'status' => 'active',
+            ],
         ];
 
         foreach ($permissions as $permission) {
