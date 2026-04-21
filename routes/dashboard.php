@@ -60,6 +60,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::post('contacts/{id}/mark-unread', [ContactController::class, 'markAsUnread'])->name('contacts.mark-unread');
 
     // Trip Planner requests
+    Route::get('trip-planners/export', [TripPlannerController::class, 'export'])->name('trip-planners.export');
     Route::resource('trip-planners', TripPlannerController::class)->only(['index', 'show', 'destroy']);
     Route::post('trip-planners/{tripPlanner}/mark-read', [TripPlannerController::class, 'markAsRead'])
         ->name('trip-planners.mark-read');
@@ -139,6 +140,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     // Bookings Routes (cruise-vessel enquiries must be registered before bookings/{booking})
     Route::get('bookings/cruise-vessels', [CruiseVesselEnquiryController::class, 'index'])
         ->name('bookings.cruise-vessels.index');
+    Route::get('bookings/cruise-vessels/export', [CruiseVesselEnquiryController::class, 'export'])
+        ->name('bookings.cruise-vessels.export');
     Route::get('bookings/cruise-vessels/{contact}', [CruiseVesselEnquiryController::class, 'show'])
         ->name('bookings.cruise-vessels.show');
     Route::post('bookings/cruise-vessels/{contact}/mark-read', [CruiseVesselEnquiryController::class, 'markAsRead'])
@@ -147,6 +150,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
         ->name('bookings.cruise-vessels.mark-unread');
 
     Route::get('bookings', [BookingController::class, 'index'])->name('bookings.index');
+    Route::get('bookings/export', [BookingController::class, 'export'])->name('bookings.export');
     Route::get('bookings/{booking}', [BookingController::class, 'show'])->name('bookings.show');
     Route::put('bookings/{booking}', [BookingController::class, 'update'])->name('bookings.update');
     Route::delete('bookings/{booking}', [BookingController::class, 'destroy'])->name('bookings.destroy');

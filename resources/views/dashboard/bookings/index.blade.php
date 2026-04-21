@@ -31,6 +31,67 @@
                 </div>
             @endif
 
+            <div class="border rounded-3 p-3 mb-3 bg-light-subtle">
+                <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+                    <div class="flex-grow-1">
+                        <div class="fw-semibold mb-2">Select Columns to Export:</div>
+                        <div class="d-flex flex-wrap gap-3">
+                            <div class="form-check form-check-inline m-0">
+                                <input type="checkbox" class="form-check-input booking-column" value="id" id="bookingColId">
+                                <label class="form-check-label" for="bookingColId">ID</label>
+                            </div>
+                            <div class="form-check form-check-inline m-0">
+                                <input type="checkbox" class="form-check-input booking-column" value="tour" id="bookingColTour">
+                                <label class="form-check-label" for="bookingColTour">Tour</label>
+                            </div>
+                            <div class="form-check form-check-inline m-0">
+                                <input type="checkbox" class="form-check-input booking-column" value="full_name" id="bookingColCustomer" checked>
+                                <label class="form-check-label" for="bookingColCustomer">Customer</label>
+                            </div>
+                            <div class="form-check form-check-inline m-0">
+                                <input type="checkbox" class="form-check-input booking-column" value="email" id="bookingColEmail" checked>
+                                <label class="form-check-label" for="bookingColEmail">Email</label>
+                            </div>
+                            <div class="form-check form-check-inline m-0">
+                                <input type="checkbox" class="form-check-input booking-column" value="phone" id="bookingColPhone">
+                                <label class="form-check-label" for="bookingColPhone">Phone</label>
+                            </div>
+                            <div class="form-check form-check-inline m-0">
+                                <input type="checkbox" class="form-check-input booking-column" value="nationality" id="bookingColNationality">
+                                <label class="form-check-label" for="bookingColNationality">Nationality</label>
+                            </div>
+                            <div class="form-check form-check-inline m-0">
+                                <input type="checkbox" class="form-check-input booking-column" value="no_of_travellers" id="bookingColTravellers">
+                                <label class="form-check-label" for="bookingColTravellers">Travellers</label>
+                            </div>
+                            <div class="form-check form-check-inline m-0">
+                                <input type="checkbox" class="form-check-input booking-column" value="total_price" id="bookingColPrice">
+                                <label class="form-check-label" for="bookingColPrice">Total Price</label>
+                            </div>
+                            <div class="form-check form-check-inline m-0">
+                                <input type="checkbox" class="form-check-input booking-column" value="status" id="bookingColStatus">
+                                <label class="form-check-label" for="bookingColStatus">Status</label>
+                            </div>
+                            <div class="form-check form-check-inline m-0">
+                                <input type="checkbox" class="form-check-input booking-column" value="notes" id="bookingColNotes">
+                                <label class="form-check-label" for="bookingColNotes">Notes</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <button type="button" class="btn btn-sm btn-primary" id="bookingSelectAll">Select All</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" id="bookingDeselectAll">Deselect All</button>
+                    </div>
+                </div>
+
+                <div class="mt-3">
+                    <button type="button" class="btn btn-success" id="bookingExportBtn">
+                        <i class="ti ti-file-export me-1"></i> Export to Excel
+                    </button>
+                </div>
+            </div>
+
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
@@ -128,3 +189,23 @@
         </div>
     </div>
 @endsection
+
+@push('js')
+<script>
+    (function () {
+        const exportBtn = document.getElementById('bookingExportBtn');
+        const selectAllBtn = document.getElementById('bookingSelectAll');
+        const deselectAllBtn = document.getElementById('bookingDeselectAll');
+        const boxes = document.querySelectorAll('.booking-column');
+        if (!exportBtn) return;
+
+        exportBtn.addEventListener('click', function () {
+            let selected = Array.from(boxes).filter(b => b.checked).map(b => b.value);
+            if (selected.length === 0) selected = ['email', 'full_name'];
+            window.location.href = '{{ route('admin.bookings.export') }}?columns=' + selected.join(',');
+        });
+        selectAllBtn?.addEventListener('click', () => boxes.forEach(b => b.checked = true));
+        deselectAllBtn?.addEventListener('click', () => boxes.forEach(b => b.checked = false));
+    })();
+</script>
+@endpush

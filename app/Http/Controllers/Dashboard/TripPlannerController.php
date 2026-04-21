@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Exports\TripPlannerBookingsExport;
 use App\Http\Controllers\Controller;
 use App\Models\TripPlanner;
+use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TripPlannerController extends Controller
 {
@@ -14,6 +17,19 @@ class TripPlannerController extends Controller
             ->paginate(15);
 
         return view('dashboard.trip-planners.index', compact('requests'));
+    }
+
+    public function export(Request $request)
+    {
+        $columns = $request->input('columns', []);
+        if (empty($columns)) {
+            $columns = ['email', 'full_name'];
+        } elseif (is_string($columns)) {
+            $columns = explode(',', $columns);
+        }
+
+        $filename = 'trip_planner_leads_'.date('Y-m-d_His').'.xlsx';
+        return Excel::download(new TripPlannerBookingsExport($columns), $filename);
     }
 
     public function show(TripPlanner $trip_planner)

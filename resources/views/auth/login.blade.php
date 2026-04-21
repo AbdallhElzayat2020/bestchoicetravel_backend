@@ -14,7 +14,7 @@
     <meta name="description" content=""/>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('assets/dashboard/assets/img/favicon/favicon.ico') }}"/>
+    <link rel="icon" type="image/png" href="{{ asset('assets/frontend/images/logo_main.png') }}"/>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com"/>

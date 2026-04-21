@@ -236,10 +236,6 @@
                                                 $programDays = $program->days->where('day_status', 'active')->values();
                                             @endphp
                                             @if ($programDays->isNotEmpty())
-                                                <div class="d-flex justify-content-end mb-2">
-                                                    <span class="small text-decoration-underline text-muted">See all
-                                                        days</span>
-                                                </div>
                                                 <div class="vessel-days-list">
                                                     @foreach ($programDays as $day)
                                                         <div class="vessel-day-item mb-2">

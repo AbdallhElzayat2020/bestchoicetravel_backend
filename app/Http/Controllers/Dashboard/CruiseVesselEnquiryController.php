@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Exports\CruiseVesselBookingsExport;
 use App\Http\Controllers\Controller;
 use App\Models\Contact;
+use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CruiseVesselEnquiryController extends Controller
 {
@@ -16,6 +19,19 @@ class CruiseVesselEnquiryController extends Controller
             ->paginate(15);
 
         return view('dashboard.bookings.cruise-vessels.index', compact('enquiries'));
+    }
+
+    public function export(Request $request)
+    {
+        $columns = $request->input('columns', []);
+        if (empty($columns)) {
+            $columns = ['email', 'name'];
+        } elseif (is_string($columns)) {
+            $columns = explode(',', $columns);
+        }
+
+        $filename = 'nile_cruise_bookings_'.date('Y-m-d_His').'.xlsx';
+        return Excel::download(new CruiseVesselBookingsExport($columns), $filename);
     }
 
     public function show(Contact $contact)

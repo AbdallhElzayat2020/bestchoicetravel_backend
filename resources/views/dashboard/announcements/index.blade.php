@@ -16,11 +16,7 @@
                 </div>
             @endif
 
-            <div class="alert alert-info mb-4 d-flex flex-wrap align-items-center justify-content-between gap-3">
-                <div class="flex-grow-1" style="min-width: 220px;">
-                    <strong class="d-block mb-1">Website announcement bar</strong>
-                    <span class="small text-muted">The yellow strip reads the message <strong>dynamically from the database</strong> (same source as <code>AnnouncementSeeder</code> / edit below). Only <strong>one</strong> active row is shown (lowest <code>sort_order</code> first). Turn off to keep the navbar flush to the top.</span>
-                </div>
+            <div class="mb-4">
                 <form method="POST" action="{{ route('admin.announcements.toggle-bar') }}" class="d-flex align-items-center gap-2 mb-0">
                     @csrf
                     <div class="form-check form-switch mb-0">

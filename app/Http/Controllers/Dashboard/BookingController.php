@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Exports\TourBookingsExport;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BookingController extends Controller
 {
@@ -42,6 +44,19 @@ class BookingController extends Controller
         $allCount = $hasStatusFilter ? Booking::count() : $bookings->total();
 
         return view('dashboard.bookings.index', compact('bookings', 'pendingCount', 'confirmedCount', 'cancelledCount', 'allCount'));
+    }
+
+    public function export(Request $request)
+    {
+        $columns = $request->input('columns', []);
+        if (empty($columns)) {
+            $columns = ['email', 'full_name'];
+        } elseif (is_string($columns)) {
+            $columns = explode(',', $columns);
+        }
+
+        $filename = 'tour_bookings_'.date('Y-m-d_His').'.xlsx';
+        return Excel::download(new TourBookingsExport($columns), $filename);
     }
 
     /**

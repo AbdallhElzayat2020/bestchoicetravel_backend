@@ -15,6 +15,67 @@
                 </div>
             @endif
 
+            <div class="border rounded-3 p-3 mb-3 bg-light-subtle">
+                <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+                    <div class="flex-grow-1">
+                        <div class="fw-semibold mb-2">Select Columns to Export:</div>
+                        <div class="d-flex flex-wrap gap-3">
+                            <div class="form-check form-check-inline m-0">
+                                <input type="checkbox" class="form-check-input vessel-column" value="id" id="vesselColId">
+                                <label class="form-check-label" for="vesselColId">ID</label>
+                            </div>
+                            <div class="form-check form-check-inline m-0">
+                                <input type="checkbox" class="form-check-input vessel-column" value="vessel" id="vesselColVessel">
+                                <label class="form-check-label" for="vesselColVessel">Vessel</label>
+                            </div>
+                            <div class="form-check form-check-inline m-0">
+                                <input type="checkbox" class="form-check-input vessel-column" value="name" id="vesselColCustomer" checked>
+                                <label class="form-check-label" for="vesselColCustomer">Customer</label>
+                            </div>
+                            <div class="form-check form-check-inline m-0">
+                                <input type="checkbox" class="form-check-input vessel-column" value="email" id="vesselColEmail" checked>
+                                <label class="form-check-label" for="vesselColEmail">Email</label>
+                            </div>
+                            <div class="form-check form-check-inline m-0">
+                                <input type="checkbox" class="form-check-input vessel-column" value="phone" id="vesselColPhone">
+                                <label class="form-check-label" for="vesselColPhone">Phone</label>
+                            </div>
+                            <div class="form-check form-check-inline m-0">
+                                <input type="checkbox" class="form-check-input vessel-column" value="subject" id="vesselColSubject">
+                                <label class="form-check-label" for="vesselColSubject">Subject</label>
+                            </div>
+                            <div class="form-check form-check-inline m-0">
+                                <input type="checkbox" class="form-check-input vessel-column" value="message" id="vesselColMessage">
+                                <label class="form-check-label" for="vesselColMessage">Message</label>
+                            </div>
+                            <div class="form-check form-check-inline m-0">
+                                <input type="checkbox" class="form-check-input vessel-column" value="category_id" id="vesselColCategory">
+                                <label class="form-check-label" for="vesselColCategory">Category ID</label>
+                            </div>
+                            <div class="form-check form-check-inline m-0">
+                                <input type="checkbox" class="form-check-input vessel-column" value="sub_category_id" id="vesselColSubCategory">
+                                <label class="form-check-label" for="vesselColSubCategory">Sub Category ID</label>
+                            </div>
+                            <div class="form-check form-check-inline m-0">
+                                <input type="checkbox" class="form-check-input vessel-column" value="status" id="vesselColStatus">
+                                <label class="form-check-label" for="vesselColStatus">Status</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <button type="button" class="btn btn-sm btn-primary" id="vesselSelectAll">Select All</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" id="vesselDeselectAll">Deselect All</button>
+                    </div>
+                </div>
+
+                <div class="mt-3">
+                    <button type="button" class="btn btn-success" id="vesselExportBtn">
+                        <i class="ti ti-file-export me-1"></i> Export to Excel
+                    </button>
+                </div>
+            </div>
+
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
@@ -94,3 +155,23 @@
         </div>
     </div>
 @endsection
+
+@push('js')
+<script>
+    (function () {
+        const exportBtn = document.getElementById('vesselExportBtn');
+        const selectAllBtn = document.getElementById('vesselSelectAll');
+        const deselectAllBtn = document.getElementById('vesselDeselectAll');
+        const boxes = document.querySelectorAll('.vessel-column');
+        if (!exportBtn) return;
+
+        exportBtn.addEventListener('click', function () {
+            let selected = Array.from(boxes).filter(b => b.checked).map(b => b.value);
+            if (selected.length === 0) selected = ['email', 'name'];
+            window.location.href = '{{ route('admin.bookings.cruise-vessels.export') }}?columns=' + selected.join(',');
+        });
+        selectAllBtn?.addEventListener('click', () => boxes.forEach(b => b.checked = true));
+        deselectAllBtn?.addEventListener('click', () => boxes.forEach(b => b.checked = false));
+    })();
+</script>
+@endpush
