@@ -14,145 +14,184 @@ class PermissionSeeder extends Seeder
     {
         $permissions = [
             [
-                'name' => 'Dashboard Access',
+                'name' => 'Dashboard',
                 'slug' => 'dashboard.access',
                 'description' => 'Access to dashboard',
                 'status' => 'active',
             ],
             [
-                'name' => 'Categories Management',
+                'name' => 'Categories (Tours Management)',
                 'slug' => 'categories.manage',
-                'description' => 'Full access to categories management',
+                'description' => 'Access Categories tab (all actions)',
                 'status' => 'active',
             ],
             [
-                'name' => 'Categories View',
-                'slug' => 'categories.view',
-                'description' => 'View categories',
-                'status' => 'active',
-            ],
-            [
-                'name' => 'Categories Create',
-                'slug' => 'categories.create',
-                'description' => 'Create new categories',
-                'status' => 'active',
-            ],
-            [
-                'name' => 'Categories Edit',
-                'slug' => 'categories.edit',
-                'description' => 'Edit existing categories',
-                'status' => 'active',
-            ],
-            [
-                'name' => 'Categories Delete',
-                'slug' => 'categories.delete',
-                'description' => 'Delete categories',
-                'status' => 'active',
-            ],
-            [
-                'name' => 'Sub Categories Management',
+                'name' => 'Sub Categories (Tours Management)',
                 'slug' => 'sub-categories.manage',
-                'description' => 'Full access to sub categories management',
+                'description' => 'Access Sub Categories tab (all actions)',
                 'status' => 'active',
             ],
             [
-                'name' => 'Sub Categories View',
-                'slug' => 'sub-categories.view',
-                'description' => 'View sub categories',
-                'status' => 'active',
-            ],
-            [
-                'name' => 'Sub Categories Create',
-                'slug' => 'sub-categories.create',
-                'description' => 'Create new sub categories',
-                'status' => 'active',
-            ],
-            [
-                'name' => 'Sub Categories Edit',
-                'slug' => 'sub-categories.edit',
-                'description' => 'Edit existing sub categories',
-                'status' => 'active',
-            ],
-            [
-                'name' => 'Sub Categories Delete',
-                'slug' => 'sub-categories.delete',
-                'description' => 'Delete sub categories',
-                'status' => 'active',
-            ],
-            [
-                'name' => 'Users Management',
+                'name' => 'Users',
                 'slug' => 'users.manage',
-                'description' => 'Full access to users management',
+                'description' => 'Access Users tab (all actions)',
                 'status' => 'active',
             ],
             [
-                'name' => 'Roles Management',
+                'name' => 'Roles & Permissions',
                 'slug' => 'roles.manage',
-                'description' => 'Full access to roles management',
+                'description' => 'Access Roles & Permissions tab (all actions)',
                 'status' => 'active',
             ],
             [
-                'name' => 'Permissions Management',
-                'slug' => 'permissions.manage',
-                'description' => 'Full access to permissions management',
+                'name' => 'Bookings (Section)',
+                'slug' => 'bookings.menu',
+                'description' => 'Access to Bookings section in sidebar',
                 'status' => 'active',
             ],
             [
-                'name' => 'Bookings Management',
+                'name' => 'Tour Bookings',
                 'slug' => 'bookings.manage',
-                'description' => 'Manage tour bookings',
+                'description' => 'Access Tour Bookings tab (all actions)',
                 'status' => 'active',
             ],
             [
-                'name' => 'Cruise Vessel Enquiries Management',
+                'name' => 'Nile Cruise Bookings',
                 'slug' => 'bookings.cruise-vessels.manage',
-                'description' => 'Manage reserved vessels enquiries',
+                'description' => 'Access Nile Cruise Bookings tab (all actions)',
                 'status' => 'active',
             ],
             [
-                'name' => 'Trip Planner Management',
+                'name' => 'Trip Planner Leads',
                 'slug' => 'trip-planners.manage',
-                'description' => 'Manage trip planner requests',
+                'description' => 'Access Trip Planner Leads tab (all actions)',
                 'status' => 'active',
             ],
             [
-                'name' => 'Cruise Catalog Management',
+                'name' => 'Nile Cruises (Section)',
                 'slug' => 'cruise-catalog.manage',
-                'description' => 'Full access to cruise catalog',
+                'description' => 'Access Nile Cruises section (all actions)',
                 'status' => 'active',
             ],
             [
-                'name' => 'Cruise Catalog Categories Management',
+                'name' => 'Categories (Nile Cruises)',
                 'slug' => 'cruise-catalog.categories.manage',
-                'description' => 'Manage cruise catalog categories',
+                'description' => 'Access Cruise Categories tab (all actions)',
                 'status' => 'active',
             ],
             [
-                'name' => 'Cruise Catalog Vessels Management',
+                'name' => 'Vessels (Nile Cruises)',
                 'slug' => 'cruise-catalog.vessels.manage',
-                'description' => 'Manage cruise catalog vessels',
+                'description' => 'Access Vessels tab (all actions)',
                 'status' => 'active',
             ],
             [
-                'name' => 'Cruise Catalog Programs Management',
+                'name' => 'Tours (Nile Cruises)',
                 'slug' => 'cruise-catalog.programs.manage',
-                'description' => 'Manage cruise catalog programs',
+                'description' => 'Access Cruise Tours tab (all actions)',
                 'status' => 'active',
             ],
             [
-                'name' => 'Settings Management',
+                'name' => 'Menu Name',
                 'slug' => 'settings.manage',
-                'description' => 'Manage website settings',
+                'description' => 'Access Menu Name tab (all actions)',
+                'status' => 'active',
+            ],
+            [
+                'name' => 'Main Categories (Categories Section)',
+                'slug' => 'cruise-groups.manage',
+                'description' => 'Access Main Categories tab (all actions)',
+                'status' => 'active',
+            ],
+            [
+                'name' => 'All Tours (Tours Section)',
+                'slug' => 'tours.manage',
+                'description' => 'Access All Tours tab (all actions)',
+                'status' => 'active',
+            ],
+            [
+                'name' => 'Optional Excursions (Tours Section)',
+                'slug' => 'tour-variants.manage',
+                'description' => 'Access Optional Excursions tab (all actions)',
+                'status' => 'active',
+            ],
+            [
+                'name' => 'Locations',
+                'slug' => 'locations.menu',
+                'description' => 'Access to Locations section in sidebar',
+                'status' => 'active',
+            ],
+            [
+                'name' => 'Countries',
+                'slug' => 'countries.manage',
+                'description' => 'Access Countries tab (all actions)',
+                'status' => 'active',
+            ],
+            [
+                'name' => 'States',
+                'slug' => 'states.manage',
+                'description' => 'Access States tab (all actions)',
+                'status' => 'active',
+            ],
+            [
+                'name' => 'Live Highlights',
+                'slug' => 'announcements.manage',
+                'description' => 'Access Live Highlights tab (all actions)',
+                'status' => 'active',
+            ],
+            [
+                'name' => 'FAQs',
+                'slug' => 'faqs.manage',
+                'description' => 'Access FAQs tab (all actions)',
+                'status' => 'active',
+            ],
+            [
+                'name' => 'Testimonials',
+                'slug' => 'testimonials.manage',
+                'description' => 'Access Testimonials tab (all actions)',
+                'status' => 'active',
+            ],
+            [
+                'name' => 'Blogs',
+                'slug' => 'blogs.manage',
+                'description' => 'Access Blogs tab (all actions)',
+                'status' => 'active',
+            ],
+            [
+                'name' => 'Blog Categories (Blogs)',
+                'slug' => 'blog-categories.manage',
+                'description' => 'Access Blog Categories tab (all actions)',
+                'status' => 'active',
+            ],
+            [
+                'name' => 'Pages SEO',
+                'slug' => 'pages.manage',
+                'description' => 'Access Pages SEO tab (all actions)',
+                'status' => 'active',
+            ],
+            [
+                'name' => 'Home Sections',
+                'slug' => 'site-sections.manage',
+                'description' => 'Access Home Sections tab (all actions)',
+                'status' => 'active',
+            ],
+            [
+                'name' => 'All Sections (Home Sections)',
+                'slug' => 'site-sections.index',
+                'description' => 'Access All Sections tab',
                 'status' => 'active',
             ],
         ];
 
         foreach ($permissions as $permission) {
-            Permission::firstOrCreate(
+            Permission::updateOrCreate(
                 ['slug' => $permission['slug']],
                 $permission
             );
         }
+
+        $keepSlugs = collect($permissions)->pluck('slug')->all();
+        Permission::query()->whereNotIn('slug', $keepSlugs)->delete();
 
         $this->command->info('Permissions seeded successfully!');
     }

@@ -13,6 +13,7 @@ use App\Http\Controllers\Website\{
     CruiseExperienceController,
     BookingController,
 };
+use App\Http\Controllers\UserHomeController;
 
 
 
@@ -21,6 +22,10 @@ Route::get('/', [HomeController::class, 'index'])
 
 Route::post('/subscribe', [HomeController::class, 'subscribe'])
     ->name('subscribe');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/user/home', [UserHomeController::class, 'index'])->name('user.home');
+});
 
 Route::get('/galleries', [GalleryController::class, 'index'])
     ->name('galleries.index');
