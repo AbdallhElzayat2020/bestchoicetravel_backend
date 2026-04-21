@@ -16,7 +16,7 @@
 
     <div class="field"><span class="label">Full name:</span> {{ $tripPlanner->full_name }}</div>
     <div class="field"><span class="label">Nationality:</span> {{ $tripPlanner->nationality }}</div>
-    <div class="field"><span class="label">Phone:</span> {{ $tripPlanner->phone }}</div>
+    <div class="field"><span class="label">Phone:</span> {{ $tripPlanner->phone ?: '—' }}</div>
     <div class="field"><span class="label">Email:</span> {{ $tripPlanner->email }}</div>
     <div class="field"><span class="label">Travelers:</span>
         Adults (+12): {{ $tripPlanner->adults }} —

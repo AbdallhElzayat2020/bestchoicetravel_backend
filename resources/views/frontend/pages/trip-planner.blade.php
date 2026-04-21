@@ -55,10 +55,10 @@
                                         @enderror
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="phone" class="form-label fw-semibold">Phone</label>
+                                        <label for="phone" class="form-label fw-semibold">Phone (optional)</label>
                                         <input type="tel" name="phone" id="phone"
                                             class="form-control @error('phone') is-invalid @enderror"
-                                            value="{{ old('phone') }}" required autocomplete="tel">
+                                            value="{{ old('phone') }}" autocomplete="tel">
                                         @error('phone')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror

@@ -69,7 +69,11 @@
                 <div class="col-md-6 mb-3">
                     <label class="form-label fw-bold">Phone</label>
                     <p class="form-control-plaintext">
-                        <a href="tel:{{ $tripPlanner->phone }}">{{ $tripPlanner->phone }}</a>
+                        @if ($tripPlanner->phone)
+                            <a href="tel:{{ $tripPlanner->phone }}">{{ $tripPlanner->phone }}</a>
+                        @else
+                            <span class="text-muted">—</span>
+                        @endif
                     </p>
                 </div>
                 <div class="col-md-6 mb-3">

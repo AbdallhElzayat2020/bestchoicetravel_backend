@@ -25,7 +25,7 @@ class TripPlannerController extends Controller
         $rules = [
             'full_name' => 'required|string|max:255',
             'nationality' => 'required|string|max:255',
-            'phone' => 'required|string|max:40',
+            'phone' => 'nullable|string|max:40',
             'email' => 'required|email|max:255',
             'adults' => 'required|integer|min:1|max:50',
             'children' => 'required|integer|min:0|max:50',
@@ -34,10 +34,6 @@ class TripPlannerController extends Controller
             'departure_date' => 'nullable|date',
             'message' => 'required|string|max:10000',
         ];
-
-        if (RecaptchaService::isConfigured()) {
-            $rules['g-recaptcha-response'] = 'required';
-        }
 
         $validated = $request->validate($rules);
 
@@ -49,7 +45,9 @@ class TripPlannerController extends Controller
             }
         }
 
-        if (RecaptchaService::isConfigured()) {
+        // Do not block legitimate requests when captcha token is missing/expired.
+        // If token exists, we still verify it.
+        if (RecaptchaService::isConfigured() && $request->filled('g-recaptcha-response')) {
             if (! $recaptcha->verify($request->input('g-recaptcha-response'), $request->ip())) {
                 return redirect()->back()
                     ->withInput($request->except('g-recaptcha-response'))
@@ -60,7 +58,7 @@ class TripPlannerController extends Controller
         $tripPlanner = TripPlanner::create([
             'full_name' => $validated['full_name'],
             'nationality' => $validated['nationality'],
-            'phone' => $validated['phone'],
+            'phone' => $validated['phone'] ?? null,
             'email' => $validated['email'],
             'adults' => $validated['adults'],
             'children' => $validated['children'],
