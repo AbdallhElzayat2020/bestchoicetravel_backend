@@ -26,7 +26,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->redirectUsersTo(function (Illuminate\Http\Request $request) {
             $user = $request->user();
 
-            if ($user && ($user->isAdmin() || $user->hasPermission('dashboard.access') || $user->getPermissions()->isNotEmpty())) {
+            if ($user && ($user->isAdmin() || $user->hasPermission('dashboard.access'))) {
                 return route('admin.dashboard');
             }
 

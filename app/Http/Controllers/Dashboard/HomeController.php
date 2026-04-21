@@ -28,6 +28,12 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $user = request()->user();
+
+        if (! $user || (! $user->isAdmin() && ! $user->hasPermission('dashboard.access'))) {
+            return redirect()->route('user.home');
+        }
+
         $unreadContactsCount = Cache::remember('unread_contacts_count', 300, function () {
             return Contact::where('is_read', false)->count();
         });

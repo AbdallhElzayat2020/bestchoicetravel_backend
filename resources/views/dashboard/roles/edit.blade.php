@@ -48,25 +48,102 @@
 
                 <div class="mb-3">
                     <label class="form-label">Permissions</label>
-                    <div class="row">
+                    @php
+                        $rolePermissionIds = $role->permissions->pluck('id')->toArray();
+                        $permissionGroups = [
+                            'Main Access' => ['dashboard.access'],
+                            'Bookings' => ['bookings.menu', 'bookings.manage', 'bookings.cruise-vessels.manage', 'trip-planners.manage'],
+                            'Nile Cruises' => [
+                                'cruise-catalog.manage',
+                                'settings.manage',
+                                'cruise-catalog.categories.manage',
+                                'cruise-catalog.vessels.manage',
+                                'cruise-catalog.programs.manage',
+                            ],
+                            'Tours Management' => ['categories.manage', 'sub-categories.manage', 'cruise-groups.manage', 'tours.manage', 'tour-variants.manage'],
+                            'Locations' => ['locations.menu', 'countries.manage', 'states.manage'],
+                            'Content Management' => [
+                                'announcements.manage',
+                                'faqs.manage',
+                                'testimonials.manage',
+                                'blogs.manage',
+                                'blog-categories.manage',
+                                'pages.manage',
+                                'site-sections.manage',
+                                'site-sections.index',
+                            ],
+                            'System' => ['users.manage', 'roles.manage'],
+                        ];
+                        $permissionsBySlug = $permissions->keyBy('slug');
+                    @endphp
+
+                    <div class="row g-3">
+                        @foreach ($permissionGroups as $groupName => $slugs)
+                            @php
+                                $groupPermissions = collect($slugs)
+                                    ->map(fn($slug) => $permissionsBySlug->get($slug))
+                                    ->filter(fn($item) => $item instanceof \App\Models\Permission);
+                            @endphp
+                            @if ($groupPermissions->isNotEmpty())
+                                <div class="col-12">
+                                    <div class="border rounded-3 p-3">
+                                        <h6 class="mb-3">{{ $groupName }}</h6>
+                                        <div class="row">
+                                            @foreach ($groupPermissions as $permission)
+                                                @php
+                                                    $permissionId = data_get($permission, 'id');
+                                                    $permissionName = data_get($permission, 'name');
+                                                    $permissionDescription = data_get($permission, 'description');
+                                                @endphp
+                                                <div class="col-md-4 mb-2">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" name="permissions[]"
+                                                            value="{{ $permissionId }}" id="permission_{{ $permissionId }}"
+                                                            {{ in_array($permissionId, old('permissions', $rolePermissionIds)) ? 'checked' : '' }}>
+                                                        <label class="form-check-label" for="permission_{{ $permissionId }}">
+                                                            {{ $permissionName }}
+                                                        </label>
+                                                        @if ($permissionDescription)
+                                                            <small class="d-block text-muted">{{ $permissionDescription }}</small>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                        @endforeach
                         @php
-                            $rolePermissionIds = $role->permissions->pluck('id')->toArray();
+                            $groupedSlugs = collect($permissionGroups)->flatten()->all();
+                            $remainingPermissions = $permissions->filter(
+                                fn($permission) => $permission instanceof \App\Models\Permission && !in_array($permission->slug, $groupedSlugs, true),
+                            );
                         @endphp
-                        @foreach ($permissions as $permission)
-                            <div class="col-md-4 mb-2">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="permissions[]"
-                                        value="{{ $permission->id }}" id="permission_{{ $permission->id }}"
-                                        {{ in_array($permission->id, old('permissions', $rolePermissionIds)) ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="permission_{{ $permission->id }}">
-                                        {{ $permission->name }}
-                                    </label>
-                                    @if ($permission->description)
-                                        <small class="d-block text-muted">{{ $permission->description }}</small>
-                                    @endif
+                        @if ($remainingPermissions->isNotEmpty())
+                            <div class="col-12">
+                                <div class="border rounded-3 p-3">
+                                    <h6 class="mb-3">Other</h6>
+                                    <div class="row">
+                                        @foreach ($remainingPermissions as $permission)
+                                            <div class="col-md-4 mb-2">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="permissions[]"
+                                                        value="{{ $permission->id }}" id="permission_{{ $permission->id }}"
+                                                        {{ in_array($permission->id, old('permissions', $rolePermissionIds)) ? 'checked' : '' }}>
+                                                    <label class="form-check-label" for="permission_{{ $permission->id }}">
+                                                        {{ $permission->name }}
+                                                    </label>
+                                                    @if ($permission->description)
+                                                        <small class="d-block text-muted">{{ $permission->description }}</small>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
                                 </div>
                             </div>
-                        @endforeach
+                        @endif
                     </div>
                     @error('permissions.*')
                         <div class="text-danger small">{{ $message }}</div>
