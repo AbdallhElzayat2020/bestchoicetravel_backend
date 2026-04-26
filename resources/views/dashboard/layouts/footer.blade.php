@@ -5,7 +5,7 @@
                 <script>
                     {{ date('Y') }}
                 </script>
-                Made with Love ❤️ in Egypt
+                Proudly Crafted in Egypt with Love ❤️
             </div>
             <div>
                 <a href="https://mrco-egypt.com" class="footer-link me-4" target="_blank">
