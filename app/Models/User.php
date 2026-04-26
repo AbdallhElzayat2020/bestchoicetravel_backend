@@ -130,7 +130,12 @@ class User extends Authenticatable
     public function profileImageUrl(): string
     {
         if (!empty($this->profile_image)) {
-            return asset('storage/' . $this->profile_image);
+            if (str_starts_with($this->profile_image, 'uploads/')) {
+                return asset($this->profile_image);
+            }
+
+            // Backward compatibility for old images saved on "public" disk.
+            return asset('storage/' . ltrim($this->profile_image, '/'));
         }
 
         return asset('assets/dashboard/assets/img/avatars/1.png');

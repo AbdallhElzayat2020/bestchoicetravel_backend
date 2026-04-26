@@ -7,9 +7,9 @@ use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
 
@@ -34,11 +34,21 @@ class ProfileController extends Controller
         $user = $request->user();
 
         if ($request->hasFile('profile_image')) {
-            if (!empty($user->profile_image) && Storage::disk('public')->exists($user->profile_image)) {
-                Storage::disk('public')->delete($user->profile_image);
+            if (!empty($user->profile_image)) {
+                $oldPublicPath = public_path($user->profile_image);
+                if (File::exists($oldPublicPath)) {
+                    File::delete($oldPublicPath);
+                }
             }
 
-            $validated['profile_image'] = $request->file('profile_image')->store('profile-images', 'public');
+            $uploadDir = public_path('uploads/profile-images');
+            if (!File::isDirectory($uploadDir)) {
+                File::makeDirectory($uploadDir, 0755, true);
+            }
+
+            $filename = uniqid('profile_', true) . '.' . $request->file('profile_image')->getClientOriginalExtension();
+            $request->file('profile_image')->move($uploadDir, $filename);
+            $validated['profile_image'] = 'uploads/profile-images/' . $filename;
         } else {
             unset($validated['profile_image']);
         }
