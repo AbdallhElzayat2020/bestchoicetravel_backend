@@ -7,6 +7,19 @@
     </div>
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+
+        <!-- View Frontend -->
+        <a href="{{ route('home') }}" target="_blank"
+           class="d-flex align-items-center gap-2 me-auto text-decoration-none px-3 py-1 rounded-pill"
+           style="background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); transition: background .2s;"
+           onmouseover="this.style.background='rgba(255,255,255,0.14)'"
+           onmouseout="this.style.background='rgba(255,255,255,0.07)'">
+            <i class="ti ti-world ti-sm" style="color: #a0cfff;"></i>
+            <span class="fw-semibold" style="font-size: 13px; color: #d0e8ff; letter-spacing: .3px;">Best Choice Travel</span>
+            <i class="ti ti-external-link ti-xs" style="color: #a0cfff; opacity: .7;"></i>
+        </a>
+        <!--/ View Frontend -->
+
         <!-- Search -->
         {{-- <div class="navbar-nav align-items-center">
             <div class="nav-item navbar-search-wrapper mb-0">
