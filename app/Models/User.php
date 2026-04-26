@@ -130,12 +130,22 @@ class User extends Authenticatable
     public function profileImageUrl(): string
     {
         if (!empty($this->profile_image)) {
-            if (str_starts_with($this->profile_image, 'uploads/')) {
-                return asset($this->profile_image);
+            if (filter_var($this->profile_image, FILTER_VALIDATE_URL)) {
+                return $this->profile_image;
             }
 
-            // Backward compatibility for old images saved on "public" disk.
-            return asset('storage/' . ltrim($this->profile_image, '/'));
+            $normalizedPath = ltrim($this->profile_image, '/');
+
+            if (str_starts_with($normalizedPath, 'uploads/') || str_starts_with($normalizedPath, 'storage/')) {
+                return asset($normalizedPath);
+            }
+
+            if (file_exists(public_path($normalizedPath))) {
+                return asset($normalizedPath);
+            }
+
+            // Backward compatibility for old records saved as relative paths on the public disk.
+            return asset('storage/' . $normalizedPath);
         }
 
         return asset('assets/dashboard/assets/img/avatars/1.png');
