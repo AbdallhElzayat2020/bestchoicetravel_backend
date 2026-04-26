@@ -300,10 +300,18 @@
 
             <!-- User -->
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
-                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
-                    <div class="avatar avatar-online">
+                <a class="nav-link dropdown-toggle hide-arrow d-flex align-items-center gap-2 px-3 py-1 rounded-pill"
+                   href="javascript:void(0);" data-bs-toggle="dropdown"
+                   style="background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); transition: background .2s;"
+                   onmouseover="this.style.background='rgba(255,255,255,0.14)'"
+                   onmouseout="this.style.background='rgba(255,255,255,0.07)'">
+                    <div class="avatar avatar-online" style="width:30px; height:30px;">
                         <img src="{{ auth()->user()->profileImageUrl() }}" alt class="h-auto rounded-circle" />
                     </div>
+                    <span class="fw-semibold d-none d-md-inline" style="font-size: 13px; color: #d0e8ff; letter-spacing: .3px;">
+                        {{ auth()->user()->name }}
+                    </span>
+                    <i class="ti ti-chevron-down ti-xs" style="color: #a0cfff; opacity: .7;"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
                     <li>
