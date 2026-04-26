@@ -20,6 +20,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'profile_image',
         'password',
         'role_id',
     ];
@@ -124,5 +125,14 @@ class User extends Authenticatable
         }
 
         return collect([]);
+    }
+
+    public function profileImageUrl(): string
+    {
+        if (!empty($this->profile_image)) {
+            return asset('storage/' . $this->profile_image);
+        }
+
+        return asset('assets/dashboard/assets/img/avatars/1.png');
     }
 }

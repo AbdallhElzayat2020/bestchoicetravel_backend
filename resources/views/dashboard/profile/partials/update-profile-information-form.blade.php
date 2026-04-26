@@ -1,8 +1,24 @@
-<form method="post" action="{{ route('admin.profile.update') }}">
+<form method="post" action="{{ route('admin.profile.update') }}" enctype="multipart/form-data">
     @csrf
     @method('patch')
 
     <div class="row">
+        <div class="col-md-12 mb-3">
+            <label for="profile_image" class="form-label">Profile Image</label>
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <img src="{{ $user->profileImageUrl() }}" alt="{{ $user->name }}"
+                    class="rounded-circle border" style="width:64px;height:64px;object-fit:cover;">
+                <div>
+                    <input type="file" class="form-control @error('profile_image') is-invalid @enderror"
+                        id="profile_image" name="profile_image" accept=".jpg,.jpeg,.png,.webp">
+                    <small class="text-muted">Allowed: JPG, PNG, WEBP (max 2MB)</small>
+                    @error('profile_image')
+                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+        </div>
+
         <div class="col-md-6 mb-3">
             <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
             <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name"

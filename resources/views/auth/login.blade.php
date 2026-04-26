@@ -45,6 +45,30 @@
     <!-- Page CSS -->
     <!-- Page -->
     <link rel="stylesheet" href="{{ asset('assets/dashboard/assets/vendor/css/pages/page-auth.css') }}" />
+    <style>
+        .authentication-wrapper.authentication-basic {
+            min-height: 100vh !important;
+            padding-top: 2rem !important;
+            padding-bottom: 2rem !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        .authentication-wrapper .authentication-inner {
+            max-width: 420px;
+            width: 100%;
+        }
+
+        .authentication-wrapper .card .card-body {
+            padding: 1.25rem 1.25rem 1rem;
+        }
+
+        .login-page-footer {
+            max-width: 520px;
+            margin: 0.85rem auto 0;
+        }
+    </style>
     <!-- Helpers -->
     <script src="{{ asset('assets/dashboard/assets/vendor/js/helpers.js') }}"></script>
 
@@ -56,8 +80,8 @@
     <!-- Content -->
 
     <div class="container-xxl">
-        <div class="authentication-wrapper authentication-basic container-p-y">
-            <div class="authentication-inner py-4">
+        <div class="authentication-wrapper authentication-basic py-3">
+            <div class="authentication-inner py-2">
                 <!-- Login -->
                 <div class="card">
                     <div class="card-body">
@@ -69,7 +93,7 @@
                             </a>
                         </div>
                         <!-- /Logo -->
-                        <h4 class="mb-1 pt-2">Welcome Admin! 👋</h4>
+                        <h4 class="mb-1 pt-1">Travel Portal Sysytem</h4>
 
                         <!-- Display Error Messages -->
                         @if ($errors->any())
@@ -138,21 +162,20 @@
                     </div>
                 </div>
                 <!-- /Register -->
-            </div>
-        </div>
-    </div>
 
-    <div class="container-xxl pb-4">
-        <div class="text-center small text-muted px-3">
-            <p class="mb-1">© 2026 <a href="https://bestchoice.travel" target="_blank"
-                    rel="noopener noreferrer">Best Choice Travel</a>. All rights reserved.</p>
-            <p class="mb-1">Proudly Crafted in Egypt with Love ❤️</p>
-            <p class="mb-2">Travel Portal System by <a href="https://mrco-egypt.com/">MRCO-Egypt</a>.</p>
-            <p class="mb-1">
-                This system is restricted to authorized users only. All access and activities are monitored.
-                Any unauthorized use, access, or distribution of system content is strictly prohibited and may result in
-                legal action.
-            </p>
+                <div class="login-page-footer text-center small text-muted px-3">
+                    <p class="mb-1">© 2026 <a href="https://bestchoice.travel" target="_blank"
+                            rel="noopener noreferrer">Best Choice Travel</a>. All rights reserved.</p>
+                    <p class="mb-1">Proudly Crafted in Egypt with Love ❤️</p>
+                    <p class="mb-2">Travel Portal System by <a href="https://mrco-egypt.com/" target="_blank"
+                            rel="noopener noreferrer">MRCO-Egypt</a>.</p>
+                    <p class="mb-1">
+                        This system is restricted to authorized users only. All access and activities are monitored.
+                        Any unauthorized use, access, or distribution of system content is strictly prohibited and may
+                        result in legal action.
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
 
