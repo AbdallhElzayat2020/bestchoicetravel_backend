@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Page;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PageController extends Controller
 {
@@ -36,21 +37,36 @@ class PageController extends Controller
         $isEditable = in_array($page->slug, $editablePages);
 
         if ($isEditable) {
-            // Allow content and SEO fields to be updated
             $validated = $request->validate([
-                'content' => 'nullable|string',
-                'meta_title' => 'nullable|string|max:255',
+                'content'          => 'nullable|string',
+                'banner_image'     => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+                'remove_banner'    => 'nullable|boolean',
+                'meta_title'       => 'nullable|string|max:255',
                 'meta_description' => 'nullable|string|max:500',
-                'meta_author' => 'nullable|string|max:255',
-                'meta_keywords' => 'nullable|string|max:500',
+                'meta_author'      => 'nullable|string|max:255',
+                'meta_keywords'    => 'nullable|string|max:500',
             ]);
+
+            // New upload takes priority over remove_banner checkbox
+            if ($request->hasFile('banner_image')) {
+                if ($page->banner_image) {
+                    Storage::disk('pages')->delete($page->banner_image);
+                }
+                $image = $request->file('banner_image');
+                $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+                $validated['banner_image'] = $image->storeAs('', $imageName, 'pages');
+            } elseif ($request->boolean('remove_banner') && $page->banner_image) {
+                Storage::disk('pages')->delete($page->banner_image);
+                $validated['banner_image'] = null;
+            } else {
+                unset($validated['banner_image']);
+            }
         } else {
-            // For static pages, only allow SEO fields to be updated
             $validated = $request->validate([
-                'meta_title' => 'nullable|string|max:255',
+                'meta_title'       => 'nullable|string|max:255',
                 'meta_description' => 'nullable|string|max:500',
-                'meta_author' => 'nullable|string|max:255',
-                'meta_keywords' => 'nullable|string|max:500',
+                'meta_author'      => 'nullable|string|max:255',
+                'meta_keywords'    => 'nullable|string|max:500',
             ]);
         }
 

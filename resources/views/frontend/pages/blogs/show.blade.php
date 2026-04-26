@@ -1,20 +1,23 @@
 @extends('frontend.layouts.master')
 @php
-$metaTitle = $blog->meta_title ?? $blog->title;
-$metaImage = $blog->cover_image ? asset('uploads/blogs/' . $blog->cover_image) : null;
+    $metaTitle = $blog->meta_title ?? $blog->title;
+    $metaImage = $blog->cover_image ? asset('uploads/blogs/' . $blog->cover_image) : null;
+    $coverSrc = $blog->cover_image
+        ? asset('uploads/blogs/' . $blog->cover_image)
+        : asset('assets/frontend/assets/images/blogs/01.png');
 @endphp
 @section('meta_title', $metaTitle)
 @if ($blog->meta_description)
-@section('meta_description', $blog->meta_description)
+    @section('meta_description', $blog->meta_description)
 @endif
 @if ($blog->author)
-@section('meta_author', $blog->author)
+    @section('meta_author', $blog->author)
 @endif
 @if ($blog->meta_keywords)
-@section('meta_keywords', $blog->meta_keywords)
+    @section('meta_keywords', $blog->meta_keywords)
 @endif
 @if ($metaImage)
-@section('meta_image', $metaImage)
+    @section('meta_image', $metaImage)
 @endif
 
 @section('content')
@@ -22,27 +25,25 @@ $metaImage = $blog->cover_image ? asset('uploads/blogs/' . $blog->cover_image) :
     <main class="blog-details-page">
         <section class="blog-details-hero section-padding">
             <div class="container">
-                <div class="blog-details-breadcrumb scroll-animate" data-animation="fadeInUp">
-                    <a href="index.html#home">Home</a>
-                    <span>/</span>
-                    <a href="blogs.html">Blog</a>
-                    <span>/</span>
-                    <span>How to Choose the Perfect Nile Cruise Itinerary</span>
-                </div>
 
                 <article class="blog-details-hero-card scroll-animate" data-animation="fadeInUp" data-delay="50">
                     <div class="blog-details-hero-image">
-                        <img src="assets/images/desert-safar.jpg" alt="Nile Cruise Itinerary Guide">
+                        <img src="{{ $coverSrc }}" alt="{{ $blog->title }}">
                     </div>
                     <div class="blog-details-hero-body">
                         <div class="blog-card-meta blog-card-meta--hero">
-                            <span><i class="fa-regular fa-calendar"></i> Mar 10, 2026</span>
-                            <span><i class="fa-solid fa-tag"></i> Nile Cruises</span>
-                            <span><i class="fa-regular fa-user"></i> Travel Egypt Team</span>
+                            @if ($blog->category)
+                                <span><i class="fa-solid fa-tag"></i> {{ $blog->category }}</span>
+                            @endif
+                            @if ($blog->published_at)
+                                <span><i class="fa-regular fa-calendar"></i>
+                                    {{ $blog->published_at->format('M d, Y') }}</span>
+                            @endif
                         </div>
-                        <h1 class="blog-details-title">
-                            How to Choose the Perfect Nile Cruise Itinerary
-                        </h1>
+                        <h1 class="blog-details-title">{{ $blog->title }}</h1>
+                        @if ($blog->short_description)
+                            <p class="blog-details-intro">{{ $blog->short_description }}</p>
+                        @endif
                     </div>
                 </article>
             </div>
@@ -53,86 +54,208 @@ $metaImage = $blog->cover_image ? asset('uploads/blogs/' . $blog->cover_image) :
             <div class="container">
                 <div class="blog-details-layout">
                     <article class="blog-details-content scroll-animate" data-animation="fadeInUp" data-delay="0">
-                        <h2>3, 4 or 7 Nights – What’s the Difference?</h2>
-                        <p>
-                            Most Nile cruises sail between Luxor and Aswan, with stops at temples such as Kom Ombo,
-                            Edfu and Philae. The main difference is how much time you have on board and how relaxed
-                            the pace feels.
-                        </p>
-                        <p>
-                            A <strong>3‑night cruise</strong> typically focuses on the key highlights and is perfect if
-                            you’re combining the Nile with Cairo and the Red Sea. A <strong>4‑night cruise</strong>
-                            adds more time on the sun deck and slower sailing hours. A <strong>7‑night cruise</strong>
-                            is ideal if you want a floating hotel experience with more time to unwind between tours.
-                        </p>
-
-                        <h3>When Is the Best Time to Cruise the Nile?</h3>
-                        <p>
-                            The most comfortable months are from <strong>October to April</strong> when daytime
-                            temperatures are mild and evenings are cool. Summer sailings are still possible but expect
-                            higher heat in the middle of the day and plan temple visits very early or late.
-                        </p>
-
-                        <blockquote class="blog-quote">
-                            <p>
-                                “Our favourite itineraries start in Luxor and finish in Aswan, giving you golden‑hour
-                                views of the river and time to explore Nubian culture at the end of your journey.”
-                            </p>
-                        </blockquote>
-
-                        <h3>What to Look For in a Cruise Ship</h3>
-                        <ul>
-                            <li><strong>Cabin size &amp; windows:</strong> look for full‑length windows or a balcony
-                                for the best Nile views.</li>
-                            <li><strong>Included sightseeing:</strong> check which temples and sites are covered in the
-                                program.</li>
-                            <li><strong>On‑board dining:</strong> ask about set menus vs. buffets and dietary options.
-                            </li>
-                            <li><strong>Group size:</strong> smaller groups usually mean more personalised guiding and
-                                easier logistics.</li>
-                        </ul>
-
-                        <p>
-                            At Travel Egypt Tours, we work only with vetted 5★ and boutique ships, and we match each
-                            guest with the sailing that fits their travel style, budget and pace.
-                        </p>
+                        @if ($blog->description)
+                            {!! $blog->description !!}
+                        @else
+                            <p>No content available.</p>
+                        @endif
                     </article>
 
                     <aside class="blogs-sidebar blog-details-sidebar">
-                        <div class="blog-sidebar-card blog-sidebar-search scroll-animate" data-animation="fadeInUp"
-                            data-delay="0">
-                            <h3 class="blog-sidebar-title">Search</h3>
-                            <div class="blog-search-box">
-                                <input type="text" placeholder="Search articles..." aria-label="Search blog">
-                                <button type="button" aria-label="Search">
-                                    <i class="fa-solid fa-magnifying-glass"></i>
-                                </button>
-                            </div>
+
+                        {{-- Search --}}
+                        <div class="blog-sidebar-card scroll-animate" data-animation="fadeInUp" data-delay="0">
+                            <h3 class="blog-sidebar-title">
+                                <i class="fa-solid fa-magnifying-glass me-2" style="color:var(--brand-blue);font-size:14px;"></i>
+                                Search
+                            </h3>
+                            <form action="{{ route('blogs.index') }}" method="GET">
+                                <div class="bds-search-box">
+                                    <input type="text" name="q" placeholder="Search articles…" aria-label="Search blog">
+                                    <button type="submit" aria-label="Search">
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                            </form>
                         </div>
 
-                        <div class="blog-sidebar-card scroll-animate" data-animation="fadeInUp" data-delay="50">
-                            <h3 class="blog-sidebar-title">Recent Articles</h3>
-                            <ul class="blog-recent-list">
-                                <li>
-                                    <a href="blog-details.html">
-                                        5 Essential Tips Before Your First Trip to Luxor
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="blog-details.html">
-                                        Red Sea Snorkeling: Best Spots for First‑Time Visitors
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="blog-details.html">
-                                        What to Pack for an Egypt Tour in Winter
-                                    </a>
-                                </li>
-                            </ul>
+                        {{-- Recent Articles --}}
+                        @if ($relatedBlogs->isNotEmpty())
+                            <div class="blog-sidebar-card scroll-animate" data-animation="fadeInUp" data-delay="50">
+                                <h3 class="blog-sidebar-title">
+                                    <i class="fa-solid fa-newspaper me-2" style="color:var(--brand-blue);font-size:14px;"></i>
+                                    Recent Articles
+                                </h3>
+                                <ul class="bds-recent-list">
+                                    @foreach ($relatedBlogs as $related)
+                                        @php
+                                            $thumb = $related->cover_image
+                                                ? asset('uploads/blogs/' . $related->cover_image)
+                                                : asset('assets/frontend/assets/images/blogs/01.png');
+                                        @endphp
+                                        <li class="bds-recent-item">
+                                            <a href="{{ route('blogs.show', $related->slug) }}" class="bds-recent-link">
+                                                <div class="bds-recent-thumb">
+                                                    <img src="{{ $thumb }}" alt="{{ $related->title }}">
+                                                </div>
+                                                <div class="bds-recent-info">
+                                                    <span class="bds-recent-title">{{ $related->title }}</span>
+                                                    @if ($related->published_at)
+                                                        <span class="bds-recent-date">
+                                                            <i class="fa-regular fa-calendar"></i>
+                                                            {{ $related->published_at->format('M d, Y') }}
+                                                        </span>
+                                                    @endif
+                                                </div>
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
+                        {{-- Back to Blog --}}
+                        <div class="bds-back-card scroll-animate" data-animation="fadeInUp" data-delay="100">
+                            <a href="{{ route('blogs.index') }}" class="bds-back-btn">
+                                <i class="fa-solid fa-arrow-left"></i>
+                                Back to Blog
+                            </a>
                         </div>
+
                     </aside>
                 </div>
             </div>
         </section>
     </main>
 @endsection
+
+@push('css')
+<style>
+    /* Search box */
+    .bds-search-box {
+        display: flex;
+        align-items: center;
+        background: #f8fafc;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 12px;
+        overflow: hidden;
+        transition: border-color .2s;
+    }
+    .bds-search-box:focus-within {
+        border-color: var(--brand-blue);
+    }
+    .bds-search-box input {
+        flex: 1;
+        border: none;
+        background: transparent;
+        padding: 10px 14px;
+        font-size: 14px;
+        color: var(--text-dark);
+        outline: none;
+    }
+    .bds-search-box input::placeholder { color: #a0aec0; }
+    .bds-search-box button {
+        border: none;
+        background: var(--brand-blue);
+        color: #fff;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background .2s;
+        flex-shrink: 0;
+    }
+    .bds-search-box button:hover { background: var(--brand-blue-dark); }
+
+    /* Recent Articles list */
+    .bds-recent-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+    }
+    .bds-recent-item + .bds-recent-item {
+        border-top: 1px solid #f1f5f9;
+        padding-top: 12px;
+        margin-top: 12px;
+    }
+    .bds-recent-link {
+        display: flex;
+        gap: 12px;
+        text-decoration: none;
+        align-items: flex-start;
+    }
+    .bds-recent-thumb {
+        width: 64px;
+        height: 54px;
+        border-radius: 10px;
+        overflow: hidden;
+        flex-shrink: 0;
+    }
+    .bds-recent-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform .35s ease;
+    }
+    .bds-recent-link:hover .bds-recent-thumb img {
+        transform: scale(1.08);
+    }
+    .bds-recent-info {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+    .bds-recent-title {
+        font-size: 13.5px;
+        font-weight: 600;
+        color: var(--text-dark);
+        line-height: 1.45;
+        transition: color .2s;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    .bds-recent-link:hover .bds-recent-title { color: var(--brand-blue); }
+    .bds-recent-date {
+        font-size: 12px;
+        color: #94a3b8;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    /* Back to Blog */
+    .bds-back-card {
+        text-align: center;
+    }
+    .bds-back-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--brand-blue);
+        text-decoration: none;
+        background: #fff;
+        border: 1.5px solid rgba(43,83,167,0.2);
+        border-radius: 12px;
+        padding: 10px 20px;
+        width: 100%;
+        justify-content: center;
+        transition: all .2s;
+    }
+    .bds-back-btn:hover {
+        background: var(--brand-blue);
+        border-color: var(--brand-blue);
+        color: #fff;
+    }
+</style>
+@endpush

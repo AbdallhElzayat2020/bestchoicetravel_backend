@@ -31,7 +31,7 @@
                 </div>
             @endif
 
-            <form action="{{ route('admin.pages.update', $page) }}" method="POST">
+            <form action="{{ route('admin.pages.update', $page) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
@@ -56,23 +56,57 @@
                             </div>
                         </div>
 
-                        @if($isEditable)
-                            <div class="card mb-4">
-                                <div class="card-header">
-                                    <h6 class="mb-0">Page Content</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="mb-3">
-                                        <label for="content" class="form-label">Content</label>
-                                        <textarea name="content" id="content" rows="10"
-                                            class="form-control @error('content') is-invalid @enderror summernote">{{ old('content', $page->content) }}</textarea>
-                                        @error('content')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
+        @if($isEditable)
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="mb-0">Banner Image</h6>
+                </div>
+                <div class="card-body">
+                    @if ($page->banner_image)
+                        <div class="mb-3">
+                            <label class="form-label d-block">Current Banner</label>
+                            <img src="{{ asset('uploads/pages/' . $page->banner_image) }}"
+                                alt="Banner" class="img-thumbnail mb-2"
+                                style="max-height: 200px; object-fit: cover; width: 100%; border-radius: 8px;">
+                            <div class="form-check mt-1">
+                                <input class="form-check-input" type="checkbox" name="remove_banner" id="remove_banner" value="1">
+                                <label class="form-check-label text-danger" for="remove_banner">
+                                    Remove current banner image
+                                </label>
                             </div>
-                        @endif
+                        </div>
+                    @endif
+                    <div class="mb-3">
+                        <label for="banner_image" class="form-label">
+                            {{ $page->banner_image ? 'Replace Banner Image' : 'Upload Banner Image' }}
+                        </label>
+                        <input type="file" name="banner_image" id="banner_image"
+                            class="form-control @error('banner_image') is-invalid @enderror"
+                            accept="image/jpeg,image/png,image/jpg,image/gif,image/webp">
+                        <small class="text-muted">Recommended size: 1920×600px. Max 5MB. Formats: JPG, PNG, WEBP.</small>
+                        @error('banner_image')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="mb-0">Page Content</h6>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="content" class="form-label">Content</label>
+                        <textarea name="content" id="content" rows="10"
+                            class="form-control @error('content') is-invalid @enderror summernote">{{ old('content', $page->content) }}</textarea>
+                        @error('content')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+        @endif
 
                         <div class="card">
                             <div class="card-header">

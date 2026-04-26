@@ -6,6 +6,10 @@
     $metaAuthor = $page->meta_author ?? null;
     $metaKeywords = $page->meta_keywords ?? null;
 
+    $bannerSrc = $page->banner_image
+        ? asset('uploads/pages/' . $page->banner_image)
+        : asset('assets/frontend/assets/images/destination-banner.png');
+
     $policyLinks = [
         ['label' => 'Terms & Conditions', 'route' => 'terms-and-conditions'],
         ['label' => 'Payment Policy', 'route' => 'payment-policy'],
@@ -30,13 +34,14 @@
         {{-- ─── Hero Banner ─────────────────────────────────────────────── --}}
         <section class="policy-hero">
             <div class="policy-hero-overlay"></div>
+            <div class="policy-hero-bg" style="background-image: url('{{ $bannerSrc }}');"></div>
             <div class="container">
                 <div class="policy-hero-inner scroll-animate" data-animation="fadeInUp">
-
                     <h1 class="policy-hero-title">{{ $page->name }}</h1>
                     @if ($metaDescription)
                         <p class="policy-hero-subtitle">
-                            {{ \Illuminate\Support\Str::limit(strip_tags($metaDescription), 160) }}</p>
+                            {{ \Illuminate\Support\Str::limit(strip_tags($metaDescription), 160) }}
+                        </p>
                     @endif
                 </div>
             </div>
@@ -45,80 +50,27 @@
         {{-- ─── Main Content ─────────────────────────────────────────────── --}}
         <section class="policy-body section-padding">
             <div class="container">
-                <div class="policy-layout">
 
-                    {{-- Sidebar --}}
-                    <aside class="policy-sidebar scroll-animate" data-animation="fadeInLeft" data-delay="50">
-                        <div class="policy-sidebar-card">
-                            <h3 class="policy-sidebar-title">
-                                <i class="fa-solid fa-scale-balanced me-2"></i>Legal Pages
-                            </h3>
-                            <ul class="policy-sidebar-links">
-                                @foreach ($policyLinks as $link)
-                                    @php
-                                        $isActive = request()->routeIs($link['route']);
-                                    @endphp
-                                    <li>
-                                        <a href="{{ route($link['route']) }}"
-                                            class="policy-sidebar-link {{ $isActive ? 'active' : '' }}">
-                                            <i class="fa-solid fa-chevron-right"></i>
-                                            {{ $link['label'] }}
-                                        </a>
-                                    </li>
-                                @endforeach
-                            </ul>
+                <article class="policy-content-wrap scroll-animate" data-animation="fadeInUp" data-delay="50">
+                    <div class="policy-content-card">
+                        <div class="policy-content-header">
+                            <h2 class="policy-content-title">{{ $page->name }}</h2>
+                            <span class="policy-last-updated">
+                                <i class="fa-regular fa-calendar me-1"></i>
+                                Last updated: {{ $page->updated_at->format('F d, Y') }}
+                            </span>
                         </div>
-
-                        <div class="policy-sidebar-help scroll-animate" data-animation="fadeInLeft" data-delay="100">
-                            <div class="policy-help-icon">
-                                <i class="fa-solid fa-headset"></i>
-                            </div>
-                            <h4>Need Help?</h4>
-                            <p>Our team is available 24/7 to answer your questions.</p>
-                            <a href="{{ route('contact-us') }}" class="policy-help-btn">
-                                <i class="fa-solid fa-envelope me-2"></i>Contact Us
-                            </a>
+                        <div class="policy-divider"></div>
+                        <div class="summernote-content policy-prose">
+                            @if ($page->content)
+                                {!! $page->content !!}
+                            @else
+                                <p class="text-muted">Content coming soon.</p>
+                            @endif
                         </div>
-                    </aside>
+                    </div>
+                </article>
 
-                    {{-- Content --}}
-                    <article class="policy-content-wrap scroll-animate" data-animation="fadeInUp" data-delay="50">
-                        <div class="policy-content-card">
-                            <div class="policy-content-header">
-                                <h2 class="policy-content-title">{{ $page->name }}</h2>
-                                <span class="policy-last-updated">
-                                    <i class="fa-regular fa-calendar me-1"></i>
-                                    Last updated: {{ $page->updated_at->format('F d, Y') }}
-                                </span>
-                            </div>
-                            <div class="policy-divider"></div>
-                            <div class="summernote-content policy-prose">
-                                @if ($page->content)
-                                    {!! $page->content !!}
-                                @else
-                                    <p class="text-muted">Content coming soon.</p>
-                                @endif
-                            </div>
-                        </div>
-
-                        {{-- Related Policy Links --}}
-                        <div class="policy-related">
-                            <h4 class="policy-related-title">Related Legal Pages</h4>
-                            <div class="policy-related-grid">
-                                @foreach ($policyLinks as $link)
-                                    @if (!request()->routeIs($link['route']))
-                                        <a href="{{ route($link['route']) }}" class="policy-related-card">
-                                            <i class="fa-solid fa-file-lines"></i>
-                                            <span>{{ $link['label'] }}</span>
-                                            <i class="fa-solid fa-arrow-right ms-auto"></i>
-                                        </a>
-                                    @endif
-                                @endforeach
-                            </div>
-                        </div>
-                    </article>
-
-                </div>
             </div>
         </section>
 
@@ -130,206 +82,76 @@
         /* ─── Hero ───────────────────────────────────────────────────────── */
         .policy-hero {
             position: relative;
-            min-height: 300px;
+            min-height: 80vh;
             display: flex;
             align-items: center;
-            background: url('{{ asset('assets/images/Nile-Cruise.webp') }}') center/cover no-repeat;
-            padding: 200px 0 120px;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .policy-hero-bg {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
         .policy-hero-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, rgba(43, 83, 167, 0.85) 0%, rgba(33, 64, 130, 0.75) 100%);
+            background: #000;
+            opacity: 0.5;
+            z-index: 1;
+        }
+
+        .policy-hero .container {
+            position: relative;
+            z-index: 2;
         }
 
         .policy-hero-inner {
-            position: relative;
-            z-index: 1;
+            text-align: center;
+            max-width: 720px;
+            margin: 0 auto;
             color: #fff;
-        }
-
-        .policy-breadcrumb {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 13px;
-            margin-bottom: 14px;
-            opacity: 0.85;
-        }
-
-        .policy-breadcrumb a {
-            color: #fff;
-            text-decoration: none;
-            transition: opacity .2s;
-        }
-
-        .policy-breadcrumb a:hover {
-            opacity: 0.7;
-        }
-
-        .policy-breadcrumb i {
-            font-size: 10px;
         }
 
         .policy-hero-title {
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 800;
+            font-family: "Cairo", sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            color: #ffffff;
             margin-bottom: 12px;
-            line-height: 1.2;
+            letter-spacing: -0.02em;
         }
 
         .policy-hero-subtitle {
-            font-size: 16px;
-            opacity: 0.88;
-            max-width: 600px;
-            line-height: 1.6;
-        }
-
-        /* ─── Layout ─────────────────────────────────────────────────────── */
-        .policy-layout {
-            display: grid;
-            grid-template-columns: 280px 1fr;
-            gap: 32px;
-            align-items: start;
-        }
-
-        @media (max-width: 900px) {
-            .policy-layout {
-                grid-template-columns: 1fr;
-            }
-
-            .policy-sidebar {
-                order: 2;
-            }
-
-            .policy-content-wrap {
-                order: 1;
-            }
-        }
-
-        /* ─── Sidebar ────────────────────────────────────────────────────── */
-        .policy-sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-            position: sticky;
-            top: 100px;
-        }
-
-        .policy-sidebar-card {
-            background: #fff;
-            border-radius: 16px;
-            padding: 28px 24px;
-            box-shadow: 0 4px 24px rgba(43, 83, 167, 0.08);
-            border: 1px solid rgba(43, 83, 167, 0.07);
-        }
-
-        .policy-sidebar-title {
-            font-size: 15px;
-            font-weight: 700;
-            color: var(--brand-blue);
-            margin-bottom: 16px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid rgba(43, 83, 167, 0.1);
-        }
-
-        .policy-sidebar-links {
-            list-style: none;
+            font-size: 17px;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.7;
             margin: 0;
-            padding: 0;
+            max-width: 600px;
         }
 
-        .policy-sidebar-links li+li {
-            margin-top: 6px;
+        @media (max-width: 992px) {
+            .policy-hero-title {
+                font-size: 36px;
+            }
         }
 
-        .policy-sidebar-link {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 14px;
-            border-radius: 10px;
-            color: #555;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all .2s;
-        }
+        @media (max-width: 768px) {
+            .policy-hero {
+                min-height: 36vh;
+            }
 
-        .policy-sidebar-link i {
-            font-size: 10px;
-            opacity: 0.5;
-            transition: all .2s;
-        }
+            .policy-hero-title {
+                font-size: 28px;
+            }
 
-        .policy-sidebar-link:hover,
-        .policy-sidebar-link.active {
-            background: rgba(43, 83, 167, 0.07);
-            color: var(--brand-blue);
-        }
-
-        .policy-sidebar-link.active {
-            font-weight: 700;
-            background: rgba(43, 83, 167, 0.1);
-        }
-
-        .policy-sidebar-link:hover i,
-        .policy-sidebar-link.active i {
-            opacity: 1;
-            transform: translateX(3px);
-        }
-
-        /* ─── Sidebar Help ───────────────────────────────────────────────── */
-        .policy-sidebar-help {
-            background: linear-gradient(135deg, var(--brand-blue) 0%, var(--brand-blue-dark) 100%);
-            border-radius: 16px;
-            padding: 28px 24px;
-            text-align: center;
-            color: #fff;
-        }
-
-        .policy-help-icon {
-            width: 52px;
-            height: 52px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 14px;
-            font-size: 22px;
-        }
-
-        .policy-sidebar-help h4 {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .policy-sidebar-help p {
-            font-size: 13px;
-            opacity: 0.85;
-            margin-bottom: 16px;
-            line-height: 1.5;
-        }
-
-        .policy-help-btn {
-            display: inline-flex;
-            align-items: center;
-            background: #fff;
-            color: var(--brand-blue);
-            border-radius: 999px;
-            padding: 9px 20px;
-            font-size: 13px;
-            font-weight: 700;
-            text-decoration: none;
-            transition: all .2s;
-        }
-
-        .policy-help-btn:hover {
-            background: rgba(255, 255, 255, 0.9);
-            color: var(--brand-blue-dark);
+            .policy-hero-subtitle {
+                font-size: 15px;
+            }
         }
 
         /* ─── Content Card ───────────────────────────────────────────────── */

@@ -10,6 +10,7 @@ class Page extends Model
         'slug',
         'name',
         'content',
+        'banner_image',
         'meta_title',
         'meta_description',
         'meta_author',

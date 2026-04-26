@@ -110,6 +110,15 @@ return [
             'report' => false,
         ],
 
+        'pages' => [
+            'driver' => 'local',
+            'root' => public_path('uploads/pages'),
+            'url' => env('APP_URL') . '/uploads/pages',
+            'visibility' => 'public',
+            'throw' => false,
+            'report' => false,
+        ],
+
         'galleries' => [
             'driver' => 'local',
             'root' => public_path('uploads/galleries'),
