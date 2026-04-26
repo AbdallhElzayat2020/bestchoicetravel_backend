@@ -5,7 +5,7 @@
 
     <title>@yield('title')</title>
 
-    <meta name="description" content="" />
+    <meta name="description" content="@yield('meta_description', '')" />
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="{{ asset('assets/frontend/images/logo_main.png') }}" />

@@ -1,6 +1,9 @@
 @extends('dashboard.layouts.master')
 
-@section('title', 'Dashboard')
+@section('title', 'Travel Portal System by MRCO-Egypt')
+@section('meta_description',
+    'Professional travel portal system by MRCO-Egypt, designed to manage bookings, partners,
+    and operations with efficiency, security, and scalability.')
 
 @section('content')
     <div class="mb-4">
@@ -135,18 +138,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6">
-            <div class="card h-100 border-0 shadow-sm">
-                <div class="card-body d-flex justify-content-between align-items-center">
-                    <div>
-                        <div class="text-muted small">Contact Messages</div>
-                        <h4 class="mb-0">{{ $stats['totalContacts'] }}</h4>
-                        <small class="text-muted">Unread: {{ $stats['unreadContacts'] }}</small>
-                    </div>
-                    <span class="avatar avatar-md bg-label-warning"><i class="ti ti-mail"></i></span>
-                </div>
-            </div>
-        </div>
+
         <div class="col-xl-3 col-md-6">
             <div class="card h-100 border-0 shadow-sm">
                 <div class="card-body d-flex justify-content-between align-items-center">
@@ -155,13 +147,10 @@
                         <h4 class="mb-0">{{ $stats['totalUsers'] }}</h4>
                         <small class="text-muted">Roles: {{ $stats['totalRoles'] }}</small>
                     </div>
-                    <span class="avatar avatar-md bg-label-success"><i class="ti ti-users-group"></i></span>
+                    <span class="avatar avatar-md bg-label-success"><i class="ti ti-users"></i></span>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="row g-4">
         <div class="col-xl-3 col-md-6">
             <div class="card h-100 border-0 shadow-sm">
                 <div class="card-body d-flex justify-content-between align-items-center">
@@ -174,5 +163,5 @@
             </div>
         </div>
     </div>
-@endsection
 
+@endsection

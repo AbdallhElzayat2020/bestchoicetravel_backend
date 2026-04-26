@@ -92,13 +92,12 @@
                     rel="noopener noreferrer">Best Choice Travel</a>. All rights
                 reserved.
             </p>
+            <p>Proudly Crafted in Egypt with Love ❤️</p>
             <p class="mt-2 mb-0 small text-white-50 text-start">
                 Best Choice Travel (BCT), a licensed Destination Management Company (DMC) in Egypt, provides travel
                 services worldwide. All content on this website is protected by copyright and may not be reproduced
                 without permission. Bookings are subject to our Terms, Conditions, and applicable travel regulations.
             </p>
-
-
 
         </div>
     </div>

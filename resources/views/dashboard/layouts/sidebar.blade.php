@@ -3,7 +3,7 @@
         <a href="{{ route(auth()->user()->isAdmin() || auth()->user()->hasPermission('dashboard.access') ? 'admin.dashboard' : 'user.home') }}"
             class="app-brand-link d-flex flex-column">
             <span class="fs-4 fw-bold">MRCO-Egypt</span>
-            <span class="small">Travel Website System</span>
+            <span class="small">Travel Portal System</span>
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
@@ -76,7 +76,21 @@
         @endif
 
         {{-- Tours Management Section --}}
-        @if ($canAny(['categories.manage', 'sub-categories.manage', 'cruise-groups.manage', 'cruise-catalog.manage', 'cruise-catalog.categories.manage', 'cruise-catalog.vessels.manage', 'cruise-catalog.programs.manage', 'settings.manage', 'tours.manage', 'tour-variants.manage', 'countries.manage', 'states.manage']))
+        @if (
+            $canAny([
+                'categories.manage',
+                'sub-categories.manage',
+                'cruise-groups.manage',
+                'cruise-catalog.manage',
+                'cruise-catalog.categories.manage',
+                'cruise-catalog.vessels.manage',
+                'cruise-catalog.programs.manage',
+                'settings.manage',
+                'tours.manage',
+                'tour-variants.manage',
+                'countries.manage',
+                'states.manage',
+            ]))
             <li class="menu-header small text-uppercase">
                 <span class="menu-header-text">Tours Management</span>
             </li>
@@ -104,150 +118,159 @@
                 }
             @endphp
             @if ($canAny(['cruise-groups.manage', 'sub-categories.manage']))
-            <li class="menu-item {{ $isMainCategoriesActive ? 'active open' : '' }}">
-                <a href="javascript:void(0);" class="menu-link menu-toggle">
-                    <i class="menu-icon tf-icons ti ti-ship"></i>
-                    <div data-i18n="Categories">Categories</div>
-                </a>
-                <ul class="menu-sub">
-                    @if ($can('cruise-groups.manage'))
-                        <li class="menu-item {{ $isCruiseGroupsActive ? 'active' : '' }}">
-                            <a href="{{ route('admin.cruise-groups.index') }}" class="menu-link">
-                                <div data-i18n="Main Categories">Main Categories</div>
-                            </a>
-                        </li>
-                    @endif
-                    @if (isset($cruiseGroups) && $cruiseGroups->count() > 0)
-                        @if ($can('sub-categories.manage'))
-                        <li class="menu-item {{ $isCruiseExperiencesActive ? 'active open' : '' }}">
-                            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                                <div data-i18n="Sub Categories">Sub Categories</div>
-                            </a>
-                            <ul class="menu-sub">
-                                @foreach ($cruiseGroups as $group)
-                                    @php
-                                        $isActive =
-                                            $isCruiseExperiencesActive &&
-                                            (($currentGroupKey && $currentGroupKey == $group->group_key) ||
-                                                ($currentCruiseGroupId && $currentCruiseGroupId == $group->id));
-                                    @endphp
-                                    <li class="menu-item {{ $isActive ? 'active' : '' }}">
-                                        <a href="{{ route('admin.cruise-experiences.index', ['cruise_group_id' => $group->id]) }}"
-                                            class="menu-link">
-                                            <div data-i18n="{{ $group->name }}">{{ $group->name }}</div>
-                                        </a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </li>
+                <li class="menu-item {{ $isMainCategoriesActive ? 'active open' : '' }}">
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <i class="menu-icon tf-icons ti ti-ship"></i>
+                        <div data-i18n="Categories">Categories</div>
+                    </a>
+                    <ul class="menu-sub">
+                        @if ($can('cruise-groups.manage'))
+                            <li class="menu-item {{ $isCruiseGroupsActive ? 'active' : '' }}">
+                                <a href="{{ route('admin.cruise-groups.index') }}" class="menu-link">
+                                    <div data-i18n="Main Categories">Main Categories</div>
+                                </a>
+                            </li>
                         @endif
-                    @endif
-                </ul>
-            </li>
+                        @if (isset($cruiseGroups) && $cruiseGroups->count() > 0)
+                            @if ($can('sub-categories.manage'))
+                                <li class="menu-item {{ $isCruiseExperiencesActive ? 'active open' : '' }}">
+                                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                        <div data-i18n="Sub Categories">Sub Categories</div>
+                                    </a>
+                                    <ul class="menu-sub">
+                                        @foreach ($cruiseGroups as $group)
+                                            @php
+                                                $isActive =
+                                                    $isCruiseExperiencesActive &&
+                                                    (($currentGroupKey && $currentGroupKey == $group->group_key) ||
+                                                        ($currentCruiseGroupId && $currentCruiseGroupId == $group->id));
+                                            @endphp
+                                            <li class="menu-item {{ $isActive ? 'active' : '' }}">
+                                                <a href="{{ route('admin.cruise-experiences.index', ['cruise_group_id' => $group->id]) }}"
+                                                    class="menu-link">
+                                                    <div data-i18n="{{ $group->name }}">{{ $group->name }}</div>
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </li>
+                            @endif
+                        @endif
+                    </ul>
+                </li>
             @endif
 
             @php
                 $isCruiseCatalogActive = request()->routeIs('admin.cruise-catalog.*');
             @endphp
-            @if ($canAny(['cruise-catalog.manage', 'cruise-catalog.categories.manage', 'cruise-catalog.vessels.manage', 'cruise-catalog.programs.manage', 'settings.manage']))
-            <li class="menu-item {{ $isCruiseCatalogActive ? 'active open' : '' }}">
-                <a href="javascript:void(0);" class="menu-link menu-toggle">
-                    <i class="menu-icon tf-icons ti ti-anchor"></i>
-                    <div data-i18n="Nile Cruises">Nile Cruises</div>
-                </a>
-                <ul class="menu-sub">
-                    {{-- Menu Name --}}
-                    @if ($can('settings.manage'))
-                    <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.settings.*'], 'active') }}">
-                        <a href="{{ route('admin.settings.edit') }}" class="menu-link">
-                            <i class="menu-icon tf-icons ti ti-settings"></i>
-                            <div data-i18n="Menu Name">Menu Name</div>
-                        </a>
-                    </li>
-                    @endif
-                    @if ($canAny(['cruise-catalog.categories.manage', 'cruise-catalog.manage']))
-                    <li
-                        class="menu-item {{ \App\Helpers\setSidebarActive(['admin.cruise-catalog.categories.*'], 'active') }}">
-                        <a href="{{ route('admin.cruise-catalog.categories.index') }}" class="menu-link">
-                            <div data-i18n="Categories">Categories</div>
-                        </a>
-                    </li>
-                    @endif
+            @if (
+                $canAny([
+                    'cruise-catalog.manage',
+                    'cruise-catalog.categories.manage',
+                    'cruise-catalog.vessels.manage',
+                    'cruise-catalog.programs.manage',
+                    'settings.manage',
+                ]))
+                <li class="menu-item {{ $isCruiseCatalogActive ? 'active open' : '' }}">
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <i class="menu-icon tf-icons ti ti-anchor"></i>
+                        <div data-i18n="Nile Cruises">Nile Cruises</div>
+                    </a>
+                    <ul class="menu-sub">
+                        {{-- Menu Name --}}
+                        @if ($can('settings.manage'))
+                            <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.settings.*'], 'active') }}">
+                                <a href="{{ route('admin.settings.edit') }}" class="menu-link">
+                                    <i class="menu-icon tf-icons ti ti-settings"></i>
+                                    <div data-i18n="Menu Name">Menu Name</div>
+                                </a>
+                            </li>
+                        @endif
+                        @if ($canAny(['cruise-catalog.categories.manage', 'cruise-catalog.manage']))
+                            <li
+                                class="menu-item {{ \App\Helpers\setSidebarActive(['admin.cruise-catalog.categories.*'], 'active') }}">
+                                <a href="{{ route('admin.cruise-catalog.categories.index') }}" class="menu-link">
+                                    <div data-i18n="Categories">Categories</div>
+                                </a>
+                            </li>
+                        @endif
 
-                    @if ($canAny(['cruise-catalog.vessels.manage', 'cruise-catalog.manage']))
-                    <li
-                        class="menu-item {{ \App\Helpers\setSidebarActive(['admin.cruise-catalog.vessels.*'], 'active') }}">
-                        <a href="{{ route('admin.cruise-catalog.vessels.index') }}" class="menu-link">
-                            <div data-i18n="Vessels">Vessels</div>
-                        </a>
-                    </li>
-                    @endif
+                        @if ($canAny(['cruise-catalog.vessels.manage', 'cruise-catalog.manage']))
+                            <li
+                                class="menu-item {{ \App\Helpers\setSidebarActive(['admin.cruise-catalog.vessels.*'], 'active') }}">
+                                <a href="{{ route('admin.cruise-catalog.vessels.index') }}" class="menu-link">
+                                    <div data-i18n="Vessels">Vessels</div>
+                                </a>
+                            </li>
+                        @endif
 
-                    @if ($canAny(['cruise-catalog.programs.manage', 'cruise-catalog.manage']))
-                    <li
-                        class="menu-item {{ \App\Helpers\setSidebarActive(['admin.cruise-catalog.programs.*'], 'active') }}">
-                        <a href="{{ route('admin.cruise-catalog.programs.index') }}" class="menu-link">
-                            <div data-i18n="Tours">Tours</div>
-                        </a>
-                    </li>
-                    @endif
-                </ul>
-            </li>
+                        @if ($canAny(['cruise-catalog.programs.manage', 'cruise-catalog.manage']))
+                            <li
+                                class="menu-item {{ \App\Helpers\setSidebarActive(['admin.cruise-catalog.programs.*'], 'active') }}">
+                                <a href="{{ route('admin.cruise-catalog.programs.index') }}" class="menu-link">
+                                    <div data-i18n="Tours">Tours</div>
+                                </a>
+                            </li>
+                        @endif
+                    </ul>
+                </li>
             @endif
 
             @if ($canAny(['tours.manage', 'tour-variants.manage']))
-            <li
-                class="menu-item {{ \App\Helpers\setSidebarActive(['admin.tours.*', 'admin.tour-variants.*'], 'active open') }}">
-                <a href="javascript:void(0);" class="menu-link menu-toggle">
-                    <i class="menu-icon tf-icons ti ti-plane"></i>
-                    <div data-i18n="Tours">Tours</div>
-                </a>
-                <ul class="menu-sub">
-                    @if ($can('tours.manage'))
-                    <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.tours.*'], 'active') }}">
-                        <a href="{{ route('admin.tours.index') }}" class="menu-link">
-                            <div data-i18n="All Tours">All Tours</div>
-                        </a>
-                    </li>
-                    @endif
-                    @if ($can('tour-variants.manage'))
-                    <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.tour-variants.*'], 'active') }}">
-                        <a href="{{ route('admin.tour-variants.index') }}" class="menu-link">
-                            <div data-i18n="Optional Excursions">
-                                Optional Excursions
-                            </div>
-                        </a>
-                    </li>
-                    @endif
-                </ul>
-            </li>
+                <li
+                    class="menu-item {{ \App\Helpers\setSidebarActive(['admin.tours.*', 'admin.tour-variants.*'], 'active open') }}">
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <i class="menu-icon tf-icons ti ti-plane"></i>
+                        <div data-i18n="Tours">Tours</div>
+                    </a>
+                    <ul class="menu-sub">
+                        @if ($can('tours.manage'))
+                            <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.tours.*'], 'active') }}">
+                                <a href="{{ route('admin.tours.index') }}" class="menu-link">
+                                    <div data-i18n="All Tours">All Tours</div>
+                                </a>
+                            </li>
+                        @endif
+                        @if ($can('tour-variants.manage'))
+                            <li
+                                class="menu-item {{ \App\Helpers\setSidebarActive(['admin.tour-variants.*'], 'active') }}">
+                                <a href="{{ route('admin.tour-variants.index') }}" class="menu-link">
+                                    <div data-i18n="Optional Excursions">
+                                        Optional Excursions
+                                    </div>
+                                </a>
+                            </li>
+                        @endif
+                    </ul>
+                </li>
             @endif
 
             {{-- Locations --}}
             @if ($canAny(['countries.manage', 'states.manage']))
-            <li
-                class="menu-item {{ \App\Helpers\setSidebarActive(['admin.countries.*', 'admin.states.*'], 'active open') }}">
-                <a href="javascript:void(0);" class="menu-link menu-toggle">
-                    <i class="menu-icon tf-icons ti ti-map-pin"></i>
-                    <div data-i18n="Locations">Locations</div>
-                </a>
-                <ul class="menu-sub">
-                    @if ($can('countries.manage'))
-                    <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.countries.*'], 'active') }}">
-                        <a href="{{ route('admin.countries.index') }}" class="menu-link">
-                            <div data-i18n="Countries">Countries</div>
-                        </a>
-                    </li>
-                    @endif
-                    @if ($can('states.manage'))
-                    <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.states.*'], 'active') }}">
-                        <a href="{{ route('admin.states.index') }}" class="menu-link">
-                            <div data-i18n="States">States</div>
-                        </a>
-                    </li>
-                    @endif
-                </ul>
-            </li>
+                <li
+                    class="menu-item {{ \App\Helpers\setSidebarActive(['admin.countries.*', 'admin.states.*'], 'active open') }}">
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <i class="menu-icon tf-icons ti ti-map-pin"></i>
+                        <div data-i18n="Locations">Locations</div>
+                    </a>
+                    <ul class="menu-sub">
+                        @if ($can('countries.manage'))
+                            <li
+                                class="menu-item {{ \App\Helpers\setSidebarActive(['admin.countries.*'], 'active') }}">
+                                <a href="{{ route('admin.countries.index') }}" class="menu-link">
+                                    <div data-i18n="Countries">Countries</div>
+                                </a>
+                            </li>
+                        @endif
+                        @if ($can('states.manage'))
+                            <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.states.*'], 'active') }}">
+                                <a href="{{ route('admin.states.index') }}" class="menu-link">
+                                    <div data-i18n="States">States</div>
+                                </a>
+                            </li>
+                        @endif
+                    </ul>
+                </li>
             @endif
 
         @endif
@@ -256,40 +279,50 @@
 
 
         {{-- Content Management Section --}}
-        @if ($canAny(['announcements.manage', 'faqs.manage', 'testimonials.manage', 'blogs.manage', 'blog-categories.manage', 'pages.manage', 'site-sections.manage', 'site-sections.index']))
+        @if (
+            $canAny([
+                'announcements.manage',
+                'faqs.manage',
+                'testimonials.manage',
+                'blogs.manage',
+                'blog-categories.manage',
+                'pages.manage',
+                'site-sections.manage',
+                'site-sections.index',
+            ]))
             <li class="menu-header small text-uppercase">
                 <span class="menu-header-text">Content Management</span>
             </li>
 
             {{-- TopNav Announcement --}}
             @if ($can('announcements.manage'))
-            <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.announcements.*'], 'active') }}">
-                <a href="{{ route('admin.announcements.index') }}" class="menu-link">
-                    <i class="menu-icon tf-icons ti ti-speakerphone"></i>
-                    <div data-i18n="Live Highlights">Live Highlights</div>
-                </a>
-            </li>
+                <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.announcements.*'], 'active') }}">
+                    <a href="{{ route('admin.announcements.index') }}" class="menu-link">
+                        <i class="menu-icon tf-icons ti ti-speakerphone"></i>
+                        <div data-i18n="Live Highlights">Live Highlights</div>
+                    </a>
+                </li>
             @endif
 
             {{-- FAQs --}}
             @if ($can('faqs.manage'))
-            <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.faqs.*'], 'active') }}">
-                <a href="{{ route('admin.faqs.index') }}" class="menu-link">
-                    <i class="menu-icon tf-icons ti ti-help"></i>
-                    <div data-i18n="FAQs">FAQs</div>
-                </a>
-            </li>
+                <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.faqs.*'], 'active') }}">
+                    <a href="{{ route('admin.faqs.index') }}" class="menu-link">
+                        <i class="menu-icon tf-icons ti ti-help"></i>
+                        <div data-i18n="FAQs">FAQs</div>
+                    </a>
+                </li>
             @endif
 
 
             {{-- Testimonials --}}
             @if ($can('testimonials.manage'))
-            <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.testimonials.*'], 'active') }}">
-                <a href="{{ route('admin.testimonials.index') }}" class="menu-link">
-                    <i class="menu-icon tf-icons ti ti-message-circle"></i>
-                    <div data-i18n="Testimonials">Testimonials</div>
-                </a>
-            </li>
+                <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.testimonials.*'], 'active') }}">
+                    <a href="{{ route('admin.testimonials.index') }}" class="menu-link">
+                        <i class="menu-icon tf-icons ti ti-message-circle"></i>
+                        <div data-i18n="Testimonials">Testimonials</div>
+                    </a>
+                </li>
             @endif
             {{-- Sliders --}}
             {{-- <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.sliders.*'], 'active') }}">
@@ -301,29 +334,30 @@
 
             {{-- Blogs --}}
             @if ($canAny(['blogs.manage', 'blog-categories.manage']))
-            <li
-                class="menu-item {{ \App\Helpers\setSidebarActive(['admin.blog-categories.*', 'admin.blogs.*'], 'active open') }}">
-                <a href="javascript:void(0);" class="menu-link menu-toggle">
-                    <i class="menu-icon tf-icons ti ti-news"></i>
-                    <div data-i18n="Blogs">Blogs</div>
-                </a>
-                <ul class="menu-sub">
-                    @if ($canAny(['blog-categories.manage', 'blogs.manage']))
-                    <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.blog-categories.*'], 'active') }}">
-                        <a href="{{ route('admin.blog-categories.index') }}" class="menu-link">
-                            <div data-i18n="Blog Categories">Blog Categories</div>
-                        </a>
-                    </li>
-                    @endif
-                    @if ($can('blogs.manage'))
-                    <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.blogs.*'], 'active') }}">
-                        <a href="{{ route('admin.blogs.index') }}" class="menu-link">
-                            <div data-i18n="Blogs">Blogs</div>
-                        </a>
-                    </li>
-                    @endif
-                </ul>
-            </li>
+                <li
+                    class="menu-item {{ \App\Helpers\setSidebarActive(['admin.blog-categories.*', 'admin.blogs.*'], 'active open') }}">
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <i class="menu-icon tf-icons ti ti-news"></i>
+                        <div data-i18n="Blogs">Blogs</div>
+                    </a>
+                    <ul class="menu-sub">
+                        @if ($canAny(['blog-categories.manage', 'blogs.manage']))
+                            <li
+                                class="menu-item {{ \App\Helpers\setSidebarActive(['admin.blog-categories.*'], 'active') }}">
+                                <a href="{{ route('admin.blog-categories.index') }}" class="menu-link">
+                                    <div data-i18n="Blog Categories">Blog Categories</div>
+                                </a>
+                            </li>
+                        @endif
+                        @if ($can('blogs.manage'))
+                            <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.blogs.*'], 'active') }}">
+                                <a href="{{ route('admin.blogs.index') }}" class="menu-link">
+                                    <div data-i18n="Blogs">Blogs</div>
+                                </a>
+                            </li>
+                        @endif
+                    </ul>
+                </li>
             @endif
 
             {{-- Galleries --}}
@@ -343,38 +377,38 @@
 
             {{-- Pages SEO --}}
             @if ($can('pages.manage'))
-            <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.pages.*'], 'active') }}">
-                <a href="{{ route('admin.pages.index') }}" class="menu-link">
-                    <i class="menu-icon tf-icons ti ti-file-text"></i>
-                    <div data-i18n="Pages SEO">Pages SEO</div>
-                </a>
-            </li>
+                <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.pages.*'], 'active') }}">
+                    <a href="{{ route('admin.pages.index') }}" class="menu-link">
+                        <i class="menu-icon tf-icons ti ti-file-text"></i>
+                        <div data-i18n="Pages SEO">Pages SEO</div>
+                    </a>
+                </li>
             @endif
 
             {{-- Site Sections --}}
             @if ($canAny(['site-sections.manage', 'site-sections.index']))
-            <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.site-sections.*'], 'active open') }}">
-                <a href="javascript:void(0);" class="menu-link menu-toggle">
-                    <i class="menu-icon tf-icons ti ti-layout-2"></i>
-                    <div data-i18n="Home Sections">Home Sections</div>
-                </a>
-                <ul class="menu-sub">
-                    @if ($canAny(['site-sections.manage', 'site-sections.index']))
-                    <li
-                        class="menu-item {{ \App\Helpers\setSidebarActive(['admin.site-sections.index'], 'active') }}">
-                        <a href="{{ route('admin.site-sections.index') }}" class="menu-link">
-                            <div data-i18n="All Sections">All Sections</div>
-                        </a>
-                    </li>
-                    @endif
-                    {{-- <li
+                <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.site-sections.*'], 'active open') }}">
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <i class="menu-icon tf-icons ti ti-layout-2"></i>
+                        <div data-i18n="Home Sections">Home Sections</div>
+                    </a>
+                    <ul class="menu-sub">
+                        @if ($canAny(['site-sections.manage', 'site-sections.index']))
+                            <li
+                                class="menu-item {{ \App\Helpers\setSidebarActive(['admin.site-sections.index'], 'active') }}">
+                                <a href="{{ route('admin.site-sections.index') }}" class="menu-link">
+                                    <div data-i18n="All Sections">All Sections</div>
+                                </a>
+                            </li>
+                        @endif
+                        {{-- <li
                         class="menu-item {{ \App\Helpers\setSidebarActive(['admin.site-sections.about'], 'active') }}">
                         <a href="{{ route('admin.site-sections.about') }}" class="menu-link">
                             <div data-i18n="About Sections">About Page Sections</div>
                         </a>
                     </li> --}}
-                </ul>
-            </li>
+                    </ul>
+                </li>
             @endif
         @endif
 

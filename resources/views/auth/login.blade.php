@@ -1,50 +1,50 @@
 <!DOCTYPE html>
 
 <html lang="en" dir="ltr" class="dark-style layout-navbar-fixed layout-menu-fixed sf-js-enabled"
-      data-theme="theme-default" data-assets-path="{{ asset('assets/dashboard/assets') }}/"
-      data-template="vertical-menu-template">
+    data-theme="theme-default" data-assets-path="{{ asset('assets/dashboard/assets') }}/"
+    data-template="vertical-menu-template">
 
 <head>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
     <title>Admin Login</title>
 
-    <meta name="description" content=""/>
+    <meta name="description" content="" />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{{ asset('assets/frontend/images/logo_main.png') }}"/>
+    <link rel="icon" type="image/png" href="{{ asset('assets/frontend/images/logo_main.png') }}" />
 
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com"/>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
         href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
-        rel="stylesheet"/>
+        rel="stylesheet" />
 
     <!-- Icons -->
-    <link rel="stylesheet" href="{{ asset('assets/dashboard/assets/vendor/fonts/fontawesome.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('assets/dashboard/assets/vendor/fonts/tabler-icons.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('assets/dashboard/assets/vendor/fonts/flag-icons.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/dashboard/assets/vendor/fonts/fontawesome.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/dashboard/assets/vendor/fonts/tabler-icons.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/dashboard/assets/vendor/fonts/flag-icons.css') }}" />
 
     <!-- Core CSS -->
-    <link rel="stylesheet" href="{{ asset('assets/dashboard/assets/vendor/css/rtl/core.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('assets/dashboard/assets/vendor/css/rtl/theme-default.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('assets/dashboard/assets/css/demo.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/dashboard/assets/vendor/css/rtl/core.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/dashboard/assets/vendor/css/rtl/theme-default.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/dashboard/assets/css/demo.css') }}" />
 
     <!-- Vendors CSS -->
     <link rel="stylesheet"
-          href="{{ asset('assets/dashboard/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('assets/dashboard/assets/vendor/libs/node-waves/node-waves.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('assets/dashboard/assets/vendor/libs/typeahead-js/typeahead.css') }}"/>
+        href="{{ asset('assets/dashboard/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/dashboard/assets/vendor/libs/node-waves/node-waves.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/dashboard/assets/vendor/libs/typeahead-js/typeahead.css') }}" />
     <!-- Vendor -->
     <link rel="stylesheet"
-          href="{{ asset('assets/dashboard/assets/vendor/libs/formvalidation/dist/css/formValidation.min.css') }}"/>
+        href="{{ asset('assets/dashboard/assets/vendor/libs/formvalidation/dist/css/formValidation.min.css') }}" />
 
     <!-- Page CSS -->
     <!-- Page -->
-    <link rel="stylesheet" href="{{ asset('assets/dashboard/assets/vendor/css/pages/page-auth.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/dashboard/assets/vendor/css/pages/page-auth.css') }}" />
     <!-- Helpers -->
     <script src="{{ asset('assets/dashboard/assets/vendor/js/helpers.js') }}"></script>
 
@@ -53,119 +53,134 @@
 </head>
 
 <body>
-<!-- Content -->
+    <!-- Content -->
 
-<div class="container-xxl">
-    <div class="authentication-wrapper authentication-basic container-p-y">
-        <div class="authentication-inner py-4">
-            <!-- Login -->
-            <div class="card">
-                <div class="card-body">
-                    <!-- Logo -->
-                    <div class="app-brand justify-content-center mb-4 mt-2">
-                        <a href="{{ route('home') }}" class="app-brand-link gap-2">
-                            <img src="{{ asset('assets/frontend/images/logo_main.png') }}" alt="Logo" width="100">
-                        </a>
+    <div class="container-xxl">
+        <div class="authentication-wrapper authentication-basic container-p-y">
+            <div class="authentication-inner py-4">
+                <!-- Login -->
+                <div class="card">
+                    <div class="card-body">
+                        <!-- Logo -->
+                        <div class="app-brand justify-content-center mb-4 mt-2">
+                            <a href="{{ route('home') }}" class="app-brand-link gap-2">
+                                <img src="{{ asset('assets/frontend/images/logo_main.png') }}" alt="Logo"
+                                    width="100">
+                            </a>
+                        </div>
+                        <!-- /Logo -->
+                        <h4 class="mb-1 pt-2">Welcome Admin! 👋</h4>
+
+                        <!-- Display Error Messages -->
+                        @if ($errors->any())
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <ul class="mb-0">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                            </div>
+                        @endif
+
+                        @if (session('error'))
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                {{ session('error') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                            </div>
+                        @endif
+
+                        @if (session('success'))
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                {{ session('success') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                            </div>
+                        @endif
+
+                        <form id="formAuthentication" class="mb-3" action="{{ route('login') }}" method="POST">
+                            @csrf
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email or Username</label>
+                                <input type="text" name="email" value="{{ old('email') }}"
+                                    class="form-control @error('email') is-invalid @enderror" id="email"
+                                    placeholder="Enter your email or username" autofocus />
+                                @error('email')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="mb-3 form-password-toggle">
+                                <div class="input-group input-group-merge">
+                                    <input type="password" name="password" id="password"
+                                        class="form-control @error('password') is-invalid @enderror"
+                                        placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                        aria-describedby="password" />
+                                    <span class="input-group-text cursor-pointer" id="toggle-password"><i
+                                            class="ti ti-eye-off"></i></span>
+                                </div>
+                                @error('password')
+                                    <div class="text-danger small mt-1">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" name="remember" type="checkbox" id="remember-me"
+                                        {{ old('remember') ? 'checked' : '' }} />
+                                    <label class="form-check-label" for="remember-me"> Remember Me </label>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
+                            </div>
+                        </form>
                     </div>
-                    <!-- /Logo -->
-                    <h4 class="mb-1 pt-2">Welcome Admin! 👋</h4>
-
-                    <!-- Display Error Messages -->
-                    @if ($errors->any())
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <ul class="mb-0">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                    aria-label="Close"></button>
-                        </div>
-                    @endif
-
-                    @if (session('error'))
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            {{ session('error') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                    aria-label="Close"></button>
-                        </div>
-                    @endif
-
-                    @if (session('success'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            {{ session('success') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                    aria-label="Close"></button>
-                        </div>
-                    @endif
-
-                    <form id="formAuthentication" class="mb-3" action="{{ route('login') }}" method="POST">
-                        @csrf
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email or Username</label>
-                            <input type="text" name="email" value="{{ old('email') }}"
-                                   class="form-control @error('email') is-invalid @enderror" id="email"
-                                   placeholder="Enter your email or username" autofocus/>
-                            @error('email')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="mb-3 form-password-toggle">
-                            <div class="input-group input-group-merge">
-                                <input type="password" name="password" id="password"
-                                       class="form-control @error('password') is-invalid @enderror"
-                                       placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                       aria-describedby="password"/>
-                                <span class="input-group-text cursor-pointer" id="toggle-password"><i
-                                        class="ti ti-eye-off"></i></span>
-                            </div>
-                            @error('password')
-                            <div class="text-danger small mt-1">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="mb-3">
-                            <div class="form-check">
-                                <input class="form-check-input" name="remember" type="checkbox" id="remember-me"
-                                    {{ old('remember') ? 'checked' : '' }} />
-                                <label class="form-check-label" for="remember-me"> Remember Me </label>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
-                        </div>
-                    </form>
                 </div>
+                <!-- /Register -->
             </div>
-            <!-- /Register -->
         </div>
     </div>
-</div>
 
-<!-- / Content -->
+    <div class="container-xxl pb-4">
+        <div class="text-center small text-muted px-3">
+            <p class="mb-1">© 2026 <a href="https://bestchoice.travel" target="_blank"
+                    rel="noopener noreferrer">Best Choice Travel</a>. All rights reserved.</p>
+            <p class="mb-1">Proudly Crafted in Egypt with Love ❤️</p>
+            <p class="mb-2">Travel Portal System by <a href="https://mrco-egypt.com/">MRCO-Egypt</a>.</p>
+            <p class="mb-1">
+                This system is restricted to authorized users only. All access and activities are monitored.
+                Any unauthorized use, access, or distribution of system content is strictly prohibited and may result in
+                legal action.
+            </p>
+        </div>
+    </div>
 
-<!-- Core JS -->
-@include('dashboard.layouts.scripts')
+    <!-- / Content -->
 
-<!-- Password Toggle Script -->
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const togglePassword = document.getElementById('toggle-password');
-        const passwordInput = document.getElementById('password');
-        const eyeIcon = togglePassword.querySelector('i');
+    <!-- Core JS -->
+    @include('dashboard.layouts.scripts')
 
-        togglePassword.addEventListener('click', function () {
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                eyeIcon.classList.remove('ti-eye-off');
-                eyeIcon.classList.add('ti-eye');
-            } else {
-                passwordInput.type = 'password';
-                eyeIcon.classList.remove('ti-eye');
-                eyeIcon.classList.add('ti-eye-off');
-            }
+    <!-- Password Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const togglePassword = document.getElementById('toggle-password');
+            const passwordInput = document.getElementById('password');
+            const eyeIcon = togglePassword.querySelector('i');
+
+            togglePassword.addEventListener('click', function() {
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    eyeIcon.classList.remove('ti-eye-off');
+                    eyeIcon.classList.add('ti-eye');
+                } else {
+                    passwordInput.type = 'password';
+                    eyeIcon.classList.remove('ti-eye');
+                    eyeIcon.classList.add('ti-eye-off');
+                }
+            });
         });
-    });
-</script>
+    </script>
 </body>
 
 </html>
