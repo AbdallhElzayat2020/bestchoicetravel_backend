@@ -61,6 +61,18 @@ class PageController extends Controller
     }
 
     /**
+     * Display Payment Policy page
+     */
+    public function paymentPolicy()
+    {
+        $page = Page::where('slug', 'payment-policy')
+            ->where('status', 'active')
+            ->firstOrFail();
+
+        return view('frontend.pages.page', compact('page'));
+    }
+
+    /**
      * Display a dynamic page by slug
      */
     public function show(string $slug)

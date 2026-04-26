@@ -31,8 +31,8 @@ class PageController extends Controller
      */
     public function update(Request $request, Page $page)
     {
-        // Check if this is a content-editable page (Terms & Conditions, Privacy Policy)
-        $editablePages = ['terms-and-conditions', 'privacy-policy'];
+        // Check if this is a content-editable page
+        $editablePages = ['terms-and-conditions', 'privacy-policy', 'payment-policy'];
         $isEditable = in_array($page->slug, $editablePages);
 
         if ($isEditable) {

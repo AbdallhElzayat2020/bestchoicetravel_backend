@@ -64,9 +64,9 @@
                     <li><a href="{{ route('about-us') }}">About Us</a></li>
                     <li><a href="{{ route('contact-us') }}">Contact</a></li>
                     <li><a href="{{ route('faqs') }}">FAQs</a></li>
-                    <li><a href="#">Terms & Conditions</a></li>
-                    <li><a href="#">Payment Policy</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="{{ route('terms-and-conditions') }}">Terms & Conditions</a></li>
+                    <li><a href="{{ route('payment-policy') }}">Payment Policy</a></li>
+                    <li><a href="{{ route('privacy-policy') }}">Privacy Policy</a></li>
                 </ul>
             </div>
             <div class="footer-section">

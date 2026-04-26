@@ -93,11 +93,13 @@ Route::post('/trip-planner', [TripPlannerController::class, 'store'])
 Route::post('/bookings', [BookingController::class, 'store'])
     ->name('bookings.store');
 
-// Terms and Conditions & Privacy Policy
+// Legal / Policy pages
 Route::get('/terms-and-conditions', [PageController::class, 'termsAndConditions'])
     ->name('terms-and-conditions');
 Route::get('/privacy-policy', [PageController::class, 'privacyPolicy'])
     ->name('privacy-policy');
+Route::get('/payment-policy', [PageController::class, 'paymentPolicy'])
+    ->name('payment-policy');
 
 
 

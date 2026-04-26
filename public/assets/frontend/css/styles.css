@@ -4513,11 +4513,11 @@ body.modal-open {
 .contact-cta-card {
     max-width: 900px;
     width: 100%;
-    background: #8b7138;
+    background: #fff;
     border-radius: 32px;
     padding: 40px 40px 32px;
     box-shadow: 0 24px 64px rgba(0, 0, 0, 0.18);
-    color: #fff;
+    color: var(--brand-blue);
     text-align: center;
 }
 
@@ -4559,7 +4559,7 @@ body.modal-open {
 
 .contact-cta-divider {
     border: 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    border-top: 1px solid rgba(43, 83, 167, 0.2);
     margin: 8px 0 18px;
 }
 
@@ -4591,23 +4591,23 @@ body.modal-open {
 }
 
 .contact-cta-btn--primary {
-    background: #ffffff;
-    color: #000;
+    background: var(--brand-blue);
+    color: #fff;
 }
 
 .contact-cta-btn--primary:hover {
-    background: #f3e6c7;
-    color: #8b7138;
+    background: var(--brand-blue-dark);
+    color: #fff;
 }
 
 .contact-cta-btn--outline {
     background: transparent;
-    color: #ffffff;
-    border: 1.5px solid rgba(255, 255, 255, 0.9);
+    color: var(--brand-blue);
+    border: 1.5px solid var(--brand-blue);
 }
 
 .contact-cta-btn--outline:hover {
-    background: rgba(0, 0, 0, 0.06);
+    background: rgba(43, 83, 167, 0.08);
 }
 
 .contact-cta-footer {

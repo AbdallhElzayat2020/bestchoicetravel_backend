@@ -91,6 +91,17 @@ class PageSeeder extends Seeder
                 'status' => 'active',
                 'sort_order' => 6,
             ],
+            [
+                'slug' => 'payment-policy',
+                'name' => 'Payment Policy',
+                'content' => '<h2>Payment Policy</h2><p>We aim to make payment for your Egypt travel experience as simple and secure as possible. Please read our payment policy carefully before making a booking.</p><h3>1. Deposit & Full Payment</h3><p>A deposit of 25% of the total tour price is required to confirm your booking. The remaining balance must be paid at least 30 days before the tour departure date.</p><h3>2. Accepted Payment Methods</h3><p>We accept the following payment methods: Bank Transfer (SWIFT / SEPA), Credit and Debit Cards (Visa, MasterCard), PayPal, and Western Union for special arrangements.</p><h3>3. Currency</h3><p>All prices are quoted in US Dollars (USD). Payments may also be accepted in EUR or GBP at the current exchange rate.</p><h3>4. Late Payment</h3><p>If the balance is not received 30 days before departure, we reserve the right to treat the booking as cancelled and apply the relevant cancellation charges.</p><h3>5. Cancellation & Refund</h3><p>Cancellations made more than 30 days before departure: deposit refunded minus a 10% administration fee. Cancellations 15–29 days before departure: 50% of total price charged. Cancellations less than 15 days before departure: no refund.</p><h3>6. Payment Security</h3><p>All card payments are processed through a PCI-DSS compliant payment gateway. We do not store your card details on our servers.</p>',
+                'meta_title' => 'Payment Policy - Best Choice Travel',
+                'meta_description' => 'Understand our payment terms, accepted methods, cancellation and refund policy for Egypt tours and Nile cruises.',
+                'meta_author' => 'Best Choice Travel',
+                'meta_keywords' => 'payment policy, deposit, refund, cancellation, Egypt tours payment',
+                'status' => 'active',
+                'sort_order' => 7,
+            ],
         ];
 
         foreach ($pages as $pageData) {

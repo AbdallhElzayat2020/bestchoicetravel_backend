@@ -380,7 +380,7 @@
                 <li class="menu-item {{ \App\Helpers\setSidebarActive(['admin.pages.*'], 'active') }}">
                     <a href="{{ route('admin.pages.index') }}" class="menu-link">
                         <i class="menu-icon tf-icons ti ti-file-text"></i>
-                        <div data-i18n="Pages SEO">Pages SEO</div>
+                        <div data-i18n="Static Pages">Static Pages</div>
                     </a>
                 </li>
             @endif

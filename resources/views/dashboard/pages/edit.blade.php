@@ -13,7 +13,7 @@
         </div>
         <div class="card-body">
             @php
-                $editablePages = ['terms-and-conditions', 'privacy-policy'];
+                $editablePages = ['terms-and-conditions', 'privacy-policy', 'payment-policy'];
                 $isEditable = in_array($page->slug, $editablePages);
             @endphp
 
