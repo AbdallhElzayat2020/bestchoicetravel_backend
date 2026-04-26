@@ -118,6 +118,17 @@
             <div class="card h-100 border-0 shadow-sm">
                 <div class="card-body d-flex justify-content-between align-items-center">
                     <div>
+                        <div class="text-muted small">Countries / States</div>
+                        <h4 class="mb-0">{{ $stats['totalCountries'] }} / {{ $stats['totalStates'] }}</h4>
+                    </div>
+                    <span class="avatar avatar-md bg-label-success"><i class="ti ti-map-pin"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
                         <div class="text-muted small">Live Highlights</div>
                         <h4 class="mb-0">{{ $stats['totalAnnouncements'] }}</h4>
                         <small class="text-muted">Active: {{ $stats['activeAnnouncements'] }}</small>
@@ -151,17 +162,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6">
-            <div class="card h-100 border-0 shadow-sm">
-                <div class="card-body d-flex justify-content-between align-items-center">
-                    <div>
-                        <div class="text-muted small">Countries / States</div>
-                        <h4 class="mb-0">{{ $stats['totalCountries'] }} / {{ $stats['totalStates'] }}</h4>
-                    </div>
-                    <span class="avatar avatar-md bg-label-success"><i class="ti ti-map-pin"></i></span>
-                </div>
-            </div>
-        </div>
+
     </div>
 
 @endsection
