@@ -28,11 +28,11 @@ class PageSeeder extends Seeder
             [
                 'slug' => 'about-us',
                 'name' => 'About Us',
-                'content' => null, // المحتوى ثابت في blade file
-                'meta_title' => 'About Us - Travel Website',
-                'meta_description' => 'Learn more about our travel agency and our mission to provide the best travel experiences.',
-                'meta_author' => 'Travel Website',
-                'meta_keywords' => 'about, travel agency, company',
+                'content' => null,
+                'meta_title' => 'About Us - Best Choice Travel',
+                'meta_description' => 'Learn about Best Choice Travel, our mission, services, and why travelers trust us for unforgettable Egypt tours and Nile cruise experiences.',
+                'meta_author' => 'Best Choice Travel',
+                'meta_keywords' => 'about best choice travel, egypt travel agency, egypt tours, nile cruise, travel services',
                 'status' => 'active',
                 'sort_order' => 1,
             ],

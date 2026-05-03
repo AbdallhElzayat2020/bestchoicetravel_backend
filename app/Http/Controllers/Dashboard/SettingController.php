@@ -23,6 +23,10 @@ class SettingController extends Controller
         $phone = $settings['phone'] ?? '+20 101 515 7744 / +20 101 515 7746';
         $email = $settings['email'] ?? 'info@grandnilecruises.com';
         $address = $settings['address'] ?? 'Sarayah Zayed 2 Building, Apartment 1,<br>8th District<br>Sheikh Zayed City - Giza';
+        $contactWhatsapp = $settings['contact_whatsapp'] ?? '+20 102 232 2656';
+        $contactTelephone1 = $settings['contact_telephone_1'] ?? '+20 2 22675570';
+        $contactTelephone2 = $settings['contact_telephone_2'] ?? '+20 2 22675572';
+        $contactAddress = $settings['contact_address'] ?? "9 El Mosheer Ahmed Ismail Street\nSheraton Heliopolis - Block 1156, Ground Floor\nCairo, Egypt";
         $navbarLogo = $settings['navbar_logo'] ?? null;
         $footerLogo = $settings['footer_logo'] ?? null;
 
@@ -31,6 +35,10 @@ class SettingController extends Controller
             'phone',
             'email',
             'address',
+            'contactWhatsapp',
+            'contactTelephone1',
+            'contactTelephone2',
+            'contactAddress',
             'navbarLogo',
             'footerLogo'
         ));
@@ -47,6 +55,10 @@ class SettingController extends Controller
             'phone' => 'sometimes|nullable|string|max:255',
             'email' => 'sometimes|nullable|email|max:255',
             'address' => 'sometimes|nullable|string',
+            'contact_whatsapp' => 'sometimes|nullable|string|max:255',
+            'contact_telephone_1' => 'sometimes|nullable|string|max:255',
+            'contact_telephone_2' => 'sometimes|nullable|string|max:255',
+            'contact_address' => 'sometimes|nullable|string',
             'navbar_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'footer_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
@@ -94,6 +106,18 @@ class SettingController extends Controller
         }
         if ($request->filled('address')) {
             Setting::set('address', $validated['address']);
+        }
+        if ($request->filled('contact_whatsapp')) {
+            Setting::set('contact_whatsapp', $validated['contact_whatsapp']);
+        }
+        if ($request->filled('contact_telephone_1')) {
+            Setting::set('contact_telephone_1', $validated['contact_telephone_1']);
+        }
+        if ($request->filled('contact_telephone_2')) {
+            Setting::set('contact_telephone_2', $validated['contact_telephone_2']);
+        }
+        if ($request->filled('contact_address')) {
+            Setting::set('contact_address', $validated['contact_address']);
         }
 
         return redirect()->back()

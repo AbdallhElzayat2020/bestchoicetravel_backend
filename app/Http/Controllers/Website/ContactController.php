@@ -19,8 +19,22 @@ class ContactController extends Controller
         $page = Page::getBySlug('contact-us');
         $metaTitle = $page && $page->meta_title ? $page->meta_title : 'Contact Us';
         $recaptchaSiteKey = config('services.recaptcha.site_key');
+        $contactEmail = Setting::get('email', 'Info@Bestchoice.Travel');
+        $contactWhatsapp = Setting::get('contact_whatsapp', '+20 102 232 2656');
+        $contactTelephone1 = Setting::get('contact_telephone_1', '+20 2 22675570');
+        $contactTelephone2 = Setting::get('contact_telephone_2', '+20 2 22675572');
+        $contactAddress = Setting::get('contact_address', "9 El Mosheer Ahmed Ismail Street\nSheraton Heliopolis - Block 1156, Ground Floor\nCairo, Egypt");
 
-        return view('frontend.pages.contact-us', compact('page', 'metaTitle', 'recaptchaSiteKey'));
+        return view('frontend.pages.contact-us', compact(
+            'page',
+            'metaTitle',
+            'recaptchaSiteKey',
+            'contactEmail',
+            'contactWhatsapp',
+            'contactTelephone1',
+            'contactTelephone2',
+            'contactAddress'
+        ));
     }
 
     public function store(Request $request, RecaptchaService $recaptcha)

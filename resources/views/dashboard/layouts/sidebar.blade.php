@@ -401,12 +401,6 @@
                                 </a>
                             </li>
                         @endif
-                        {{-- <li
-                        class="menu-item {{ \App\Helpers\setSidebarActive(['admin.site-sections.about'], 'active') }}">
-                        <a href="{{ route('admin.site-sections.about') }}" class="menu-link">
-                            <div data-i18n="About Sections">About Page Sections</div>
-                        </a>
-                    </li> --}}
                     </ul>
                 </li>
             @endif

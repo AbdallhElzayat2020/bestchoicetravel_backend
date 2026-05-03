@@ -71,8 +71,9 @@
                 <hr class="my-4">
 
                 {{-- Contact Information --}}
-                {{-- <div class="mb-4">
+                <div class="mb-4">
                     <h6 class="mb-3">Contact Information</h6>
+
                     <div class="mb-3">
                         <label for="phone" class="form-label">Phone Number <span class="text-danger">*</span></label>
                         <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone"
@@ -82,9 +83,15 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+                </div>
+
+                <hr class="my-4">
+
+                <div class="mb-4">
+                    <h6 class="mb-3">Contact Page (Contact Us)</h6>
 
                     <div class="mb-3">
-                        <label for="email" class="form-label">Email Address <span class="text-danger">*</span></label>
+                        <label for="email" class="form-label">Contact Email <span class="text-danger">*</span></label>
                         <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
                             name="email" value="{{ old('email', $email) }}" required>
                         <small class="text-muted">e.g., info@grandnilecruises.com</small>
@@ -94,15 +101,49 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="address" class="form-label">Address <span class="text-danger">*</span></label>
-                        <textarea class="form-control @error('address') is-invalid @enderror" id="address" name="address" rows="3"
-                            required>{{ old('address', $address) }}</textarea>
-                        <small class="text-muted">Full address for footer</small>
-                        @error('address')
+                        <label for="contact_whatsapp" class="form-label">WhatsApp Number <span
+                                class="text-danger">*</span></label>
+                        <input type="text" class="form-control @error('contact_whatsapp') is-invalid @enderror"
+                            id="contact_whatsapp" name="contact_whatsapp"
+                            value="{{ old('contact_whatsapp', $contactWhatsapp) }}" required>
+                        @error('contact_whatsapp')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-                </div> --}}
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="contact_telephone_1" class="form-label">Telephone 1 <span
+                                    class="text-danger">*</span></label>
+                            <input type="text" class="form-control @error('contact_telephone_1') is-invalid @enderror"
+                                id="contact_telephone_1" name="contact_telephone_1"
+                                value="{{ old('contact_telephone_1', $contactTelephone1) }}" required>
+                            @error('contact_telephone_1')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="col-md-6">
+                            <label for="contact_telephone_2" class="form-label">Telephone 2</label>
+                            <input type="text" class="form-control @error('contact_telephone_2') is-invalid @enderror"
+                                id="contact_telephone_2" name="contact_telephone_2"
+                                value="{{ old('contact_telephone_2', $contactTelephone2) }}">
+                            @error('contact_telephone_2')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="mb-3 mt-3">
+                        <label for="contact_address" class="form-label">Contact Office Address <span
+                                class="text-danger">*</span></label>
+                        <textarea class="form-control @error('contact_address') is-invalid @enderror" id="contact_address" name="contact_address" rows="4"
+                            required>{{ old('contact_address', $contactAddress) }}</textarea>
+                        <small class="text-muted">Use each line on a new row as it should appear on Contact page.</small>
+                        @error('contact_address')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
 
 
                 {{-- Footer Logo --}}

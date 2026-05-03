@@ -82,10 +82,10 @@ Route::get('/about-us', [PageController::class, 'about'])
     ->name('about-us');
 Route::get('/faqs', [PageController::class, 'faqs'])
     ->name('faqs');
-Route::get('/contact-us', [ContactController::class, 'index'])
+Route::get('/contact', [ContactController::class, 'index'])
     ->name('contact-us');
-Route::post('/contact-us', [ContactController::class, 'store'])
-    ->name('contact-us.store');
+// Route::post('/contact-us', [ContactController::class, 'store'])
+//     ->name('contact-us.store');
 Route::get('/trip-planner', [TripPlannerController::class, 'index'])
     ->name('trip-planner');
 Route::post('/trip-planner', [TripPlannerController::class, 'store'])
