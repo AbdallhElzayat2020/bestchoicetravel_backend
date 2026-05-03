@@ -1,25 +1,16 @@
 @extends('frontend.layouts.master')
 
 @php
-    // --- Logic Section ---
-    $metaTitle = $page && $page->meta_title ? $page->meta_title : 'Contact Us';
-    $metaDescription = $page ? $page->meta_description ?? null : null;
-    $metaAuthor = $page ? $page->meta_author ?? null : null;
-    $metaKeywords = $page ? $page->meta_keywords ?? null : null;
+    $metaTitle = data_get($page, 'meta_title') ?: 'Contact Us';
+    $metaDescription = data_get($page, 'meta_description');
+    $metaAuthor = data_get($page, 'meta_author');
+    $metaKeywords = data_get($page, 'meta_keywords');
 
-    // البيانات المستخرجة من المحتوى الذي أرسلته[cite: 1]
-    $contactWhatsapp = '+20 102 232 2656';
-    $whatsappHref = '201022322656';
-    $contactTelephone1 = '+20 2 22675570';
-    $contactTelephone2 = '+20 2 22675572';
-    $contactEmail = 'Info@Bestchoice.Travel';
-
-    // تقسيم العنوان لأسطر كما في المصدر[cite: 1]
-    $addressLines = [
-        '9 El Mosheer Ahmed Ismail Street',
-        'Sheraton Heliopolis - Block 1156, Ground Floor',
-        'Cairo, Egypt',
-    ];
+    $whatsappHref = preg_replace('/\D+/', '', (string) ($contactWhatsapp ?? ''));
+    $addressLines = array_values(array_filter(array_map(
+        'trim',
+        preg_split("/\r\n|\n|\r/", (string) ($contactAddress ?? ''))
+    )));
 @endphp
 
 @section('meta_title', $metaTitle)
@@ -53,102 +44,63 @@
     <!-- Main Contact Section -->
     <section class="contact-wrapper section-padding">
         <div class="container">
-            <div class="row g-4">
-
-                <!-- Contact Info Column -->
-                <div class="col-lg-7">
-                    <div class="info-main-card mb-4">
-                        <div class="card-title-area">
-                            <h3>Head Office</h3>
-                            <span class="badge-blue">Cairo, Egypt</span>
-                        </div>
-
-                        <div class="contact-methods-grid">
-                            <!-- Address -->
-                            <div class="method-box">
-                                <div class="icon-wrap"><i class="fa-solid fa-location-dot"></i></div>
-                                <div>
-                                    <h5>Address</h5>
-                                    <p>
-                                        @foreach ($addressLines as $line)
-                                            {{ $line }} <br>
-                                        @endforeach
-                                    </p>
-                                </div>
-                            </div>
-
-                            <!-- WhatsApp -->
-                            <div class="method-box">
-                                <div class="icon-wrap"><i class="fa-brands fa-whatsapp"></i></div>
-                                <div>
-                                    <h5>Phone / WhatsApp</h5>
-                                    <p><a href="https://wa.me/{{ $whatsappHref }}"
-                                            target="_blank">{{ $contactWhatsapp }}</a></p>
-                                </div>
-                            </div>
-
-                            <!-- Phone -->
-                            <div class="method-box">
-                                <div class="icon-wrap"><i class="fa-solid fa-phone"></i></div>
-                                <div>
-                                    <h5>Telephone</h5>
-                                    <p>
-                                        <a
-                                            href="tel:{{ str_replace(' ', '', $contactTelephone1) }}">{{ $contactTelephone1 }}</a>
-                                        <br>
-                                        <a
-                                            href="tel:{{ str_replace(' ', '', $contactTelephone2) }}">{{ $contactTelephone2 }}</a>
-                                    </p>
-                                </div>
-                            </div>
-
-                            <!-- Email -->
-                            <div class="method-box">
-                                <div class="icon-wrap"><i class="fa-solid fa-envelope"></i></div>
-                                <div>
-                                    <h5>Email</h5>
-                                    <p><a href="mailto:{{ $contactEmail }}">{{ $contactEmail }}</a></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Why Us Strip -->
-                    <div class="trust-strip">
-                        <h4 class="mb-3"><i class="fa-solid fa-shield-halved me-2"></i>Why Contact Best Choice Travel</h4>
-                        <ul class="trust-list">
-                            <li><i class="fa-solid fa-check"></i> Licensed Category (A) Travel Agency (License No. 1575)
-                            </li>
-                            <li><i class="fa-solid fa-check"></i> Professional travel consultants with years of experience
-                            </li>
-                            <li><i class="fa-solid fa-check"></i> Personalized travel planning and custom tours</li>
-                            <li><i class="fa-solid fa-check"></i> Fast response to inquiries and booking requests</li>
-                        </ul>
-                    </div>
+            <div class="info-main-card mb-4">
+                <div class="card-title-area">
+                    <h3>Head Office</h3>
+                    <span class="badge-blue">Cairo, Egypt</span>
                 </div>
 
-                <!-- Sidebar Column -->
-                <div class="col-lg-5">
-                    <!-- Office Hours -->
-                    <div class="sidebar-blue-card mb-4">
-                        <div class="working-hours">
-                            <h4><i class="fa-regular fa-clock me-2"></i>Office Hours</h4>
-                            <p class="mt-3"><strong>Working Hours:</strong><br>
-                                Sunday – Thursday: 9:00 AM – 5:00 PM</p>
-                            <p class="small opacity-75">Our online support team is available to assist travelers worldwide
-                                and respond quickly[cite: 1].</p>
+                <div class="contact-methods-grid">
+                    <div class="method-box">
+                        <div class="icon-wrap"><i class="fa-solid fa-location-dot"></i></div>
+                        <div>
+                            <h5>Address</h5>
+                            <p>
+                                @foreach ($addressLines as $line)
+                                    {{ $line }} <br>
+                                @endforeach
+                            </p>
                         </div>
-                        <hr class="border-light opacity-25 my-4">
-                        <div class="cta-sidebar text-center">
-                            <h5>Start Planning Today</h5>
-                            <p class="small mb-4">Your journey to Egypt starts with a simple message.</p>
-                            <a href="{{ route('trip-planner') }}" class="btn-unified-action">
-                                Trip Planner <i class="fa-solid fa-paper-plane ms-2"></i>
-                            </a>
+                    </div>
+
+                    <div class="method-box">
+                        <div class="icon-wrap"><i class="fa-brands fa-whatsapp"></i></div>
+                        <div>
+                            <h5>Phone / WhatsApp</h5>
+                            <p><a href="https://wa.me/{{ $whatsappHref }}" target="_blank">{{ $contactWhatsapp }}</a></p>
+                        </div>
+                    </div>
+
+                    <div class="method-box">
+                        <div class="icon-wrap"><i class="fa-solid fa-phone"></i></div>
+                        <div>
+                            <h5>Telephone</h5>
+                            <p>
+                                <a href="tel:{{ str_replace(' ', '', $contactTelephone1) }}">{{ $contactTelephone1 }}</a>
+                                <br>
+                                <a href="tel:{{ str_replace(' ', '', $contactTelephone2) }}">{{ $contactTelephone2 }}</a>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="method-box">
+                        <div class="icon-wrap"><i class="fa-solid fa-envelope"></i></div>
+                        <div>
+                            <h5>Email</h5>
+                            <p><a href="mailto:{{ $contactEmail }}">{{ $contactEmail }}</a></p>
                         </div>
                     </div>
                 </div>
+            </div>
 
+            <div class="trust-strip">
+                <h4 class="mb-3"><i class="fa-solid fa-shield-halved me-2"></i>Why Contact Best Choice Travel</h4>
+                <ul class="trust-list">
+                    <li><i class="fa-solid fa-check"></i> Licensed Category (A) Travel Agency (License No. 1575)</li>
+                    <li><i class="fa-solid fa-check"></i> Professional travel consultants with years of experience</li>
+                    <li><i class="fa-solid fa-check"></i> Personalized travel planning and custom tours</li>
+                    <li><i class="fa-solid fa-check"></i> Fast response to inquiries and booking requests</li>
+                </ul>
             </div>
         </div>
     </section>
@@ -190,14 +142,6 @@
             position: relative;
             z-index: 2;
             max-width: 800px;
-        }
-
-        .contact-label {
-            color: var(--bct-yellow);
-            font-weight: 700;
-            text-transform: uppercase;
-            font-size: 14px;
-            letter-spacing: 1px;
         }
 
         .hero-content h1 {
@@ -316,71 +260,6 @@
         .trust-list li i {
             color: var(--bct-blue);
             margin-top: 4px;
-        }
-
-        /* Sidebar */
-        .sidebar-blue-card {
-            background: #fff;
-            color: var(--text-dark);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 16px 36px rgba(24, 39, 75, 0.08);
-            border: 1px solid rgba(43, 83, 167, 0.16);
-            transition: box-shadow .25s ease, transform .25s ease, border-color .25s ease;
-        }
-
-        .sidebar-blue-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 22px 44px rgba(24, 39, 75, 0.12);
-            border-color: rgba(43, 83, 167, 0.24);
-        }
-
-        .btn-unified-action {
-            background: var(--bct-blue);
-            color: #fff;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 16px 30px;
-            border-radius: 12px;
-            font-weight: 800;
-            text-decoration: none;
-            width: 100%;
-            transition: 0.3s;
-        }
-
-        .btn-unified-action:hover {
-            background: var(--bct-blue-dark);
-            color: #fff;
-            transform: translateY(-3px);
-        }
-
-        .services-mini-card {
-            background: #fff;
-            padding: 30px;
-            border-radius: 20px;
-            border-left: 5px solid var(--bct-blue);
-        }
-
-        .mini-service-list {
-            list-style: none;
-            padding: 0;
-            margin-top: 15px;
-        }
-
-        .mini-service-list li {
-            margin-bottom: 8px;
-            font-size: 14px;
-            position: relative;
-            padding-left: 20px;
-        }
-
-        .mini-service-list li::before {
-            content: "→";
-            position: absolute;
-            left: 0;
-            color: var(--bct-blue);
-            font-weight: bold;
         }
 
         @media (max-width: 991px) {

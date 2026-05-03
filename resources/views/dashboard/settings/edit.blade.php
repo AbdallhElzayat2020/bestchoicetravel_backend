@@ -70,9 +70,11 @@
 
                 <hr class="my-4">
 
-                {{-- Contact Information --}}
+                {{-- Site-wide phone (navbar, footer, etc.) --}}
                 <div class="mb-4">
-                    <h6 class="mb-3">Contact Information</h6>
+                    <h6 class="mb-3">Site-wide phone</h6>
+                    <p class="text-muted small mb-3">Main number shown in the header, footer, and other shared areas (not
+                        only the Contact Us page).</p>
 
                     <div class="mb-3">
                         <label for="phone" class="form-label">Phone Number <span class="text-danger">*</span></label>
@@ -88,7 +90,10 @@
                 <hr class="my-4">
 
                 <div class="mb-4">
-                    <h6 class="mb-3">Contact Page (Contact Us)</h6>
+                    <h6 class="mb-3">Contact Us page</h6>
+                    <p class="text-muted small mb-3">These values appear on the public <strong>Contact Us</strong> page
+                        (email, WhatsApp, office phones, address). The contact email is also used for inbound messages
+                        where the site sends notifications.</p>
 
                     <div class="mb-3">
                         <label for="email" class="form-label">Contact Email <span class="text-danger">*</span></label>

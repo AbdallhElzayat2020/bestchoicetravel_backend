@@ -18,7 +18,16 @@ class PageController extends Controller
         ]);
 
         $aboutSections = SiteSection::active()
-            ->whereIn('key', ['about_banner', 'about_hero', 'about_story', 'about_why'])
+            ->whereIn('key', [
+                'about_banner',
+                'about_intro',
+                'about_credentials',
+                'about_mission',
+                'about_vision',
+                'about_services',
+                'about_why_choose',
+                'about_cta',
+            ])
             ->get()
             ->keyBy('key');
 

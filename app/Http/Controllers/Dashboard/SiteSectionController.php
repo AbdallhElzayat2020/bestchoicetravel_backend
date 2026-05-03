@@ -59,14 +59,25 @@ class SiteSectionController extends Controller
             $data['image_path'] = 'uploads/sections/'.$fileName;
         }
 
-        // Special handling for about_why: build JSON content from cards[]
-        if ($siteSection->key === 'about_why') {
-            $cards = $request->input('cards', []);
-            if (is_array($cards)) {
-                $cards = array_values(array_filter($cards, function ($card) {
-                    return ! empty($card['title']) || ! empty($card['text']);
+        // About credentials list (label + value)
+        if ($siteSection->key === 'about_credentials') {
+            $credentials = $request->input('credentials', []);
+            if (is_array($credentials)) {
+                $credentials = array_values(array_filter($credentials, function ($item) {
+                    return ! empty($item['label']) || ! empty($item['value']);
                 }));
-                $data['content'] = $cards ? json_encode($cards) : null;
+                $data['content'] = $credentials ? json_encode($credentials) : null;
+            }
+        }
+
+        // About repeated items (services / why choose)
+        if (in_array($siteSection->key, ['about_services', 'about_why_choose'])) {
+            $items = $request->input('items', []);
+            if (is_array($items)) {
+                $items = array_values(array_filter($items, function ($item) {
+                    return ! empty($item['title']) || ! empty($item['text']);
+                }));
+                $data['content'] = $items ? json_encode($items) : null;
             }
         }
 

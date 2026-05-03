@@ -21,46 +21,65 @@
                     @endif
                 </span>
             </div>
-           
-        </div>
 
-        <div class="card">
-            <div class="card-body table-responsive">
-                <table class="table table-striped align-middle">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Key</th>
-                            <th>Title</th>
-                            <th>Status</th>
-                            <th class="text-end">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($sections as $section)
-                            <tr>
-                                <td>{{ $section->id }}</td>
-                                <td><code>{{ $section->key }}</code></td>
-                                <td>{{ $section->title }}</td>
-                                <td>
-                                    <span
-                                        class="badge bg-{{ $section->status === 'active' ? 'success' : 'secondary' }}">{{ ucfirst($section->status) }}</span>
-                                </td>
-                                <td class="text-end">
-                                    <a href="{{ route('admin.site-sections.edit', $section) }}" class="btn btn-sm btn-primary">
-                                        Edit
-                                    </a>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="5" class="text-center text-muted">No site sections found.</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
         </div>
+        @php
+            /** @var \Illuminate\Support\Collection<int, \App\Models\SiteSection> $visibleSections */
+            $visibleSections = collect($sections)->reject(function (\App\Models\SiteSection $section) {
+                return in_array($section->key, ['about_hero', 'about_story', 'about_why'])
+                    || str_starts_with($section->key, 'contact_');
+            });
+
+            $groups = $visibleSections->groupBy(function (\App\Models\SiteSection $section) {
+                if (str_starts_with($section->key, 'home_')) {
+                    return 'Home Page Sections';
+                }
+                if (str_starts_with($section->key, 'about_')) {
+                    return 'About Us Sections';
+                }
+                return 'Other Sections';
+            });
+        @endphp
+
+        @forelse($groups as $groupTitle => $groupSections)
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">{{ $groupTitle }}</h5>
+                    <span class="badge bg-label-primary">{{ $groupSections->count() }} sections</span>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        @foreach($groupSections as $section)
+                            <div class="col-12 col-md-6 col-xl-4">
+                                <div class="border rounded-3 h-100 p-3">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <code>{{ $section->key }}</code>
+
+                                    </div>
+                                    <h6 class="mb-2">{{ $section->title ?: 'Untitled section' }}</h6>
+                                    @if($section->subtitle)
+                                        <p class="text-muted small mb-3">{{ \Illuminate\Support\Str::limit($section->subtitle, 70) }}</p>
+                                    @else
+                                        <p class="text-muted small mb-3">No subtitle</p>
+                                    @endif
+                                    <div class="d-flex justify-content-end">
+                                        <a href="{{ route('admin.site-sections.edit', $section) }}" class="btn btn-sm btn-primary">
+                                            Edit Section
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        @empty
+            <div class="card">
+                <div class="card-body text-center text-muted">
+                    No site sections found.
+                </div>
+            </div>
+        @endforelse
     </div>
 @endsection
 

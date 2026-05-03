@@ -89,7 +89,7 @@ class PageSeeder extends Seeder
                 'meta_author' => 'Travel Website',
                 'meta_keywords' => 'privacy policy, data protection, personal information, cookies',
                 'status' => 'active',
-                'sort_order' => 6,
+                'sort_order' => 5,
             ],
             [
                 'slug' => 'payment-policy',

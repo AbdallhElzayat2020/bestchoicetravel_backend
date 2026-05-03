@@ -20,7 +20,7 @@
                 <strong>Note:</strong>
                 <ul class="mb-0 mt-2">
                     <li>For <strong>Terms & Conditions</strong> and <strong>Privacy Policy</strong>: You can edit both content and SEO.</li>
-                    <li>For other static pages (About Us, FAQs, Contact Us): You can only edit SEO meta tags. The page content is managed in the blade template files.</li>
+                    <li>For other static pages (About Us, FAQs, Contact Us): You can only edit SEO meta tags. The page content is managed in the blade template files or Site Sections where applicable.</li>
                 </ul>
             </div>
 

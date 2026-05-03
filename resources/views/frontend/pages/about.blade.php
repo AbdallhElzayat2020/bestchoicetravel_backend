@@ -21,10 +21,39 @@
 @section('content')
     @php
         $aboutBanner = $aboutSections['about_banner'] ?? null;
-        $aboutBannerImage =
-            $aboutBanner && $aboutBanner->image_path
-                ? asset($aboutBanner->image_path)
-                : asset('assets/frontend/images/about.webp');
+        $aboutIntro = $aboutSections['about_intro'] ?? null;
+        $aboutCredentials = $aboutSections['about_credentials'] ?? null;
+        $aboutMission = $aboutSections['about_mission'] ?? null;
+        $aboutVision = $aboutSections['about_vision'] ?? null;
+        $aboutServices = $aboutSections['about_services'] ?? null;
+        $aboutWhyChoose = $aboutSections['about_why_choose'] ?? null;
+        $aboutCta = $aboutSections['about_cta'] ?? null;
+
+        $aboutBannerImage = ($aboutBanner && $aboutBanner->image_path)
+            ? asset($aboutBanner->image_path)
+            : asset('assets/frontend/images/about.webp');
+
+        $credentials = [];
+        if ($aboutCredentials && $aboutCredentials->content) {
+            $decoded = json_decode($aboutCredentials->content, true);
+            if (is_array($decoded)) {
+                $credentials = $decoded;
+            }
+        }
+        $services = [];
+        if ($aboutServices && $aboutServices->content) {
+            $decoded = json_decode($aboutServices->content, true);
+            if (is_array($decoded)) {
+                $services = $decoded;
+            }
+        }
+        $whyItems = [];
+        if ($aboutWhyChoose && $aboutWhyChoose->content) {
+            $decoded = json_decode($aboutWhyChoose->content, true);
+            if (is_array($decoded)) {
+                $whyItems = $decoded;
+            }
+        }
     @endphp
 
     <!-- Banner Section -->
@@ -32,11 +61,11 @@
         <div class="banner-overlay"></div>
         <div class="container">
             <div class="banner-content scroll-animate" data-animation="fadeInDown">
-                <h1 class="banner-title">{{ $aboutBanner && $aboutBanner->title ? $aboutBanner->title : 'About Us' }}</h1>
+                <h1 class="banner-title">{!! $aboutBanner && $aboutBanner->title ? $aboutBanner->title : 'About Us' !!}</h1>
                 <div class="banner-divider"></div>
-                <p class="banner-subtitle">
-                    {{ $aboutBanner && $aboutBanner->subtitle ? $aboutBanner->subtitle : 'Discover who we are and why travelers choose us' }}
-                </p>
+                <div class="banner-subtitle about-richtext">
+                    {!! $aboutBanner && $aboutBanner->subtitle ? $aboutBanner->subtitle : 'Discover who we are and why travelers choose us' !!}
+                </div>
             </div>
         </div>
     </section>
@@ -44,199 +73,94 @@
     <section class="about-main-wrapper section-padding">
         <div class="container">
 
-            <!-- Company Intro Section -->
-            <div class="about-intro-group mb-5 scroll-animate" data-animation="fadeInUp">
-                <div class="about-bct-card intro-card about-intro-head mb-3">
-                    <div class="card-glow"></div>
-                    <span class="about-bct-eyebrow">About Best Choice Travel</span>
-                    <h2 class="main-heading mb-3">Your Trusted Travel Partner in Egypt</h2>
-
-                    <div class="row g-4">
-                        <div class="col-lg-12">
-                            <p class="content-text mb-0">
-                                <span class="fw-bold">Best Choice Travel (BCT)</span> is a professional tour operator and
-                                destination management company (DMC) based in Egypt, dedicated to delivering exceptional
-                                travel experiences to clients from around the world. Established in
-                                <span class="fw-bold">2007</span>, the company has built a strong reputation for providing
-                                high-quality travel services, personalized itineraries, and unforgettable journeys across
-                                Egypt and the Middle East.
-                            </p>
-                        </div>
-                        <div class="col-lg-12">
-                            <p class="content-text mb-0">
-                                From the ancient wonders of the Pyramids and the temples of Luxor to the stunning beaches
-                                of the Red Sea, Best Choice Travel creates carefully designed travel experiences that
-                                combine history, culture, adventure, and luxury.
-                            </p>
-                        </div>
-                    </div>
-                </div>
+            <div class="about-bct-card mb-5">
+                <span class="about-bct-eyebrow">{!! $aboutIntro->title ?? 'About Best Choice Travel' !!}</span>
+                <h2 class="main-heading mb-3">{!! $aboutIntro->subtitle ?? 'Your Trusted Travel Partner in Egypt' !!}</h2>
+                <div class="content-text about-richtext mb-3">{!! $aboutIntro->description ?? '' !!}</div>
+                @if(!empty($aboutIntro?->content))
+                    <div class="content-text about-richtext mb-0">{!! $aboutIntro->content !!}</div>
+                @endif
             </div>
 
-            <!-- Credentials Section -->
-            <div class="about-bct-card license-card mb-5 scroll-animate" data-animation="fadeInUp">
-                <span class="about-bct-eyebrow">Official Credentials</span>
-                <h3 class="mb-4">Licensed Travel Company - Category (A)</h3>
-                <p class="license-text mb-3">
-                    Best Choice Travel is a <strong>fully licensed Egyptian travel agency, classified as Category (A) by
-                        the Egyptian Ministry of Tourism</strong>, the highest level of licensing for tourism companies in
-                    Egypt.
-                </p>
-                <ul class="license-bullets mb-3">
-                    <li><strong>Tourism License:</strong> Category (A) - License No. <strong>1575</strong></li>
-                    <li><strong>Member of:</strong> Egyptian Travel Agents Association (ETAA)</li>
-                    <li><strong>IATA Membership:</strong> No. <strong>90228121</strong></li>
-                    <li><strong>Established:</strong> 2007</li>
-                </ul>
+            <div class="about-bct-card license-card mb-5">
+                <span class="about-bct-eyebrow">{!! $aboutCredentials->subtitle ?? 'Official Credentials' !!}</span>
+                <h3 class="mb-4">{!! $aboutCredentials->title ?? 'Licensed Travel Company - Category (A)' !!}</h3>
+                <div class="license-text about-richtext mb-3">{!! $aboutCredentials->description ?? '' !!}</div>
+                @if(count($credentials))
+                    <ul class="license-bullets mb-3">
+                        @foreach($credentials as $row)
+                            <li>
+                                <strong>{!! $row['label'] ?? '' !!}:</strong> <span class="about-richtext d-inline">{!! $row['value'] ?? '' !!}</span>
+                            </li>
+                        @endforeach
+                    </ul>
+                @endif
                 <p class="license-text mb-0">
                     This license allows the company to provide a range of tourism services, including inbound tourism,
                     tour operations, transportation, and travel arrangements for international visitors.
                 </p>
             </div>
 
-            <!-- Mission & Vision Row -->
             <div class="row g-4 mb-5">
                 <div class="col-lg-6">
-                    <div class="about-bct-card h-100 scroll-animate" data-animation="fadeInLeft">
+                    <div class="about-bct-card h-100">
                         <div class="icon-circle primary"><i class="fa-solid fa-bullseye"></i></div>
-                        <h3>Our Mission</h3>
-                        <p class="mb-0">To provide authentic, memorable, and seamless travel experiences while maintaining
-                            the highest standards of professionalism and customer satisfaction.</p>
+                        <h3>{!! $aboutMission->title ?? 'Our Mission' !!}</h3>
+                        <div class="about-richtext mb-0">{!! $aboutMission->description ?? '' !!}</div>
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="about-bct-card h-100 scroll-animate" data-animation="fadeInRight">
+                    <div class="about-bct-card h-100">
                         <div class="icon-circle accent"><i class="fa-solid fa-eye"></i></div>
-                        <h3>Our Vision</h3>
-                        <p class="mb-0">To become a leading travel company in the MENA region by delivering innovative
-                            services that showcase Egypt's beauty and hospitality.</p>
+                        <h3>{!! $aboutVision->title ?? 'Our Vision' !!}</h3>
+                        <div class="about-richtext mb-0">{!! $aboutVision->description ?? '' !!}</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Services Section -->
             <div class="services-container mb-5">
                 <div class="text-center mb-5">
-                    <span class="about-bct-eyebrow">Travel Solutions</span>
-                    <h3 class="fw-bold">What We Offer</h3>
+                    <span class="about-bct-eyebrow">{!! $aboutServices->subtitle ?? 'Travel Solutions' !!}</span>
+                    <h3 class="fw-bold">{!! $aboutServices->title ?? 'What We Offer' !!}</h3>
+                    @if(!empty($aboutServices?->description))
+                        <div class="text-muted mt-2 mb-0 about-richtext">{!! $aboutServices->description !!}</div>
+                    @endif
                 </div>
                 <div class="row g-4">
-                    @php
-                        $services = [
-                            [
-                                'icon' => 'fa-map-location-dot',
-                                'title' => 'Egypt Tour Packages',
-                                'desc' => 'Tailor-made itineraries including Cairo, Luxor, Aswan, and the Red Sea.',
-                            ],
-                            [
-                                'icon' => 'fa-ship',
-                                'title' => 'Nile Cruise Experiences',
-                                'desc' => 'Luxury cruises and Dahabiya sailing between Luxor and Aswan.',
-                            ],
-                            [
-                                'icon' => 'fa-camera-retro',
-                                'title' => 'Day Tours',
-                                'desc' => 'Private guided tours across Egypt’s most famous destinations.',
-                            ],
-                            [
-                                'icon' => 'fa-gem',
-                                'title' => 'Luxury Travel',
-                                'desc' => 'Customized itineraries for discerning travelers seeking exclusivity.',
-                            ],
-                            [
-                                'icon' => 'fa-briefcase',
-                                'title' => 'Corporate & MICE',
-                                'desc' => 'Professional organization of meetings, conferences, and events.',
-                            ],
-                            [
-                                'icon' => 'fa-van-shuttle',
-                                'title' => 'Transportation',
-                                'desc' => 'Private airport transfers and modern transportation solutions.',
-                            ],
-                        ];
-                    @endphp
                     @foreach ($services as $service)
                         <div class="col-md-6 col-lg-4">
                             <div class="service-box-premium h-100">
-                                <div class="s-icon"><i class="fa-solid {{ $service['icon'] }}"></i></div>
-                                <h5>{{ $service['title'] }}</h5>
-                                <p>{{ $service['desc'] }}</p>
+                                <div class="s-icon"><i class="fa-solid {{ $service['icon'] ?? 'fa-star' }}"></i></div>
+                                <h5>{!! $service['title'] ?? '' !!}</h5>
+                                <div class="about-richtext">{!! $service['text'] ?? '' !!}</div>
                             </div>
                         </div>
                     @endforeach
                 </div>
             </div>
 
-
-
-            <!-- Why Choose Section (Reference-based) -->
-            <div class="about-bct-card why-choose-section mt-4 scroll-animate" data-animation="fadeInUp">
-                <h3 class="mb-4">Why Choose Best Choice Travel</h3>
+            <div class="about-bct-card why-choose-section mt-4">
+                <h3 class="mb-4">{!! $aboutWhyChoose->title ?? 'Why Choose Best Choice Travel' !!}</h3>
                 <div class="row g-3">
-                    <div class="col-md-6">
-                        <div class="why-choose-item">
-                            <div class="why-choose-icon"><i class="fa-solid fa-shield-halved"></i></div>
-                            <div>
-                                <h5>Licensed & Trusted</h5>
-                                <p>Operating under an official tourism license Category (A), ensuring full compliance with
-                                    Egyptian tourism regulations.</p>
+                    @foreach($whyItems as $item)
+                        <div class="col-md-6">
+                            <div class="why-choose-item">
+                                <div class="why-choose-icon"><i class="fa-solid {{ $item['icon'] ?? 'fa-check' }}"></i></div>
+                                <div>
+                                    <h5>{!! $item['title'] ?? '' !!}</h5>
+                                    <div class="mb-0 about-richtext">{!! $item['text'] ?? '' !!}</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="why-choose-item">
-                            <div class="why-choose-icon"><i class="fa-solid fa-user-tie"></i></div>
-                            <div>
-                                <h5>Experienced Team</h5>
-                                <p>Professional travel advisors, certified Egyptologist guides, and dedicated support staff.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="why-choose-item">
-                            <div class="why-choose-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
-                            <div>
-                                <h5>Tailor-Made Experiences</h5>
-                                <p>Every itinerary is customized according to traveler preferences.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="why-choose-item">
-                            <div class="why-choose-icon"><i class="fa-solid fa-scale-balanced"></i></div>
-                            <div>
-                                <h5>Quality & Value</h5>
-                                <p>Competitive prices combined with premium travel services.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="why-choose-item">
-                            <div class="why-choose-icon"><i class="fa-solid fa-headset"></i></div>
-                            <div>
-                                <h5>24/7 Customer Support</h5>
-                                <p class="mb-0">Dedicated assistance before, during, and after your trip.</p>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
 
-
-            <!-- Why Us & CTA -->
-            <div class="about-bct-card dark-card text-center scroll-animate" data-animation="fadeInUp">
-                <h3 class="text-white mb-4">Discover Egypt with Confidence</h3>
-                <div class="d-flex flex-wrap justify-content-center gap-3 mb-4">
-                    <span class="why-tag"><i class="fa-solid fa-check"></i> Licensed & Trusted</span>
-                    <span class="why-tag"><i class="fa-solid fa-check"></i> Experienced Team</span>
-                    <span class="why-tag"><i class="fa-solid fa-check"></i> 24/7 Support</span>
+            <div class="about-bct-card dark-card text-center mt-4">
+                <h3 class="text-white mb-4">{!! $aboutCta->title ?? 'Discover Egypt with Confidence' !!}</h3>
+                <div class="about-richtext text-white-50 dark-card-richtext">
+                    {!! $aboutCta->description ?? '' !!}
                 </div>
-                <p class="text-white-50">
-                    Whether you are looking for a cultural journey through the ancient temples, a relaxing holiday on the
-                    Red Sea, or a luxury Nile cruise adventure, Best Choice Travel is committed to making your dream trip to
-                    Egypt a reality.
-                </p>
             </div>
         </div>
     </section>
@@ -509,7 +433,55 @@
             line-height: 1.7;
         }
 
-        /* Disable scroll-based animations on About page only */
+        /* Rich text from Summernote */
+        .about-richtext {
+            color: inherit;
+            line-height: 1.8;
+        }
+
+        .about-richtext p {
+            margin-bottom: .75rem;
+        }
+
+        .about-richtext strong,
+        .about-richtext b {
+            font-weight: 800;
+            color: #0f1d39;
+            font-size: 1.05em;
+        }
+
+        .about-richtext h1,
+        .about-richtext h2,
+        .about-richtext h3,
+        .about-richtext h4 {
+            line-height: 1.3;
+            margin: .45rem 0 .6rem;
+            color: #0f1d39;
+        }
+
+        .about-richtext h1 { font-size: 1.9rem; }
+        .about-richtext h2 { font-size: 1.6rem; }
+        .about-richtext h3 { font-size: 1.35rem; }
+        .about-richtext h4 { font-size: 1.15rem; }
+
+        .about-richtext ul,
+        .about-richtext ol {
+            padding-left: 1.2rem;
+            margin-bottom: .75rem;
+        }
+
+        .about-richtext li {
+            margin-bottom: .35rem;
+        }
+
+        .dark-card-richtext,
+        .dark-card-richtext p,
+        .dark-card-richtext li,
+        .dark-card-richtext span {
+            color: rgba(255, 255, 255, 0.82) !important;
+        }
+
+        /* keep About page static without scroll animation */
         .about-main-wrapper .scroll-animate,
         .about-banner-premium .scroll-animate,
         .about-main-wrapper .scroll-animate.animate,
