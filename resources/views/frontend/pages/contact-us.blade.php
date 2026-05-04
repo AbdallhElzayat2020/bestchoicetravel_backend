@@ -30,9 +30,9 @@
         <div class="hero-bg" style="background-image: url('{{ asset('assets/frontend/images/Luxor.webp') }}');"></div>
         <div class="hero-overlay"></div>
         <div class="container position-relative">
-            <div class="hero-content mt-5">
+            <div class="hero-content">
                 <h1>Get in Touch With Us</h1>
-                <p>
+                <p class="hero-subtitle">
                     At Best Choice Travel, we are always ready to assist you in planning your perfect journey to Egypt.
                     Whether you need help choosing a tour package, customizing your itinerary, or simply have questions
                     about traveling to Egypt, our experienced travel advisors are here to help.
@@ -117,7 +117,8 @@
 
         /* Hero */
         .contact-hero-unified {
-            height: 450px;
+            height: 725px;
+            min-height: 725px;
             position: relative;
             display: flex;
             align-items: center;
@@ -129,25 +130,46 @@
             position: absolute;
             inset: 0;
             background-size: cover;
-            background-position: center;
+            background-position: center center;
+            background-repeat: no-repeat;
         }
 
         .hero-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(to right, rgba(0, 0, 0, 0.8), rgba(43, 83, 167, 0.5));
+            background: linear-gradient(90deg, rgba(12, 20, 34, 0.72) 0%, rgba(12, 20, 34, 0.55) 50%, rgba(12, 20, 34, 0.72) 100%);
+        }
+
+        .contact-hero-unified .container {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .hero-content {
             position: relative;
             z-index: 2;
-            max-width: 800px;
+            max-width: 820px;
+            margin: 0 auto;
+            text-align: center;
         }
 
         .hero-content h1 {
-            font-size: 3.5rem;
+            font-size: clamp(2.2rem, 5vw, 3.6rem);
             font-weight: 800;
-            margin-bottom: 15px;
+            line-height: 1.12;
+            margin-bottom: 12px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            line-height: 1.55;
+            color: rgba(255, 255, 255, 0.92);
+            margin: 0;
         }
 
         /* Layout */

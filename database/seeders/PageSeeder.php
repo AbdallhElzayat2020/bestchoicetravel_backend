@@ -39,7 +39,7 @@ class PageSeeder extends Seeder
             [
                 'slug' => 'faqs',
                 'name' => 'FAQs',
-                'content' => null, // المحتوى ثابت في blade file
+                'content' => null, 
                 'meta_title' => 'FAQs - Frequently Asked Questions',
                 'meta_description' => 'Find answers to your most common travel questions. Get information about bookings, tours, destinations, and more.',
                 'meta_author' => 'Travel Website',
@@ -50,7 +50,7 @@ class PageSeeder extends Seeder
             [
                 'slug' => 'contact-us',
                 'name' => 'Contact Us',
-                'content' => null, // المحتوى ثابت في blade file
+                'content' => null, 
                 'meta_title' => 'Contact Us - Travel Website',
                 'meta_description' => 'Get in touch with us for travel inquiries, bookings, and support.',
                 'meta_author' => 'Travel Website',
@@ -61,7 +61,7 @@ class PageSeeder extends Seeder
             [
                 'slug' => 'blogs',
                 'name' => 'Blogs',
-                'content' => null, // المحتوى ثابت في blade file
+                'content' => null, 
                 'meta_title' => 'Travel Blogs - Travel Website',
                 'meta_description' => 'Read our latest travel blogs, tips, and destination guides.',
                 'meta_author' => 'Travel Website',

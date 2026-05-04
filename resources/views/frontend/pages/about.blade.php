@@ -62,7 +62,6 @@
         <div class="container">
             <div class="banner-content scroll-animate" data-animation="fadeInDown">
                 <h1 class="banner-title">{!! $aboutBanner && $aboutBanner->title ? $aboutBanner->title : 'About Us' !!}</h1>
-                <div class="banner-divider"></div>
                 <div class="banner-subtitle about-richtext">
                     {!! $aboutBanner && $aboutBanner->subtitle ? $aboutBanner->subtitle : 'Discover who we are and why travelers choose us' !!}
                 </div>
@@ -177,14 +176,16 @@
 
         /* Premium Banner */
         .about-banner-premium {
-            height: 500px;
+            height: 725px;
+            min-height: 725px;
             background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+            background-position: center center;
+            background-repeat: no-repeat;
             position: relative;
             display: flex;
             align-items: center;
             color: #fff;
+            overflow: hidden;
         }
 
         .about-banner-premium .container {
@@ -193,38 +194,35 @@
             height: 100%;
             display: flex;
             align-items: center;
+            justify-content: center;
         }
 
         .banner-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(to right, rgba(20, 27, 45, 0.72), rgba(43, 83, 167, 0.38));
+            background: linear-gradient(90deg, rgba(12, 20, 34, 0.72) 0%, rgba(12, 20, 34, 0.55) 50%, rgba(12, 20, 34, 0.72) 100%);
         }
 
         .banner-content {
             position: relative;
             z-index: 2;
-            max-width: 700px;
-            margin: 0;
+            max-width: 820px;
+            margin: 0 auto;
+            text-align: center;
         }
 
         .banner-title {
-            font-size: 3.5rem;
+            font-size: clamp(2.2rem, 5vw, 3.6rem);
             font-weight: 800;
-            margin-bottom: 15px;
-        }
-
-        .banner-divider {
-            width: 100px;
-            height: 6px;
-            background: var(--bright-yellow);
-            border-radius: 10px;
-            margin-bottom: 20px;
+            line-height: 1.12;
+            margin-bottom: 12px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
         }
 
         .banner-subtitle {
-            font-size: 1.25rem;
-            opacity: 0.9;
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            line-height: 1.55;
+            color: rgba(255, 255, 255, 0.92);
         }
 
         /* Cards System */
