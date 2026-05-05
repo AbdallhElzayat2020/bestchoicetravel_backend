@@ -24,10 +24,10 @@
 
     <title>{{ $pageTitle }}</title>
     <meta name="description" content="{{ $pageDescription }}">
-    @if($pageAuthor)
+    @if ($pageAuthor)
         <meta name="author" content="{{ $pageAuthor }}">
     @endif
-    @if($pageKeywords)
+    @if ($pageKeywords)
         <meta name="keywords" content="{{ $pageKeywords }}">
     @endif
 
@@ -61,9 +61,7 @@
 
 @php
     $showAnnouncementBar =
-        !empty($announcementBarEnabled ?? false) &&
-        isset($sharedAnnouncementBar) &&
-        $sharedAnnouncementBar;
+        !empty($announcementBarEnabled ?? false) && isset($sharedAnnouncementBar) && $sharedAnnouncementBar;
 @endphp
 
 <body @class(['has-announcement-bar' => $showAnnouncementBar])>
@@ -75,11 +73,12 @@
 
     <!-- Floating actions (WhatsApp + Scroll to top) -->
     <div class="floating-actions">
-        <a href="https://wa.me/201234567890" target="_blank" rel="noopener" class="floating-btn floating-btn--whatsapp"
+        <a href="https://wa.me/20222675572" target="_blank" rel="noopener" class="floating-btn floating-btn--whatsapp"
             id="whatsappBtn" aria-label="Chat on WhatsApp">
             <i class="fa-brands fa-whatsapp"></i>
         </a>
-        <button type="button" class="floating-btn floating-btn--scrolltop" id="scrollTopBtn" aria-label="Scroll to top">
+        <button type="button" class="floating-btn floating-btn--scrolltop" id="scrollTopBtn"
+            aria-label="Scroll to top">
             <i class="fa-solid fa-arrow-up"></i>
         </button>
     </div>
