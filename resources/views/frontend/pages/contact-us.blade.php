@@ -86,7 +86,7 @@
                             </div>
                             <div class="info-content">
                                 <h6>EMAIL</h6>
-                                <p><a href="mailto:info@grandnilecruises.com">info@grandnilecruises.com</a></p>
+                                <p><a href="mailto:info@bestchoice.travel">info@bestchoice.travel</a></p>
                             </div>
                         </div>
                     </div>
@@ -200,8 +200,8 @@
 @push('css')
     <style>
         :root {
-            --bct-navy: #2c4a6e;
-            --bct-gold: #c59d5f;
+            --bct-navy: #2b53a7;
+            --bct-gold: #2b53a7;
             --bct-bg: #f8f6f3;
             --bct-dark-text: #2d3e50;
         }
@@ -333,7 +333,7 @@
             justify-content: center;
             font-size: 22px;
             flex-shrink: 0;
-            box-shadow: 0 4px 12px rgba(197, 157, 95, 0.25);
+            box-shadow: 0 4px 12px rgba(43, 83, 167, 0.25);
         }
 
         .info-content h6 {
@@ -370,7 +370,7 @@
             border-radius: 20px;
             display: flex;
             gap: 20px;
-            box-shadow: 0 10px 30px rgba(44, 74, 110, 0.3);
+            box-shadow: 0 10px 30px rgba(43, 83, 167, 0.3);
         }
 
         .support-icon {
@@ -441,15 +441,15 @@
             padding: 14px;
             border-radius: 14px;
             background: #fff;
-            border: 1px solid rgba(44, 74, 110, 0.14);
+            border: 1px solid rgba(43, 83, 167, 0.14);
             transition: transform 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
         }
 
         .feature-icon {
             width: 40px;
             height: 40px;
-            background: #c59d5f;
-            color: var(--bct-navy);
+            background: var(--bct-navy);
+            color: #fff;
             border-radius: 10px;
             display: flex;
             align-items: center;
@@ -483,31 +483,31 @@
 
         .feature-item:hover {
             transform: translateY(-5px);
-            background: #fffdf9;
-            border-color: rgba(197, 157, 95, 0.35);
+            background: var(--bct-navy);
+            border-color: var(--bct-navy);
         }
 
         .feature-item:hover .feature-icon {
-            background: #c59d5f;
-            color: var(--bct-navy);
+            background: rgba(255, 255, 255, 0.18);
+            color: #fff;
             transform: translateY(-1px) scale(1.03);
         }
 
         .feature-item:hover h5 {
-            color: #294665;
+            color: #fff;
         }
 
         .feature-item:hover p {
-            color: #6b7280;
+            color: rgba(255, 255, 255, 0.9);
         }
 
         /* Stats Card */
         .stats-card {
-            background: linear-gradient(135deg, #b8925f 0%, #c59d5f 50%, #b8925f 100%);
+            background: linear-gradient(135deg, #2b53a7 0%, #2b53a7 50%, #2b53a7 100%);
             padding: 45px 40px;
             border-radius: 25px;
             color: #fff;
-            box-shadow: 0 15px 40px rgba(197, 157, 95, 0.35);
+            box-shadow: 0 15px 40px rgba(43, 83, 167, 0.35);
         }
 
         .stats-title {

@@ -170,7 +170,7 @@
         :root {
             --primary-blue: #2b53a7;
             --bright-yellow: #f8e600;
-            --deep-dark: #141b2d;
+            --deep-dark: #2b53a7;
             --soft-gray: #f4f7fa;
         }
 
@@ -367,7 +367,7 @@
         }
 
         .dark-card {
-            background: var(--deep-dark);
+            background: var(--primary-blue);
             color: #fff;
             border: none;
         }
