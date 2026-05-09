@@ -153,6 +153,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'dashboard.access'])
     Route::get('bookings/cruise-vessels/{contact}', [CruiseVesselEnquiryController::class, 'show'])
         ->middleware('permission.access:bookings.cruise-vessels.manage')
         ->name('bookings.cruise-vessels.show');
+    Route::delete('bookings/cruise-vessels/{contact}', [CruiseVesselEnquiryController::class, 'destroy'])
+        ->middleware('permission.access:bookings.cruise-vessels.manage')
+        ->name('bookings.cruise-vessels.destroy');
     Route::post('bookings/cruise-vessels/{contact}/mark-read', [CruiseVesselEnquiryController::class, 'markAsRead'])
         ->middleware('permission.access:bookings.cruise-vessels.manage')
         ->name('bookings.cruise-vessels.mark-read');

@@ -28,7 +28,14 @@ class CruiseCatalogController extends Controller
             ->orderByDesc('id')
             ->paginate(12);
 
-        return view('frontend.pages.cruise-catalog.category', compact('category', 'vessels'));
+        $faqs = $category->faqs()
+            ->where('faqs.status', 'active')
+            ->orderByPivot('sort_order')
+            ->orderBy('faqs.sort_order')
+            ->orderBy('faqs.created_at', 'desc')
+            ->get();
+
+        return view('frontend.pages.cruise-catalog.category', compact('category', 'vessels', 'faqs'));
     }
 
     public function vessel(string $categorySlug, string $vesselSlug)
@@ -97,12 +104,12 @@ class CruiseCatalogController extends Controller
             }
         }
 
-        $subject = 'Cruise vessel enquiry: '.$vessel->title;
-        $message = 'Cruise vessel enquiry'.PHP_EOL
-            .'Vessel: '.$vessel->title.PHP_EOL
-            .'Category: '.$category->name.PHP_EOL
-            .'Travellers: '.$validated['no_of_travellers'].PHP_EOL
-            .'Estimated total: $'.number_format((float) $validated['total_price'], 2);
+        $subject = 'Cruise vessel enquiry: ' . $vessel->title;
+        $message = 'Cruise vessel enquiry' . PHP_EOL
+            . 'Vessel: ' . $vessel->title . PHP_EOL
+            . 'Category: ' . $category->name . PHP_EOL
+            . 'Travellers: ' . $validated['no_of_travellers'] . PHP_EOL
+            . 'Estimated total: $' . number_format((float) $validated['total_price'], 2);
 
         Contact::create([
             'name' => $validated['full_name'],
@@ -123,7 +130,7 @@ class CruiseCatalogController extends Controller
                 $message
             ));
         } catch (\Throwable $e) {
-            Log::warning('Cruise vessel enquiry email failed: '.$e->getMessage(), ['exception' => $e]);
+            Log::warning('Cruise vessel enquiry email failed: ' . $e->getMessage(), ['exception' => $e]);
         }
 
         return redirect()->route('cruise-catalog.vessel', [$category->slug, $vessel->slug])

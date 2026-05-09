@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
@@ -49,5 +50,13 @@ class CruiseCatalogCategory extends Model
     public function scopeActive($query)
     {
         return $query->where('status', 'active');
+    }
+
+    public function faqs(): BelongsToMany
+    {
+        return $this->belongsToMany(Faq::class, 'cruise_catalog_category_faq')
+            ->withPivot('sort_order')
+            ->withTimestamps()
+            ->orderByPivot('sort_order');
     }
 }

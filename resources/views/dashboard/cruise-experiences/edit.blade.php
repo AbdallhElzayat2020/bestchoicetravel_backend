@@ -1,6 +1,6 @@
 @extends('dashboard.layouts.master')
 
-@section('title', 'Edit Dahbia Cruise Page')
+@section('title', 'Edit')
 
 @push('css')
     <style>
@@ -115,7 +115,6 @@
 @section('content')
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">Edit Dahbia Cruise Page</h5>
             <a href="{{ route('admin.cruise-experiences.index') }}" class="btn btn-label-secondary">
                 <i class="ti ti-arrow-left me-1"></i>
                 Back
@@ -148,12 +147,14 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="mb-3">
-                            <label for="cruise_group_id" class="form-label">Cruise Group <span class="text-danger">*</span></label>
+                            <label for="cruise_group_id" class="form-label"> Main Category <span
+                                    class="text-danger">*</span></label>
                             <select name="cruise_group_id" id="cruise_group_id"
                                 class="form-select @error('cruise_group_id') is-invalid @enderror" required>
-                                <option value="">Select a Cruise Group</option>
-                                @foreach($cruiseGroups as $cruiseGroup)
-                                    <option value="{{ $cruiseGroup->id }}" {{ old('cruise_group_id', $experience->cruise_group_id) == $cruiseGroup->id ? 'selected' : '' }}>
+                                <option value="">Select a Category</option>
+                                @foreach ($cruiseGroups as $cruiseGroup)
+                                    <option value="{{ $cruiseGroup->id }}"
+                                        {{ old('cruise_group_id', $experience->cruise_group_id) == $cruiseGroup->id ? 'selected' : '' }}>
                                         {{ $cruiseGroup->name }}
                                     </option>
                                 @endforeach
@@ -217,15 +218,16 @@
 
                         <div class="mb-3">
                             <label for="banner_image" class="form-label">Banner Image (Hero)</label>
-                            @if($experience->banner_image)
+                            @if ($experience->banner_image)
                                 <div class="mb-2">
                                     <img src="{{ asset('uploads/cruise-experiences/' . $experience->banner_image) }}"
-                                         alt="Current banner" class="img-thumbnail" style="max-width: 400px;">
+                                        alt="Current banner" class="img-thumbnail" style="max-width: 400px;">
                                 </div>
                             @endif
                             <input type="file" name="banner_image" id="banner_image"
-                                   class="form-control @error('banner_image') is-invalid @enderror" accept="image/*">
-                            <small class="text-muted">Leave empty to keep current banner. Recommended size: 1600x600px.</small>
+                                class="form-control @error('banner_image') is-invalid @enderror" accept="image/*">
+                            <small class="text-muted">Leave empty to keep current banner. Recommended size:
+                                1600x600px.</small>
                             @error('banner_image')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -247,8 +249,8 @@
                     <div class="col-lg-12">
                         <div class="mb-3">
                             <label for="status" class="form-label">Status <span class="text-danger">*</span></label>
-                            <select name="status" id="status" class="form-select @error('status') is-invalid @enderror"
-                                required>
+                            <select name="status" id="status"
+                                class="form-select @error('status') is-invalid @enderror" required>
                                 <option value="active"
                                     {{ old('status', $experience->status) === 'active' ? 'selected' : '' }}>Active</option>
                                 <option value="inactive"
@@ -341,17 +343,17 @@
                                 اختر من الأسئلة الشائعة الموجودة في صفحة
                                 <strong>FAQs</strong> لربطها بهذه الرحلة.
                             </p>
-                            @if($faqs->count())
+                            @if ($faqs->count())
                                 <div class="row">
-                                    @foreach($faqs as $faq)
+                                    @foreach ($faqs as $faq)
                                         @php
                                             $isChecked = in_array($faq->id, old('faq_ids', $selectedFaqIds ?? []));
                                         @endphp
                                         <div class="col-12 col-md-6 col-xl-4 mb-2">
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" name="faq_ids[]"
-                                                       value="{{ $faq->id }}" id="faq_{{ $faq->id }}"
-                                                       {{ $isChecked ? 'checked' : '' }}>
+                                                    value="{{ $faq->id }}" id="faq_{{ $faq->id }}"
+                                                    {{ $isChecked ? 'checked' : '' }}>
                                                 <label class="form-check-label" for="faq_{{ $faq->id }}">
                                                     <strong>{{ \Illuminate\Support\Str::limit($faq->question, 80) }}</strong>
                                                 </label>

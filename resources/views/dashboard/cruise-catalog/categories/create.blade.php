@@ -65,6 +65,29 @@
                             min="0">
                     </div>
                 </div>
+                <div class="mb-3">
+                    <label class="form-label">Attach FAQs for Category Page (optional)</label>
+                    @if ($faqs->count())
+                        <div class="row">
+                            @foreach ($faqs as $faq)
+                                <div class="col-12 col-md-6 col-xl-4 mb-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="faq_ids[]"
+                                            value="{{ $faq->id }}" id="faq_{{ $faq->id }}"
+                                            {{ in_array($faq->id, old('faq_ids', [])) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="faq_{{ $faq->id }}">
+                                            <strong>{{ \Illuminate\Support\Str::limit($faq->question, 80) }}</strong>
+                                        </label>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <div class="alert alert-info mb-0">
+                            No FAQs available yet. Add FAQs first, then assign them to this category.
+                        </div>
+                    @endif
+                </div>
                 <button type="submit" class="btn btn-primary">Save</button>
             </form>
         </div>

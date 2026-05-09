@@ -11,10 +11,14 @@
                     ancient and modern Egypt.
                 </p>
                 <div class="social-links">
-                    <a href="#" class="social-link" aria-label="Facebook"><i
-                            class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" class="social-link" aria-label="Instagram"><i
-                            class="fa-brands fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/bctegypt" target="_blank"
+                        class="social-link"aria-label="Facebook">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                    <a href="https://www.instagram.com/bct.egypt/" target="_blank"
+                        class="social-link"aria-label="Instagram">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
                 </div>
             </div>
             <div class="footer-section">

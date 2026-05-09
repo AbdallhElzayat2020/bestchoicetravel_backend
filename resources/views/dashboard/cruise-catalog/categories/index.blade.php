@@ -1,11 +1,11 @@
 @extends('dashboard.layouts.master')
 
-@section('title', 'Cruise catalog categories')
+@section('title', 'categories')
 
 @section('content')
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">Cruise catalog — Categories</h5>
+            <h5 class="mb-0">Categories</h5>
             <a href="{{ route('admin.cruise-catalog.categories.create') }}" class="btn btn-primary">
                 <i class="ti ti-plus me-1"></i>
                 Add New

@@ -9,7 +9,7 @@
 @section('content')
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">Cruises Page</h5>
+            <h5 class="mb-0"></h5>
             <a href="{{ route('admin.cruise-experiences.create', $cruiseGroupId ? ['cruise_group_id' => $cruiseGroupId] : []) }}" class="btn btn-primary">
                 <i class="ti ti-plus me-1"></i>
                 Add New

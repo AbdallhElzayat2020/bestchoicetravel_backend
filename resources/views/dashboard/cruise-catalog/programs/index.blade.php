@@ -1,11 +1,11 @@
 @extends('dashboard.layouts.master')
 
-@section('title', 'Cruise programs')
+@section('title', 'programs')
 
 @section('content')
     <div class="card">
         <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
-            <h5 class="mb-0">Cruise catalog — Programs (itineraries)</h5>
+            <h5 class="mb-0">Programs (itineraries)</h5>
             <a href="{{ route('admin.cruise-catalog.programs.create') }}" class="btn btn-primary">
                 <i class="ti ti-plus me-1"></i>
                 Add New

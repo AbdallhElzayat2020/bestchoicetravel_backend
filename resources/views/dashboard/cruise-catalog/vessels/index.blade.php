@@ -5,7 +5,7 @@
 @section('content')
     <div class="card">
         <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
-            <h5 class="mb-0">Cruise catalog — Vessels</h5>
+            <h5 class="mb-0">Vessels</h5>
             <a href="{{ route('admin.cruise-catalog.vessels.create') }}" class="btn btn-primary">
                 <i class="ti ti-plus me-1"></i>
                 Add New

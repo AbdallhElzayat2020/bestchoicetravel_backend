@@ -100,6 +100,40 @@
             @endif
         </div>
     </section>
+
+    @if (isset($faqs) && $faqs->isNotEmpty())
+        <section class="faq-section section-padding" id="faq">
+            <div class="container">
+                <div class="section-header scroll-animate" data-animation="fadeInUp">
+                    <div class="section-label">
+                        <span class="star-icon">✦</span>
+                        <span>Frequently Asked Questions</span>
+                        <span class="star-icon">✦</span>
+                    </div>
+                    <h2 class="section-title">
+                        Answers to <span class="highlight">Common Questions</span>
+                    </h2>
+                </div>
+
+                <div class="faq-layout">
+                    <div class="faq-list">
+                        @foreach ($faqs->take(15) as $index => $faq)
+                            <div class="faq-item scroll-animate" data-animation="fadeInUp"
+                                data-delay="{{ $index * 50 }}">
+                                <button class="faq-question" type="button">
+                                    <span>{{ $faq->question }}</span>
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </button>
+                                <div class="faq-answer">
+                                    <p>{!! nl2br(e($faq->answer)) !!}</p>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </section>
+    @endif
 @endsection
 
 @push('css')

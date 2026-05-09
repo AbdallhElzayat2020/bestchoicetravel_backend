@@ -6,6 +6,7 @@ use App\Models\Blog;
 use App\Models\Tour;
 use App\Models\Slider;
 use App\Models\Subscriber;
+use App\Models\Testimonial;
 use App\Models\Faq;
 use App\Models\Gallery;
 use App\Models\SiteSection;
@@ -82,7 +83,12 @@ class HomeController extends Controller
             ->where('show_on_homepage', true)
             ->orderBy('sort_order')
             ->orderBy('created_at', 'desc')
-            ->take(6)
+            ->take(15)
+            ->get();
+
+        $testimonials = Testimonial::active()
+            ->orderBy('sort_order')
+            ->orderByDesc('created_at')
             ->get();
 
         $siteSections = SiteSection::active()
@@ -104,6 +110,7 @@ class HomeController extends Controller
             'homeGalleries',
             'activeTours',
             'homeFaqs',
+            'testimonials',
             'siteSections'
         ));
     }

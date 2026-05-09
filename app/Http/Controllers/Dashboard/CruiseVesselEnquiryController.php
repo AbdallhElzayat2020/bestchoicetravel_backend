@@ -69,4 +69,16 @@ class CruiseVesselEnquiryController extends Controller
 
         return redirect()->back()->with('success', 'Marked as unread');
     }
+
+    public function destroy(Contact $contact)
+    {
+        if (! $contact->isCruiseVesselEnquiry()) {
+            abort(404);
+        }
+
+        $contact->delete();
+
+        return redirect()->route('admin.bookings.cruise-vessels.index')
+            ->with('success', 'Vessel enquiry deleted successfully');
+    }
 }

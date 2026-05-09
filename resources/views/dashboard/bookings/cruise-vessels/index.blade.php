@@ -118,6 +118,15 @@
                                             class="btn btn-sm btn-label-primary">
                                             <i class="ti ti-eye"></i>
                                         </a>
+                                        <form action="{{ route('admin.bookings.cruise-vessels.destroy', $row) }}"
+                                            method="POST"
+                                            onsubmit="return confirm('Are you sure you want to delete this enquiry?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-label-danger" title="Delete">
+                                                <i class="ti ti-trash"></i>
+                                            </button>
+                                        </form>
                                         @if ($row->is_read)
                                             <form action="{{ route('admin.bookings.cruise-vessels.mark-unread', $row) }}"
                                                 method="POST">

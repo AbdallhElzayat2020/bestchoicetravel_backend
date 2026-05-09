@@ -46,7 +46,8 @@
         }
 
         .select2-dropdown {
-            background-color: #111827; /* deep dark */
+            background-color: #111827;
+            /* deep dark */
             border-color: #1f2937;
         }
 
@@ -63,7 +64,8 @@
         }
 
         .select2-results__option[aria-selected="true"] {
-            background-color: #065f46; /* green-ish for selected */
+            background-color: #065f46;
+            /* green-ish for selected */
             color: #ecfdf5;
         }
 
@@ -115,7 +117,6 @@
 @section('content')
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">Create Dahbia Cruise Page</h5>
             <a href="{{ route('admin.cruise-experiences.index') }}" class="btn btn-label-secondary">
                 <i class="ti ti-arrow-left me-1"></i>
                 Back
@@ -139,12 +140,14 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="mb-3">
-                            <label for="cruise_group_id" class="form-label">Cruise Group <span class="text-danger">*</span></label>
+                            <label for="cruise_group_id" class="form-label"> Main Category <span
+                                    class="text-danger">*</span></label>
                             <select name="cruise_group_id" id="cruise_group_id"
                                 class="form-select @error('cruise_group_id') is-invalid @enderror" required>
-                                <option value="">Select a Cruise Group</option>
-                                @foreach($cruiseGroups as $cruiseGroup)
-                                    <option value="{{ $cruiseGroup->id }}" {{ old('cruise_group_id') == $cruiseGroup->id ? 'selected' : '' }}>
+                                <option value="">Select a Category</option>
+                                @foreach ($cruiseGroups as $cruiseGroup)
+                                    <option value="{{ $cruiseGroup->id }}"
+                                        {{ old('cruise_group_id') == $cruiseGroup->id ? 'selected' : '' }}>
                                         {{ $cruiseGroup->name }}
                                     </option>
                                 @endforeach
@@ -207,8 +210,9 @@
                         <div class="mb-3">
                             <label for="banner_image" class="form-label">Banner Image (Hero)</label>
                             <input type="file" name="banner_image" id="banner_image"
-                                   class="form-control @error('banner_image') is-invalid @enderror" accept="image/*">
-                            <small class="text-muted">This image will appear at the top banner of the cruise page. Recommended
+                                class="form-control @error('banner_image') is-invalid @enderror" accept="image/*">
+                            <small class="text-muted">This image will appear at the top banner of the cruise page.
+                                Recommended
                                 size: 1600x600px.</small>
                             @error('banner_image')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -253,10 +257,11 @@
                         <div class="mb-3">
                             <label class="form-label">Related Tours</label>
 
-                            @if($tours->count())
-                                <p class="text-muted mb-2">Select tours that are related to this cruise program. They will be suggested at the bottom of the page.</p>
+                            @if ($tours->count())
+                                <p class="text-muted mb-2">Select tours that are related to this cruise program. They will
+                                    be suggested at the bottom of the page.</p>
                                 <div class="row">
-                                    @foreach($tours as $tour)
+                                    @foreach ($tours as $tour)
                                         @php
                                             $cover = $tour->cover_image
                                                 ? asset('uploads/tours/' . $tour->cover_image)
@@ -264,26 +269,31 @@
                                             $price = $tour->current_price ?? $tour->price;
                                         @endphp
                                         <div class="col-12 col-md-6 col-xl-4 mb-3">
-                                            <div class="card h-100" style="background: #252836; border: 1px solid #3a3d4a; border-radius: 12px;">
+                                            <div class="card h-100"
+                                                style="background: #252836; border: 1px solid #3a3d4a; border-radius: 12px;">
                                                 <div class="card-body">
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox"
-                                                               name="tour_ids[]" value="{{ $tour->id }}"
-                                                               id="related_tour_{{ $tour->id }}"
-                                                                {{ in_array($tour->id, old('tour_ids', [])) ? 'checked' : '' }}>
-                                                        <label class="form-check-label w-100" for="related_tour_{{ $tour->id }}">
+                                                        <input class="form-check-input" type="checkbox" name="tour_ids[]"
+                                                            value="{{ $tour->id }}"
+                                                            id="related_tour_{{ $tour->id }}"
+                                                            {{ in_array($tour->id, old('tour_ids', [])) ? 'checked' : '' }}>
+                                                        <label class="form-check-label w-100"
+                                                            for="related_tour_{{ $tour->id }}">
                                                             <div class="d-flex align-items-start gap-3">
                                                                 <img src="{{ $cover }}" alt="{{ $tour->title }}"
-                                                                     style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px;">
+                                                                    style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px;">
                                                                 <div class="flex-grow-1">
-                                                                    <div class="d-flex justify-content-between align-items-start mb-1">
-                                                                        <strong style="color:#e4e6eb;">{{ \Illuminate\Support\Str::limit($tour->title, 40) }}</strong>
+                                                                    <div
+                                                                        class="d-flex justify-content-between align-items-start mb-1">
+                                                                        <strong
+                                                                            style="color:#e4e6eb;">{{ \Illuminate\Support\Str::limit($tour->title, 40) }}</strong>
                                                                         <span class="badge bg-label-success">
                                                                             ${{ number_format($price, 2) }}
                                                                         </span>
                                                                     </div>
-                                                                    @if($tour->short_description)
-                                                                        <p class="text-muted mb-0" style="font-size: 0.85rem;">
+                                                                    @if ($tour->short_description)
+                                                                        <p class="text-muted mb-0"
+                                                                            style="font-size: 0.85rem;">
                                                                             {{ \Illuminate\Support\Str::limit(strip_tags($tour->short_description), 80) }}
                                                                         </p>
                                                                     @endif
@@ -314,14 +324,14 @@
                                 اختر من الأسئلة الشائعة الموجودة في صفحة
                                 <strong>FAQs</strong> لربطها بهذه الرحلة.
                             </p>
-                            @if($faqs->count())
+                            @if ($faqs->count())
                                 <div class="row">
-                                    @foreach($faqs as $faq)
+                                    @foreach ($faqs as $faq)
                                         <div class="col-12 col-md-6 col-xl-4 mb-2">
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" name="faq_ids[]"
-                                                       value="{{ $faq->id }}" id="faq_{{ $faq->id }}"
-                                                       {{ in_array($faq->id, old('faq_ids', [])) ? 'checked' : '' }}>
+                                                    value="{{ $faq->id }}" id="faq_{{ $faq->id }}"
+                                                    {{ in_array($faq->id, old('faq_ids', [])) ? 'checked' : '' }}>
                                                 <label class="form-check-label" for="faq_{{ $faq->id }}">
                                                     <strong>{{ \Illuminate\Support\Str::limit($faq->question, 80) }}</strong>
                                                 </label>

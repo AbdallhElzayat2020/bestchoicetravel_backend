@@ -60,7 +60,7 @@
                                 <h6>LOCATION</h6>
                                 <p>
                                     9 El Mosheer Ahmed Ismail Street<br>
-                                    Sheraton Heliopolis - Block 1156, Ground Floor<br>
+                                    Sheraton Heliopolis - Block 1156<br>
                                     Cairo, Egypt
                                 </p>
                             </div>
@@ -73,7 +73,8 @@
                             <div class="info-content">
                                 <h6>CALL / WHATSAPP</h6>
                                 <p>
-                                    <a href="https://wa.me/201022322656" target="_blank">+20 102 232 2656</a>
+                                    <a href="https://wa.me/201022322656" target="_blank" rel="noopener noreferrer">+20 102
+                                        232 2656</a>
                                     /
                                     <a href="tel:+20222675572">+20 2 22675572</a>
                                 </p>
@@ -177,7 +178,8 @@
                         <div class="cta-section">
                             <p class="cta-question">Ready to Start Your Journey?</p>
                             <div class="cta-buttons">
-                                <a href="https://wa.me/20222675570" target="_blank" class="btn-whatsapp">
+                                <a href="https://wa.me/201022322656" target="_blank" rel="noopener noreferrer"
+                                    class="btn-whatsapp">
                                     WhatsApp Now
                                 </a>
                                 <a href="tel:+20222675572" class="btn-call">
