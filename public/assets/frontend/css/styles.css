@@ -2524,6 +2524,30 @@ body.has-announcement-bar .main-navbar.fixed-top {
     color: rgba(255, 255, 255, 0.6);
 }
 
+.footer-policies {
+    margin-top: 4px;
+    margin-bottom: 14px;
+    text-align: center;
+    color: rgba(226, 232, 240, 0.78);
+    font-size: 0.95rem;
+}
+
+.footer-policies a {
+    color: rgba(226, 232, 240, 0.9);
+    text-decoration: none;
+    transition: color 0.25s ease;
+}
+
+.footer-policies a:hover {
+    color: var(--brand-yellow);
+}
+
+.footer-policies__sep {
+    display: inline-block;
+    margin: 0 0.5rem;
+    color: rgba(226, 232, 240, 0.45);
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     body {

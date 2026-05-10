@@ -91,6 +91,13 @@
             </div>
 
         </div>
+        <div class="footer-policies" aria-label="Footer policies">
+            <a href="{{ route('terms-and-conditions') }}">Terms &amp; Conditions</a>
+            <span class="footer-policies__sep">|</span>
+            <a href="{{ route('payment-policy') }}">Payment Policy</a>
+            <span class="footer-policies__sep">|</span>
+            <a href="{{ route('privacy-policy') }}">Privacy Policy</a>
+        </div>
         <div class="footer-bottom">
             <p>&copy; 2026 <a href="https://bestchoice.travel" class="text-warning text-decoration-none" target="_blank"
                     rel="noopener noreferrer">Best Choice Travel</a>. All rights

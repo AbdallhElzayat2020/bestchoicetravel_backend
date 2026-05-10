@@ -105,22 +105,24 @@
     </section>
 
     <!-- Featured Packages Section -->
-    <section class="featured-packages section-padding" id="packages">
-        <div class="container">
-            <!-- Header Section -->
-            <div class="section-header">
-                <div class="section-label">
-                    <span class="star-icon">✦</span>
-                    <span>OUR FEATURED PACKAGES</span>
-                    <span class="star-icon">✦</span>
+    @if (isset($activeTours) && $activeTours->isNotEmpty())
+        <section class="featured-packages section-padding" id="packages">
+            <div class="container">
+                <!-- Header Section -->
+                <div class="section-header">
+                    <div class="section-label">
+                        <span class="star-icon">✦</span>
+                        <span>TRAVEL WITH CONFIDENCE</span>
+                        <span class="star-icon">✦</span>
+                    </div>
+                    <h2 class="section-title">
+                        Why Travelers Choose <span class="text-primary">Best Choice Travel</span>
+                    </h2>
+                    <p class="section-description">
+                        Trusted local experts crafting private Egypt tours, luxury Nile cruises, and seamless travel
+                        experiences with personalized service and 24/7 support.
+                    </p>
                 </div>
-                <h2 class="section-title">
-                    Choose Your Next <span class="highlight">Adventure</span>
-                </h2>
-                <p class="section-description">
-                    Carefully curated travel experiences designed to show you the very best of Egypt's wonders.
-                </p>
-            </div>
 
             <!-- Swiper Carousel -->
             <div class="swiper packages-carousel">
@@ -213,8 +215,9 @@
                 <!-- Pagination -->
                 <div class="swiper-pagination"></div>
             </div>
-        </div>
-    </section>
+            </div>
+        </section>
+    @endif
 
     <!-- Royal Nile Cruises Section -->
     <section class="nile-cruises-section section-padding" id="cruises">
