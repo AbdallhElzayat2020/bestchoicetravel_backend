@@ -117,11 +117,11 @@
                             </div>
                         @endif
 
-                        {{-- Back to Blog --}}
+                        {{-- Back to Travel Guide --}}
                         <div class="bds-back-card scroll-animate" data-animation="fadeInUp" data-delay="100">
                             <a href="{{ route('blogs.index') }}" class="bds-back-btn">
                                 <i class="fa-solid fa-arrow-left"></i>
-                                Back to Blog
+                                Back to Travel Guide
                             </a>
                         </div>
 
@@ -255,7 +255,7 @@
             gap: 5px;
         }
 
-        /* Back to Blog */
+        /* Back to Travel Guide */
         .bds-back-card {
             text-align: center;
         }

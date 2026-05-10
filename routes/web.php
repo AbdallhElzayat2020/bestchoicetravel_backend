@@ -33,11 +33,19 @@ Route::get('/galleries', [GalleryController::class, 'index'])
 Route::get('/galleries/{slug}', [GalleryController::class, 'show'])
     ->name('galleries.show');
 
-Route::get('/blog', [BlogController::class, 'index'])
+Route::get('/travel-guide', [BlogController::class, 'index'])
     ->name('blogs.index');
 
-Route::get('/blog/{slug}', [BlogController::class, 'show'])
+Route::get('/travel-guide/{slug}', [BlogController::class, 'show'])
     ->name('blogs.show');
+
+Route::get('/blog', function () {
+    return redirect()->route('blogs.index', [], 301);
+});
+
+Route::get('/blog/{slug}', function (string $slug) {
+    return redirect()->route('blogs.show', ['slug' => $slug], 301);
+});
 
 Route::get('/category/{slug}', [TourController::class, 'byCategory'])
     ->name('tours.category');

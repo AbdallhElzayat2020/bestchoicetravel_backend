@@ -256,46 +256,6 @@
                             : 'Enjoy a magical journey aboard the most luxurious Nile ships, where ultimate comfort meets the magic of Pharaonic history. From Luxor to Aswan, witness the greatest temples and monuments while enjoying top-notch services.' }}
                     </p>
 
-                    <!-- Feature Cards Grid -->
-                    <div class="cruises-features-grid">
-                        <div class="feature-card scroll-animate" data-animation="fadeInUp" data-delay="100">
-                            <div class="feature-card-icon">
-                                <i class="fa-solid fa-bed"></i>
-                            </div>
-                            <div class="feature-card-content">
-                                <h4 class="feature-card-title">Luxury Rooms</h4>
-                                <p class="feature-card-subtitle">Nile View</p>
-                            </div>
-                        </div>
-                        <div class="feature-card scroll-animate" data-animation="fadeInUp" data-delay="200">
-                            <div class="feature-card-icon">
-                                <i class="fa-solid fa-utensils"></i>
-                            </div>
-                            <div class="feature-card-content">
-                                <h4 class="feature-card-title">World Cuisine</h4>
-                                <p class="feature-card-subtitle">Gourmet Dining</p>
-                            </div>
-                        </div>
-                        <div class="feature-card scroll-animate" data-animation="fadeInUp" data-delay="300">
-                            <div class="feature-card-icon">
-                                <i class="fa-solid fa-mug-hot"></i>
-                            </div>
-                            <div class="feature-card-content">
-                                <h4 class="feature-card-title">Panoramic Bar</h4>
-                                <p class="feature-card-subtitle">Signature Drinks</p>
-                            </div>
-                        </div>
-                        <div class="feature-card scroll-animate" data-animation="fadeInUp" data-delay="400">
-                            <div class="feature-card-icon">
-                                <i class="fa-solid fa-camera-retro"></i>
-                            </div>
-                            <div class="feature-card-content">
-                                <h4 class="feature-card-title">Guided Tours</h4>
-                                <p class="feature-card-subtitle">Expert Guides</p>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- CTA Buttons -->
                     <div class="cruises-cta-buttons scroll-animate" data-animation="fadeInUp" data-delay="500">
                         @php

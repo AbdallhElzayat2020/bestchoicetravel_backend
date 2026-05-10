@@ -13,7 +13,8 @@
                     <span class="highlight">Trip Planner</span>
                 </h1>
                 <p class="trip-planner-hero-subtitle scroll-animate" data-animation="fadeInUp" data-delay="100">
-                    Tell us who is travelling and when — our team will tailor an itinerary to match your dates and style.
+                    Tell us about your dream Egypt journey, and our travel experts will craft a personalized itinerary
+                    tailored to your interests, travel style, and schedule.
                 </p>
             </div>
         </div>
@@ -95,8 +96,8 @@
                                     <div class="col-md-4">
                                         <label class="form-label small text-muted mb-2 d-block">Children (2 to 11)</label>
                                         <div class="counter-field">
-                                            <button type="button" class="counter-btn" data-step="-1"
-                                                data-target="children" aria-label="Decrease children">−</button>
+                                            <button type="button" class="counter-btn" data-step="-1" data-target="children"
+                                                aria-label="Decrease children">−</button>
                                             <input type="number" name="children" id="children"
                                                 class="counter-value @error('children') is-invalid @enderror"
                                                 value="{{ old('children', 0) }}" min="0" max="50" readonly>

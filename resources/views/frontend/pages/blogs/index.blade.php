@@ -2,7 +2,7 @@
 @php
     $blogsPage = \App\Models\Page::getBySlug('blogs');
 @endphp
-@section('meta_title', $blogMetaTitle ?? ($blogsPage && $blogsPage->meta_title ? $blogsPage->meta_title : 'Blogs'))
+@section('meta_title', $blogMetaTitle ?? ($blogsPage && $blogsPage->meta_title ? $blogsPage->meta_title : 'Travel Guide'))
 @php
     $__blogDesc = $blogMetaDescription ?? ($blogsPage && $blogsPage->meta_description ? $blogsPage->meta_description : '');
 @endphp
@@ -34,7 +34,7 @@
                 <div class="blogs-hero-inner">
                     <div class="section-label scroll-animate" data-animation="fadeInUp">
                         <span class="star-icon">✦</span>
-                        <span>TRAVEL EGYPT BLOG</span>
+                        <span>TRAVEL GUIDE</span>
                         <span class="star-icon">✦</span>
                     </div>
                     <h1 class="blogs-hero-title scroll-animate" data-animation="fadeInUp" data-delay="50">

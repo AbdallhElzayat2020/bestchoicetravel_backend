@@ -13,6 +13,7 @@
         <div class="collapse navbar-collapse" id="mainNavbar">
             @php
                 $isHome = request()->routeIs('home');
+                $isNileCruises = request()->routeIs('cruise-catalog.*');
                 $isBlog = request()->routeIs('blogs.*');
                 $isAbout = request()->routeIs('about-us');
                 $isContact = request()->routeIs('contact-us');
@@ -25,6 +26,27 @@
 
                 <!-- 2- Cruises (dynamic main groups + experiences) -->
                 @if (isset($sharedCruiseGroupsWithExperiences) && count($sharedCruiseGroupsWithExperiences) > 0)
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle {{ $isNileCruises ? 'active' : '' }}" href="#"
+                            id="navCruiseMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ $mainCruisesMenuName ?? 'Nile River Cruises' }}
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navCruiseMenu">
+                            @forelse (($sharedCruiseCatalogCategories ?? collect()) as $catalogCategory)
+                                <li>
+                                    <a class="dropdown-item fw-semibold"
+                                        href="{{ route('cruise-catalog.category', $catalogCategory->slug) }}">
+                                        {{ $catalogCategory->name }}
+                                    </a>
+                                </li>
+                            @empty
+                                <li>
+                                    <span class="dropdown-item-text text-muted">No cruise categories yet</span>
+                                </li>
+                            @endforelse
+                        </ul>
+                    </li>
+
                     @foreach ($sharedCruiseGroupsWithExperiences as $groupData)
                         @php
                             /** @var \App\Models\CruiseGroup $group */
@@ -64,30 +86,10 @@
                         @endif
                     @endforeach
 
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navCruiseMenu" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            {{ $mainCruisesMenuName ?? 'Nile River Cruises' }}
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navCruiseMenu">
-                            @forelse (($sharedCruiseCatalogCategories ?? collect()) as $catalogCategory)
-                                <li>
-                                    <a class="dropdown-item fw-semibold"
-                                        href="{{ route('cruise-catalog.category', $catalogCategory->slug) }}">
-                                        {{ $catalogCategory->name }}
-                                    </a>
-                                </li>
-                            @empty
-                                <li>
-                                    <span class="dropdown-item-text text-muted">No cruise categories yet</span>
-                                </li>
-                            @endforelse
-                        </ul>
-                    </li>
                 @endif
 
                 <li class="nav-item">
-                    <a class="nav-link {{ $isBlog ? 'active' : '' }}" href="{{ route('blogs.index') }}">Blog</a>
+                    <a class="nav-link {{ $isBlog ? 'active' : '' }}" href="{{ route('blogs.index') }}">Travel Guide</a>
                 </li>
 
                 <li class="nav-item">
