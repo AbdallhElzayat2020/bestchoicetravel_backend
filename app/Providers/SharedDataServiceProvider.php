@@ -62,6 +62,9 @@ class SharedDataServiceProvider extends ServiceProvider
     {
         // Get all active categories once (used in navbar and footer)
         $categories = Category::where('status', 'active')
+            ->with([
+                'activeSubCategories:id,category_id,name,slug,sort_order',
+            ])
             ->orderBy('sort_order')
             ->get();
 

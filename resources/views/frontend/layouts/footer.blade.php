@@ -24,72 +24,67 @@
             <div class="footer-section">
                 <h3 class="footer-title">Tours</h3>
                 @php
-                    $footerExcludedGroupSlugs = ['egypt-day-tours'];
-                    $footerCruiseRows = collect($sharedCruiseGroupsWithExperiences ?? [])
-                        ->sortBy(fn($d) => $d['group']->sort_order)
-                        ->filter(fn($d) => !in_array($d['group']->slug, $footerExcludedGroupSlugs, true))
-                        ->flatMap(function ($d) {
-                            $group = $d['group'];
-
-                            return $d['experiences']->map(
-                                fn($experience) => ['group' => $group, 'experience' => $experience],
-                            );
-                        });
+                    $footerTourCategories = collect($sharedCategories ?? [])->filter(function ($category) {
+                        return !in_array($category->slug, ['destinations', 'nile-cruises'], true);
+                    });
                 @endphp
                 <ul class="footer-links">
-                    @forelse ($footerCruiseRows as $row)
+                    @forelse ($footerTourCategories as $tourCategory)
                         <li>
-                            <a
-                                href="{{ url($row['group']->slug . '/' . $row['experience']->slug) }}">{{ $row['experience']->title }}</a>
+                            <a href="{{ route('tours.category', $tourCategory->slug) }}">{{ $tourCategory->name }}</a>
                         </li>
                     @empty
                         <li><a href="{{ route('home') }}#packages">Packages</a></li>
                     @endforelse
                 </ul>
-
+            </div>
+            <div class="footer-section">
+                <h3 class="footer-title">{{ $mainCruisesMenuName ?? 'Nile Cruises' }}</h3>
                 @php
                     $footerNileCategories = $sharedCruiseCatalogCategories ?? collect();
                 @endphp
-                @if ($footerNileCategories->count())
-                    <ul class="footer-links footer-links--nile">
-                        @foreach ($footerNileCategories as $catalogCategory)
-                            <li>
-                                <a
-                                    href="{{ route('cruise-catalog.category', $catalogCategory->slug) }}">{{ $catalogCategory->name }}</a>
-                            </li>
-                        @endforeach
-                    </ul>
-                @endif
+                <ul class="footer-links footer-links--nile">
+                    @forelse ($footerNileCategories as $catalogCategory)
+                        <li>
+                            <a
+                                href="{{ route('cruise-catalog.category', $catalogCategory->slug) }}">{{ $catalogCategory->name }}</a>
+                        </li>
+                    @empty
+                        <li><a href="{{ route('home') }}#packages">Packages</a></li>
+                    @endforelse
+                </ul>
             </div>
             <div class="footer-section">
-                <h3 class="footer-title">Company</h3>
+                @php
+                    $footerDestinationsGroupData = collect($sharedCruiseGroupsWithExperiences ?? [])->first(
+                        function ($groupData) {
+                            $group = $groupData['group'] ?? null;
+                            if (!$group) {
+                                return false;
+                            }
+
+                            return strcasecmp((string) $group->name, 'Destinations') === 0
+                                || strcasecmp((string) $group->slug, 'destinations') === 0
+                                || strcasecmp((string) ($group->group_key ?? ''), 'destinations') === 0;
+                        },
+                    );
+                    $footerDestinationsGroup = $footerDestinationsGroupData['group'] ?? null;
+                    $footerDestinations = collect($footerDestinationsGroupData['experiences'] ?? []);
+                @endphp
+                <h3 class="footer-title">{{ $footerDestinationsGroup->name ?? 'Destinations' }}</h3>
                 <ul class="footer-links">
-                    <li><a href="{{ route('blogs.index') }}">Blogs</a></li>
-                    <li><a href="{{ route('about-us') }}">About Us</a></li>
-                    <li><a href="{{ route('contact-us') }}">Contact</a></li>
-                    <li><a href="{{ route('faqs') }}">FAQs</a></li>
-                    <li><a href="{{ route('terms-and-conditions') }}">Terms & Conditions</a></li>
-                    <li><a href="{{ route('payment-policy') }}">Payment Policy</a></li>
-                    <li><a href="{{ route('privacy-policy') }}">Privacy Policy</a></li>
+                    @forelse ($footerDestinations as $destination)
+                        <li>
+                            <a href="{{ url(($footerDestinationsGroup->slug ?? 'destinations') . '/' . $destination->slug) }}">
+                                {{ $destination->title }}
+                            </a>
+                        </li>
+                    @empty
+                        <li><a href="{{ route('home') }}#packages">Packages</a></li>
+                    @endforelse
                 </ul>
             </div>
-            <div class="footer-section">
-                <h3 class="footer-title">Locations</h3>
-                <ul class="footer-contact">
-                    <li>
-                        <span class="contact-icon"><i class="fa-solid fa-location-dot"></i></span>
-                        <span>Cairo, Egypt</span>
-                    </li>
-                    <li>
-                        <span class="contact-icon"><i class="fa-solid fa-phone"></i></span>
-                        <span>+20 123 456 7890</span>
-                    </li>
-                    <li>
-                        <span class="contact-icon"><i class="fa-solid fa-envelope"></i></span>
-                        <span>info@travelegypt.com</span>
-                    </li>
-                </ul>
-            </div>
+
         </div>
         <div class="footer-bottom">
             <p>&copy; 2026 <a href="https://bestchoice.travel" class="text-warning text-decoration-none" target="_blank"

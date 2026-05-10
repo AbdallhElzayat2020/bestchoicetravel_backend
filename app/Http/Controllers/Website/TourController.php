@@ -16,13 +16,23 @@ class TourController extends Controller
     public function byCategory(string $slug)
     {
         $category = Category::active()->where('slug', $slug)->firstOrFail();
+        $destinationSlug = request()->query('destination');
 
-        $tours = Tour::active()
+        $toursQuery = Tour::active()
             ->where('category_id', $category->id)
             ->with(['category', 'subCategory', 'country', 'state'])
-            ->orderBy('sort_order')
+            ->orderBy('sort_order');
+
+        if ($destinationSlug) {
+            $toursQuery->whereHas('subCategory', function ($query) use ($destinationSlug) {
+                $query->where('slug', $destinationSlug)->where('status', 'active');
+            });
+        }
+
+        $tours = $toursQuery
             ->latest()
-            ->paginate(12);
+            ->paginate(12)
+            ->withQueryString();
 
         return view('frontend.pages.tours.category', compact('category', 'tours'));
     }
