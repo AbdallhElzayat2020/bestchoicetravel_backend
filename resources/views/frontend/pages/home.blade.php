@@ -552,7 +552,23 @@
                                         </div> -->
 
             <div class="redsea-cta scroll-animate" data-animation="fadeInUp" data-delay="500">
-                <a href="#packages" class="btn btn-primary">View Egypt Day Tours</a>
+                @php
+                    $redseaBtnText = 'View Egypt Day Tours';
+                    $redseaBtnLink = '#packages';
+
+                    if ($redseaSection) {
+                        $customRedseaBtnText = trim((string) ($redseaSection->button_text ?? ''));
+                        $customRedseaBtnLink = trim((string) ($redseaSection->button_link ?? ''));
+
+                        if (filled($customRedseaBtnText)) {
+                            $redseaBtnText = $customRedseaBtnText;
+                        }
+                        if (filled($customRedseaBtnLink)) {
+                            $redseaBtnLink = $customRedseaBtnLink;
+                        }
+                    }
+                @endphp
+                <a href="{{ $redseaBtnLink }}" class="btn btn-primary">{{ $redseaBtnText }}</a>
             </div>
         </div>
     </section>
