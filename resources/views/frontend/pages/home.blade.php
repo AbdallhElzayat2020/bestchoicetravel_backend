@@ -388,7 +388,17 @@
                                 </div> -->
 
             <div class="redsea-cta scroll-animate" data-animation="fadeInUp" data-delay="500">
-                <a href="#packages" class="btn btn-brown">Egypt Day Tours</a>
+                @php
+                    $dayToursBtnText =
+                        $dayToursSection && $dayToursSection->button_text
+                            ? $dayToursSection->button_text
+                            : 'Egypt Day Tours';
+                    $dayToursBtnLink =
+                        $dayToursSection && $dayToursSection->button_link
+                            ? $dayToursSection->button_link
+                            : '#packages';
+                @endphp
+                <a href="{{ $dayToursBtnLink }}" class="btn btn-brown">{{ $dayToursBtnText }}</a>
             </div>
         </div>
     </section>
@@ -431,33 +441,22 @@
                                                                         feel the silence of the desert with our expert Bedouin guides and premium desert camps." }}
                     </p>
 
-                    <div class="desert-feature-list">
-                        <div class="desert-feature-item">
-                            <i class="fa-solid fa-campground"></i>
-                            <div class="desert-feature-text">
-                                <span class="desert-feature-title">Luxury Desert Camp</span>
-                                <span class="desert-feature-subtitle">Private tents & gourmet dining</span>
-                            </div>
-                        </div>
-                        <div class="desert-feature-item">
-                            <i class="fa-solid fa-star"></i>
-                            <div class="desert-feature-text">
-                                <span class="desert-feature-title">Stargazing Nights</span>
-                                <span class="desert-feature-subtitle">Crystal-clear Milky Way views</span>
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="desert-cta">
                         @php
-                            $desertBtnText =
-                                $desertSection && $desertSection->button_text
-                                    ? $desertSection->button_text
-                                    : 'Book Your Adventure';
-                            $desertBtnLink =
-                                $desertSection && $desertSection->button_link
-                                    ? $desertSection->button_link
-                                    : '#packages';
+                            $desertBtnText = 'Book Your Adventure';
+                            $desertBtnLink = '#packages';
+
+                            if ($desertSection) {
+                                $customDesertBtnText = trim((string) ($desertSection->button_text ?? ''));
+                                $customDesertBtnLink = trim((string) ($desertSection->button_link ?? ''));
+
+                                if (filled($customDesertBtnText)) {
+                                    $desertBtnText = $customDesertBtnText;
+                                }
+                                if (filled($customDesertBtnLink)) {
+                                    $desertBtnLink = $customDesertBtnLink;
+                                }
+                            }
                         @endphp
                         <a href="{{ $desertBtnLink }}" class="btn btn-primary">{{ $desertBtnText }}</a>
                     </div>
@@ -490,23 +489,6 @@
                             : "Ride across Egypt's golden dunes at sunset, camp under a sky filled with stars, and
                                                                         feel the silence of the desert with our expert Bedouin guides and premium desert camps." }}
                     </p>
-
-                    <div class="desert-feature-list">
-                        <div class="desert-feature-item">
-                            <i class="fa-solid fa-campground"></i>
-                            <div class="desert-feature-text">
-                                <span class="desert-feature-title">Luxury Desert Camp</span>
-                                <span class="desert-feature-subtitle">Private tents & gourmet dining</span>
-                            </div>
-                        </div>
-                        <div class="desert-feature-item">
-                            <i class="fa-solid fa-star"></i>
-                            <div class="desert-feature-text">
-                                <span class="desert-feature-title">Stargazing Nights</span>
-                                <span class="desert-feature-subtitle">Crystal-clear Milky Way views</span>
-                            </div>
-                        </div>
-                    </div>
 
                     <div class="desert-cta">
                         @php
