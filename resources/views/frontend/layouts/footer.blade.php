@@ -22,25 +22,6 @@
                 </div>
             </div>
             <div class="footer-section">
-                @php
-                    $footerPrimaryGroupData = collect($sharedCruiseGroupsWithExperiences ?? [])
-                        ->sortBy(fn($groupData) => $groupData['group']->sort_order ?? 0)
-                        ->first();
-                    $footerPrimaryGroup = $footerPrimaryGroupData['group'] ?? null;
-                    $footerPrimaryGroupExperiences = collect($footerPrimaryGroupData['experiences'] ?? []);
-                @endphp
-                <h3 class="footer-title">{{ $footerPrimaryGroup->name ?? 'Egypt Tours' }}</h3>
-                <ul class="footer-links">
-                    @forelse ($footerPrimaryGroupExperiences as $experience)
-                        <li>
-                            <a href="{{ url(($footerPrimaryGroup->slug ?? '') . '/' . $experience->slug) }}">{{ $experience->title }}</a>
-                        </li>
-                    @empty
-                        <li><a href="{{ route('home') }}#packages">Packages</a></li>
-                    @endforelse
-                </ul>
-            </div>
-            <div class="footer-section">
                 <h3 class="footer-title">{{ $mainCruisesMenuName ?? 'Nile Cruises' }}</h3>
                 @php
                     $footerNileCategories = $sharedCruiseCatalogCategories ?? collect();
@@ -56,6 +37,27 @@
                     @endforelse
                 </ul>
             </div>
+            <div class="footer-section">
+                @php
+                    $footerPrimaryGroupData = collect($sharedCruiseGroupsWithExperiences ?? [])
+                        ->sortBy(fn($groupData) => $groupData['group']->sort_order ?? 0)
+                        ->first();
+                    $footerPrimaryGroup = $footerPrimaryGroupData['group'] ?? null;
+                    $footerPrimaryGroupExperiences = collect($footerPrimaryGroupData['experiences'] ?? []);
+                @endphp
+                <h3 class="footer-title">{{ $footerPrimaryGroup->name ?? 'Egypt Tours' }}</h3>
+                <ul class="footer-links">
+                    @forelse ($footerPrimaryGroupExperiences as $experience)
+                        <li>
+                            <a
+                                href="{{ url(($footerPrimaryGroup->slug ?? '') . '/' . $experience->slug) }}">{{ $experience->title }}</a>
+                        </li>
+                    @empty
+                        <li><a href="{{ route('home') }}#packages">Packages</a></li>
+                    @endforelse
+                </ul>
+            </div>
+
             <div class="footer-section">
                 @php
                     $footerDestinationsGroupData = collect($sharedCruiseGroupsWithExperiences ?? [])->first(function (
