@@ -22,16 +22,18 @@
                 </div>
             </div>
             <div class="footer-section">
-                <h3 class="footer-title">Tours</h3>
                 @php
-                    $footerTourCategories = collect($sharedCategories ?? [])->filter(function ($category) {
-                        return !in_array($category->slug, ['destinations', 'nile-cruises'], true);
-                    });
+                    $footerPrimaryGroupData = collect($sharedCruiseGroupsWithExperiences ?? [])
+                        ->sortBy(fn($groupData) => $groupData['group']->sort_order ?? 0)
+                        ->first();
+                    $footerPrimaryGroup = $footerPrimaryGroupData['group'] ?? null;
+                    $footerPrimaryGroupExperiences = collect($footerPrimaryGroupData['experiences'] ?? []);
                 @endphp
+                <h3 class="footer-title">{{ $footerPrimaryGroup->name ?? 'Egypt Tours' }}</h3>
                 <ul class="footer-links">
-                    @forelse ($footerTourCategories as $tourCategory)
+                    @forelse ($footerPrimaryGroupExperiences as $experience)
                         <li>
-                            <a href="{{ route('tours.category', $tourCategory->slug) }}">{{ $tourCategory->name }}</a>
+                            <a href="{{ url(($footerPrimaryGroup->slug ?? '') . '/' . $experience->slug) }}">{{ $experience->title }}</a>
                         </li>
                     @empty
                         <li><a href="{{ route('home') }}#packages">Packages</a></li>
@@ -56,18 +58,18 @@
             </div>
             <div class="footer-section">
                 @php
-                    $footerDestinationsGroupData = collect($sharedCruiseGroupsWithExperiences ?? [])->first(
-                        function ($groupData) {
-                            $group = $groupData['group'] ?? null;
-                            if (!$group) {
-                                return false;
-                            }
+                    $footerDestinationsGroupData = collect($sharedCruiseGroupsWithExperiences ?? [])->first(function (
+                        $groupData,
+                    ) {
+                        $group = $groupData['group'] ?? null;
+                        if (!$group) {
+                            return false;
+                        }
 
-                            return strcasecmp((string) $group->name, 'Destinations') === 0
-                                || strcasecmp((string) $group->slug, 'destinations') === 0
-                                || strcasecmp((string) ($group->group_key ?? ''), 'destinations') === 0;
-                        },
-                    );
+                        return strcasecmp((string) $group->name, 'Destinations') === 0 ||
+                            strcasecmp((string) $group->slug, 'destinations') === 0 ||
+                            strcasecmp((string) ($group->group_key ?? ''), 'destinations') === 0;
+                    });
                     $footerDestinationsGroup = $footerDestinationsGroupData['group'] ?? null;
                     $footerDestinations = collect($footerDestinationsGroupData['experiences'] ?? []);
                 @endphp
@@ -75,7 +77,8 @@
                 <ul class="footer-links">
                     @forelse ($footerDestinations as $destination)
                         <li>
-                            <a href="{{ url(($footerDestinationsGroup->slug ?? 'destinations') . '/' . $destination->slug) }}">
+                            <a
+                                href="{{ url(($footerDestinationsGroup->slug ?? 'destinations') . '/' . $destination->slug) }}">
                                 {{ $destination->title }}
                             </a>
                         </li>
