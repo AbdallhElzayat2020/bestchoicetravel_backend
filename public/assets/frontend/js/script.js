@@ -1,3 +1,28 @@
+// Global site preloader
+(() => {
+    const hidePreloader = () => {
+        const preloader = document.getElementById('sitePreloader');
+        if (!preloader || preloader.classList.contains('site-preloader--hidden')) return;
+
+        preloader.classList.add('site-preloader--hidden');
+        document.body.classList.remove('preloading');
+
+        window.setTimeout(() => {
+            preloader.remove();
+        }, 600);
+    };
+
+    if (document.readyState === 'complete') {
+        hidePreloader();
+    } else {
+        window.addEventListener('load', hidePreloader, { once: true });
+        // Safety fallback in case load is delayed by external assets.
+        window.setTimeout(hidePreloader, 3500);
+    }
+
+    window.addEventListener('pageshow', hidePreloader);
+})();
+
 // Initialize Swiper with 3D Coverflow Effect (Packages)
 if (document.querySelector('.packages-carousel')) {
     // eslint-disable-next-line no-unused-vars

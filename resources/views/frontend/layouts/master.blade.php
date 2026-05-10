@@ -64,7 +64,18 @@
         !empty($announcementBarEnabled ?? false) && isset($sharedAnnouncementBar) && $sharedAnnouncementBar;
 @endphp
 
-<body @class(['has-announcement-bar' => $showAnnouncementBar])>
+<body @class([
+    'has-announcement-bar' => $showAnnouncementBar,
+    'preloading',
+])>
+    <div id="sitePreloader" class="site-preloader" aria-hidden="true">
+        <div class="site-preloader__inner">
+            <img src="{{ asset('assets/frontend/images/logo_main.png') }}" alt="Best Choice Travel"
+                class="site-preloader__logo">
+            <div class="site-preloader__spinner" role="presentation"></div>
+        </div>
+    </div>
+
     <!-- Scroll progress bar -->
     <div class="scroll-progress">
         <div class="scroll-progress-bar" id="scrollProgressBar"></div>
