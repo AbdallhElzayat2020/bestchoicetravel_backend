@@ -56,10 +56,17 @@ body.preloading {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: radial-gradient(circle at center, #f8fbff 0%, #eef4ff 45%, #e7eefb 100%);
+    background: radial-gradient(
+        circle at center,
+        #f8fbff 0%,
+        #eef4ff 45%,
+        #e7eefb 100%
+    );
     opacity: 1;
     visibility: visible;
-    transition: opacity 0.45s ease, visibility 0.45s ease;
+    transition:
+        opacity 0.45s ease,
+        visibility 0.45s ease;
 }
 
 .site-preloader--hidden {
@@ -5983,7 +5990,7 @@ body.modal-open {
 }
 
 .tours-section-heading {
-    max-width: 640px;
+    max-width: 100%;
 }
 
 /* Long program text: full container width, lines spread (not stuck in narrow column) */
@@ -6007,7 +6014,7 @@ body.modal-open {
     line-height: 1.85;
     letter-spacing: 0.015em;
     color: var(--text-medium);
-    font-size: 1.0625rem;
+    font-size: 1.1rem;
 }
 
 .tours-section-long-description .tours-section-prose p,
