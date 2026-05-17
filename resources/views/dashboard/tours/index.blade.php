@@ -75,11 +75,11 @@
                                 <td>
                                     @if($tour->has_offer && $tour->isOfferActive())
                                         <span
-                                            class="text-decoration-line-through text-muted">{{ number_format($tour->price_before_discount, 2) }}</span>
+                                            class="text-decoration-line-through text-muted">{{ $tour->price_before_discount == (int)$tour->price_before_discount ? number_format($tour->price_before_discount, 0) : number_format($tour->price_before_discount, 2) }}</span>
                                         <br>
-                                        <strong class="text-danger">{{ number_format($tour->price_after_discount, 2) }}</strong>
+                                        <strong class="text-danger">{{ $tour->price_after_discount == (int)$tour->price_after_discount ? number_format($tour->price_after_discount, 0) : number_format($tour->price_after_discount, 2) }}</strong>
                                     @else
-                                        <strong>{{ number_format($tour->price, 2) }}</strong>
+                                        <strong>{{ $tour->price == (int)$tour->price ? number_format($tour->price, 0) : number_format($tour->price, 2) }}</strong>
                                     @endif
                                 </td>
                                 <td>

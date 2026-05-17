@@ -593,21 +593,21 @@
                                                         @if($isActive)
                                                             <span class="text-decoration-line-through text-muted"
                                                                 style="color: #8a8d94;">
-                                                                ${{ number_format($tour->price_before_discount, 2) }}
+                                                                ${{ $tour->price_before_discount == (int)$tour->price_before_discount ? number_format($tour->price_before_discount, 0) : number_format($tour->price_before_discount, 2) }}
                                                             </span>
                                                             <br>
                                                             <strong class="text-danger" style="font-size: 1.1rem;">
-                                                                ${{ number_format($tour->price_after_discount, 2) }}
+                                                                ${{ $tour->price_after_discount == (int)$tour->price_after_discount ? number_format($tour->price_after_discount, 0) : number_format($tour->price_after_discount, 2) }}
                                                             </strong>
                                                             <span class="badge bg-label-danger ms-2">Special Offer</span>
                                                         @else
                                                             <strong style="color: #e4e6eb; font-size: 1.1rem;">
-                                                                ${{ number_format($tour->price, 2) }}
+                                                                ${{ $tour->price == (int)$tour->price ? number_format($tour->price, 0) : number_format($tour->price, 2) }}
                                                             </strong>
                                                         @endif
                                                     @else
                                                         <strong style="color: #e4e6eb; font-size: 1.1rem;">
-                                                            ${{ number_format($tour->price, 2) }}
+                                                            ${{ $tour->price == (int)$tour->price ? number_format($tour->price, 0) : number_format($tour->price, 2) }}
                                                         </strong>
                                                     @endif
                                                 </td>
@@ -751,7 +751,7 @@
                                                 @if($variant->additional_price > 0)
                                                     <div class="variant-info-item">
                                                         <i class="ti ti-currency-dollar"></i>
-                                                        <span>+${{ number_format($variant->additional_price, 2) }}</span>
+                                                        <span>+${{ $variant->additional_price == (int)$variant->additional_price ? number_format($variant->additional_price, 0) : number_format($variant->additional_price, 2) }}</span>
                                                     </div>
                                                 @endif
                                             </div>
@@ -845,7 +845,7 @@
                                                                 <div style="display: flex; align-items: center; margin-bottom: 0.75rem;">
                                                                     <i class="ti ti-coins" style="color: #43e97b; font-size: 1.3rem; margin-right: 0.75rem;"></i>
                                                                     <div style="color: #e4e6eb; font-size: 1.6rem; font-weight: 700;">
-                                                                        US$ {{ number_format($item->price_value, 2) }}
+                                                                        US$ {{ $item->price_value == (int)$item->price_value ? number_format($item->price_value, 0) : number_format($item->price_value, 2) }}
                                                                     </div>
                                                                 </div>
                                                                 <div style="color: #b0b3b8; font-size: 0.95rem; margin-bottom: 0.5rem; font-weight: 500;">
