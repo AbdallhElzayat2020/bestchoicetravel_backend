@@ -285,6 +285,125 @@
                                 <p class="text-muted">No itinerary details available for this tour yet.</p>
                             @endforelse
                         </div>
+
+                        @if(!empty($tour->included) || !empty($tour->excluded))
+                            <!-- Inclusions and Exclusions -->
+                            <div class="row g-4 mt-4 scroll-animate" data-animation="fadeInUp">
+                                @if(!empty($tour->included))
+                                    <div class="{{ !empty($tour->excluded) ? 'col-md-6' : 'col-12' }}">
+                                        <div class="inclusion-box">
+                                            <h3 class="inc-exc-title">
+                                                <span class="title-icon"><i class="fa-solid fa-circle-check"></i></span>
+                                                What's Included
+                                            </h3>
+                                            <div class="inc-exc-content">
+                                                {!! $tour->included !!}
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+
+                                @if(!empty($tour->excluded))
+                                    <div class="{{ !empty($tour->included) ? 'col-md-6' : 'col-12' }}">
+                                        <div class="exclusion-box">
+                                            <h3 class="inc-exc-title">
+                                                <span class="title-icon"><i class="fa-solid fa-circle-xmark"></i></span>
+                                                What's Excluded
+                                            </h3>
+                                            <div class="inc-exc-content">
+                                                {!! $tour->excluded !!}
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+
+                            <style>
+                                .inclusion-box, .exclusion-box {
+                                    background: #ffffff;
+                                    border: 1px solid rgba(0, 0, 0, 0.08);
+                                    border-radius: 16px;
+                                    padding: 30px;
+                                    height: 100%;
+                                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                                    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+                                }
+
+                                .inclusion-box:hover {
+                                    border-color: rgba(46, 196, 182, 0.5);
+                                    transform: translateY(-5px);
+                                    box-shadow: 0 8px 30px rgba(46, 196, 182, 0.12);
+                                }
+
+                                .exclusion-box:hover {
+                                    border-color: rgba(231, 111, 81, 0.5);
+                                    transform: translateY(-5px);
+                                    box-shadow: 0 8px 30px rgba(231, 111, 81, 0.12);
+                                }
+
+                                .inc-exc-title {
+                                    font-size: 1.4rem;
+                                    font-weight: 700;
+                                    margin-bottom: 25px;
+                                    display: flex;
+                                    align-items: center;
+                                    gap: 12px;
+                                }
+
+                                .inclusion-box .inc-exc-title {
+                                    color: #198754 !important;
+                                }
+
+                                .exclusion-box .inc-exc-title {
+                                    color: #dc3545 !important;
+                                }
+
+                                .title-icon {
+                                    font-size: 1.3rem;
+                                }
+
+                                .inc-exc-content ul {
+                                    list-style: none !important;
+                                    padding-left: 0 !important;
+                                    margin-bottom: 0 !important;
+                                }
+
+                                .inc-exc-content ul li {
+                                    position: relative !important;
+                                    padding-left: 32px !important;
+                                    margin-bottom: 15px !important;
+                                    font-size: 1.05rem !important;
+                                    color: #212529 !important;
+                                    line-height: 1.6 !important;
+                                }
+
+                                .inc-exc-content ul li:last-child {
+                                    margin-bottom: 0 !important;
+                                }
+
+                                .inclusion-box .inc-exc-content ul li::before {
+                                    content: "\f00c" !important;
+                                    font-family: "Font Awesome 6 Free" !important;
+                                    font-weight: 900 !important;
+                                    position: absolute !important;
+                                    left: 0 !important;
+                                    top: 3px !important;
+                                    color: #198754 !important;
+                                    font-size: 1.1rem !important;
+                                }
+
+                                .exclusion-box .inc-exc-content ul li::before {
+                                    content: "\f00d" !important;
+                                    font-family: "Font Awesome 6 Free" !important;
+                                    font-weight: 900 !important;
+                                    position: absolute !important;
+                                    left: 0 !important;
+                                    top: 3px !important;
+                                    color: #dc3545 !important;
+                                    font-size: 1.1rem !important;
+                                }
+                            </style>
+                        @endif
                     </div>
                 </div>
             </div>

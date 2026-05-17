@@ -699,6 +699,35 @@
                                 </div>
                             </div>
 
+                            <!-- Included & Excluded Section -->
+                            <div class="section-card">
+                                <div class="section-header settings">
+                                    <h6>
+                                        <i class="ti ti-list-check" style="color: #30cfd0;"></i>
+                                        Included & Excluded
+                                    </h6>
+                                </div>
+                                <div class="section-body">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="included" class="form-label text-success" style="font-weight: 600;">Included <span class="star-icon">✦</span></label>
+                                            <textarea class="form-control @error('included') is-invalid @enderror" id="included" name="included" rows="6">{{ old('included') }}</textarea>
+                                            @error('included')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-6 mb-3">
+                                            <label for="excluded" class="form-label text-danger" style="font-weight: 600;">Excluded  <span class="star-icon">✦</span></label>
+                                            <textarea class="form-control @error('excluded') is-invalid @enderror" id="excluded" name="excluded" rows="6">{{ old('excluded') }}</textarea>
+                                            @error('excluded')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <!-- Tour Variants Section -->
                             <div class="section-card">
                                 <div class="section-header settings">
@@ -932,6 +961,36 @@
                         ['view', ['fullscreen', 'codeview']]
                     ],
                     placeholder: 'Write short description...',
+                    tabsize: 2,
+                    focus: false,
+                    dialogsInBody: true
+                });
+
+                // Initialize Summernote for included
+                $('#included').summernote({
+                    height: 200,
+                    tooltip: false,
+                    toolbar: [
+                        ['font', ['bold', 'italic', 'underline', 'clear']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['view', ['codeview']]
+                    ],
+                    placeholder: 'What is included in the tour (bullet points)...',
+                    tabsize: 2,
+                    focus: false,
+                    dialogsInBody: true
+                });
+
+                // Initialize Summernote for excluded
+                $('#excluded').summernote({
+                    height: 200,
+                    tooltip: false,
+                    toolbar: [
+                        ['font', ['bold', 'italic', 'underline', 'clear']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['view', ['codeview']]
+                    ],
+                    placeholder: 'What is excluded from the tour (bullet points)...',
                     tabsize: 2,
                     focus: false,
                     dialogsInBody: true

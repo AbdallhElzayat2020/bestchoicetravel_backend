@@ -35,6 +35,8 @@ class Tour extends Model
         'offer_start_date',
         'offer_end_date',
         'notes',
+        'included',
+        'excluded',
         'sort_order',
     ];
 
