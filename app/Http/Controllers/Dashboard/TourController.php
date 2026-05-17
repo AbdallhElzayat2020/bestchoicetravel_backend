@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
 use App\Models\Country;
+use App\Models\CruiseExperience;
+use App\Models\CruiseGroup;
 use App\Models\State;
-use App\Models\SubCategory;
 use App\Models\Tour;
 use App\Models\TourDay;
 use App\Models\TourImage;
@@ -27,7 +27,7 @@ class TourController extends Controller
      */
     public function index()
     {
-        $tours = Tour::with(['category', 'subCategory', 'country', 'state', 'tourDays'])
+        $tours = Tour::with(['cruiseGroup', 'cruiseExperience', 'country', 'state', 'tourDays'])
             ->orderBy('sort_order')
             ->latest()
             ->paginate(15);
@@ -39,12 +39,12 @@ class TourController extends Controller
      */
     public function create()
     {
-        $categories = Category::active()->orderBy('name')->get();
+        $cruiseGroups = CruiseGroup::active()->orderBy('sort_order')->orderBy('name')->get();
         $countries = Country::active()->orderBy('name')->get();
         // Don't load states initially - they will be loaded via AJAX
         $states = collect();
         $availableVariants = TourVariant::active()->orderBy('sort_order')->get();
-        return view('dashboard.tours.create', compact('categories', 'countries', 'states', 'availableVariants'));
+        return view('dashboard.tours.create', compact('cruiseGroups', 'countries', 'states', 'availableVariants'));
     }
 
     /**
@@ -53,7 +53,8 @@ class TourController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'category_id' => 'nullable|exists:categories,id',
+            'cruise_group_id' => 'nullable|exists:cruise_groups,id',
+            'cruise_experience_id' => 'nullable|exists:cruise_experiences,id',
             'country_id' => 'required|exists:countries,id',
             'state_id' => 'nullable|exists:states,id',
             'title' => 'required|string|max:255|unique:tours,title',
@@ -123,11 +124,14 @@ class TourController extends Controller
         $validated['show_on_homepage'] = $request->has('show_on_homepage') ? true : false;
         $validated['has_offer'] = $request->has('has_offer') ? true : false;
 
+        $validated = $this->applyCruiseCategoryFields($validated);
+
         // Use database transaction
         DB::beginTransaction();
         try {
             // Create tour
             $tour = Tour::create($validated);
+            $this->syncCruiseExperiencePivot($tour, $validated['cruise_experience_id'] ?? null);
 
             // Handle tour days
             if ($request->has('tour_days') && is_array($request->tour_days)) {
@@ -236,8 +240,8 @@ class TourController extends Controller
     public function show(string $id)
     {
         $tour = Tour::with([
-            'category',
-            'subCategory',
+            'cruiseGroup',
+            'cruiseExperience',
             'country',
             'state',
             'tourDays' => function ($query) {
@@ -265,6 +269,7 @@ class TourController extends Controller
     public function edit(string $id)
     {
         $tour = Tour::with([
+            'cruiseExperience',
             'tourDays' => function ($query) {
                 $query->orderBy('day_number')->orderBy('sort_order');
             },
@@ -279,12 +284,16 @@ class TourController extends Controller
             }
         ])->findOrFail($id);
 
-        $categories = Category::active()->orderBy('name')->get();
+        $cruiseGroups = CruiseGroup::active()->orderBy('sort_order')->orderBy('name')->get();
         $countries = Country::active()->orderBy('name')->get();
         $states = State::where('country_id', $tour->country_id)->active()->orderBy('name')->get();
         $availableVariants = TourVariant::active()->orderBy('sort_order')->get();
+        $selectedCruiseGroupId = old('cruise_group_id', $tour->cruise_group_id ?? $tour->cruiseExperience?->cruise_group_id);
+        $cruiseExperiences = $selectedCruiseGroupId
+            ? CruiseExperience::active()->where('cruise_group_id', $selectedCruiseGroupId)->orderBy('sort_order')->orderBy('title')->get()
+            : collect();
 
-        return view('dashboard.tours.edit', compact('tour', 'categories', 'countries', 'states', 'availableVariants'));
+        return view('dashboard.tours.edit', compact('tour', 'cruiseGroups', 'cruiseExperiences', 'countries', 'states', 'availableVariants', 'selectedCruiseGroupId'));
     }
 
     /**
@@ -295,7 +304,8 @@ class TourController extends Controller
         $tour = Tour::findOrFail($id);
 
         $validated = $request->validate([
-            'category_id' => 'nullable|exists:categories,id',
+            'cruise_group_id' => 'nullable|exists:cruise_groups,id',
+            'cruise_experience_id' => 'nullable|exists:cruise_experiences,id',
             'country_id' => 'required|exists:countries,id',
             'state_id' => 'nullable|exists:states,id',
             'title' => 'required|string|max:255|unique:tours,title,' . $id,
@@ -377,11 +387,14 @@ class TourController extends Controller
         $validated['show_on_homepage'] = $request->has('show_on_homepage') ? true : false;
         $validated['has_offer'] = $request->has('has_offer') ? true : false;
 
+        $validated = $this->applyCruiseCategoryFields($validated);
+
         // Use database transaction
         DB::beginTransaction();
         try {
             // Update tour
             $tour->update($validated);
+            $this->syncCruiseExperiencePivot($tour, $validated['cruise_experience_id'] ?? null);
 
             // Handle deleted days
             if ($request->has('deleted_days') && is_array($request->deleted_days)) {
@@ -637,21 +650,65 @@ class TourController extends Controller
     }
 
     /**
-     * Get subcategories by category (AJAX)
+     * Get cruise experiences (sub categories) by cruise group (AJAX)
      */
     public function getSubCategoriesByCategory(Request $request)
     {
-        $categoryId = $request->get('category_id') ?? $request->input('category_id');
+        $cruiseGroupId = $request->get('cruise_group_id') ?? $request->input('cruise_group_id');
 
-        if (!$categoryId) {
+        if (! $cruiseGroupId) {
             return response()->json([]);
         }
 
-        $subCategories = SubCategory::where('category_id', $categoryId)
+        $experiences = CruiseExperience::where('cruise_group_id', $cruiseGroupId)
             ->active()
-            ->orderBy('name')
-            ->get(['id', 'name']);
+            ->orderBy('sort_order')
+            ->orderBy('title')
+            ->get(['id', 'title'])
+            ->map(fn ($experience) => [
+                'id' => $experience->id,
+                'name' => $experience->title,
+            ])
+            ->values();
 
-        return response()->json($subCategories);
+        return response()->json($experiences);
+    }
+
+    /**
+     * Normalize cruise group/experience fields before save.
+     */
+    private function applyCruiseCategoryFields(array $validated): array
+    {
+        $experienceId = $validated['cruise_experience_id'] ?? null;
+        $groupId = $validated['cruise_group_id'] ?? null;
+
+        if ($experienceId) {
+            $experience = CruiseExperience::find($experienceId);
+            if ($experience) {
+                $validated['cruise_group_id'] = $experience->cruise_group_id;
+                if ($groupId && (int) $groupId !== (int) $experience->cruise_group_id) {
+                    $validated['cruise_experience_id'] = null;
+                }
+            }
+        } elseif ($groupId) {
+            $validated['cruise_experience_id'] = null;
+        } else {
+            $validated['cruise_group_id'] = null;
+            $validated['cruise_experience_id'] = null;
+        }
+
+        return $validated;
+    }
+
+    /**
+     * Keep pivot table in sync with selected sub category.
+     */
+    private function syncCruiseExperiencePivot(Tour $tour, ?int $cruiseExperienceId): void
+    {
+        if ($cruiseExperienceId) {
+            $tour->cruiseExperiences()->sync([$cruiseExperienceId]);
+        } else {
+            $tour->cruiseExperiences()->detach();
+        }
     }
 }

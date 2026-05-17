@@ -53,13 +53,13 @@
                                 </td>
                                 <td>{{ Str::limit($tour->title, 30) }}</td>
                                 <td>
-                                    @if($tour->category)
-                                        <span class="badge bg-label-info">{{ $tour->category->name }}</span>
+                                    @if($tour->cruiseGroup)
+                                        <span class="badge bg-label-info">{{ $tour->cruiseGroup->name }}</span>
                                     @else
                                         <span class="badge bg-label-secondary">No Category</span>
                                     @endif
-                                    @if($tour->subCategory)
-                                        <br><small class="text-muted">{{ $tour->subCategory->name }}</small>
+                                    @if($tour->cruiseExperience)
+                                        <br><small class="text-muted">{{ $tour->cruiseExperience->title }}</small>
                                     @endif
                                 </td>
                                 <td>

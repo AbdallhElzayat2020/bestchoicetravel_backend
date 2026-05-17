@@ -75,7 +75,9 @@
 
                             // Location
                             $locationParts = [];
-                            if ($tour->category) {
+                            if ($tour->display_category_name) {
+                                $locationParts[] = $tour->display_category_name;
+                            } elseif ($tour->category) {
                                 $locationParts[] = $tour->category->name;
                             }
                             if ($tour->country) {

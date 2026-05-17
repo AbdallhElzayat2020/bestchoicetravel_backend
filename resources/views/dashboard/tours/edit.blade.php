@@ -377,19 +377,36 @@
                                 </div>
                                 <div class="section-body">
                                     <div class="row">
-                                        <div class="col-md-12 mb-3">
-                                            <label for="category_id" class="form-label">Category</label>
-                                            <select class="form-select @error('category_id') is-invalid @enderror"
-                                                id="category_id" name="category_id">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="cruise_group_id" class="form-label">Category</label>
+                                            <select class="form-select @error('cruise_group_id') is-invalid @enderror"
+                                                id="cruise_group_id" name="cruise_group_id">
                                                 <option value="">Select Category</option>
-                                                @foreach ($categories as $category)
-                                                    <option value="{{ $category->id }}"
-                                                        {{ old('category_id', $tour->category_id) == $category->id ? 'selected' : '' }}>
-                                                        {{ $category->name }}
+                                                @foreach ($cruiseGroups as $cruiseGroup)
+                                                    <option value="{{ $cruiseGroup->id }}"
+                                                        {{ old('cruise_group_id', $selectedCruiseGroupId) == $cruiseGroup->id ? 'selected' : '' }}>
+                                                        {{ $cruiseGroup->name }}
                                                     </option>
                                                 @endforeach
                                             </select>
-                                            @error('category_id')
+                                            @error('cruise_group_id')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="cruise_experience_id" class="form-label">Sub Category</label>
+                                            <select class="form-select @error('cruise_experience_id') is-invalid @enderror"
+                                                id="cruise_experience_id" name="cruise_experience_id">
+                                                <option value="">Select Sub Category</option>
+                                                @foreach ($cruiseExperiences as $experience)
+                                                    <option value="{{ $experience->id }}"
+                                                        {{ old('cruise_experience_id', $tour->cruise_experience_id) == $experience->id ? 'selected' : '' }}>
+                                                        {{ $experience->title }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            <small class="text-muted">Select a category to load sub categories</small>
+                                            @error('cruise_experience_id')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
@@ -1487,6 +1504,39 @@
             @if ($tour->country_id)
                 loadStates({{ $tour->country_id }}, {{ $tour->state_id ?? 'null' }});
             @endif
+
+            const selectedCruiseExperienceId = @json(old('cruise_experience_id', $tour->cruise_experience_id));
+
+            function loadCruiseExperiences(cruiseGroupId, selectedExperienceId) {
+                if (cruiseGroupId) {
+                    $.ajax({
+                        url: '{{ route('admin.tours.get-subcategories-by-category') }}',
+                        type: 'GET',
+                        data: { cruise_group_id: cruiseGroupId },
+                        dataType: 'json',
+                        success: function(data) {
+                            $('#cruise_experience_id').html('<option value="">Select Sub Category</option>');
+                            if (data && data.length > 0) {
+                                $.each(data, function(key, value) {
+                                    const selected = selectedExperienceId && String(selectedExperienceId) === String(value.id) ? ' selected' : '';
+                                    $('#cruise_experience_id').append('<option value="' + value.id + '"' + selected + '>' + value.name + '</option>');
+                                });
+                            } else {
+                                $('#cruise_experience_id').append('<option value="">No sub categories available</option>');
+                            }
+                        },
+                        error: function() {
+                            $('#cruise_experience_id').html('<option value="">Error loading sub categories</option>');
+                        }
+                    });
+                } else {
+                    $('#cruise_experience_id').html('<option value="">Select Category First</option>');
+                }
+            }
+
+            $(document).on('change', '#cruise_group_id', function() {
+                loadCruiseExperiences($(this).val(), null);
+            });
 
             // Image counter - start from max existing images count
             let imageCounter = {{ $tour->tourImages->count() ?? 0 }};

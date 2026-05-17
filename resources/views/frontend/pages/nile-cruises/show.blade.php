@@ -120,8 +120,8 @@
                                     </div>
                                     <div class="tours-card-body">
                                         <div class="tours-card-top">
-                                            @if ($tour->category)
-                                                <span class="tours-card-category">{{ $tour->category->name }}</span>
+                                            @if ($tour->display_category_name)
+                                                <span class="tours-card-category">{{ $tour->display_category_name }}</span>
                                             @endif
                                         </div>
                                         <h3 class="tours-card-title">{{ $tour->title }}</h3>

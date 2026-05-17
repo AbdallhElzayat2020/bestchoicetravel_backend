@@ -53,7 +53,7 @@ class CruiseExperienceController extends Controller
         // Get only the selected related tours
         $relatedTours = $experience->tours()
             ->active()
-            ->with(['category', 'country', 'state'])
+            ->with(['cruiseGroup', 'cruiseExperience', 'category', 'country', 'state'])
             ->orderBy('sort_order')
             ->latest()
             ->paginate(15);

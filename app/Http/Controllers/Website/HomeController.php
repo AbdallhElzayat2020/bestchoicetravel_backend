@@ -55,6 +55,8 @@ class HomeController extends Controller
                 'slug',
                 'category_id',
                 'sub_category_id',
+                'cruise_group_id',
+                'cruise_experience_id',
                 'country_id',
                 'state_id',
                 'cover_image',
@@ -69,10 +71,12 @@ class HomeController extends Controller
                 'created_at'
             )
             ->with([
+                'cruiseGroup:id,name,slug',
+                'cruiseExperience:id,title,slug',
                 'category:id,name,slug',
                 'subCategory:id,name,slug',
                 'country:id,name',
-                'state:id,name'
+                'state:id,name',
             ])
             ->orderBy('sort_order')
             ->latest()

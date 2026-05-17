@@ -322,6 +322,7 @@
             </div>
         </section>
 
+        @if (isset($relatedTours) && $relatedTours->isNotEmpty())
         <!-- Related Tours -->
         <section class="tour-related section-padding">
             <div class="container">
@@ -336,7 +337,7 @@
                     </h2>
                 </div>
                 <div class="row g-4">
-                    @forelse ($relatedTours as $relatedTour)
+                    @foreach ($relatedTours as $relatedTour)
                         @php
                             $relatedCover = $relatedTour->cover_image
                                 ? asset('uploads/tours/' . $relatedTour->cover_image)
@@ -375,9 +376,9 @@
                                             <span>{{ strtoupper($location) }}</span>
                                         </div>
                                     @endif
-                                    @if ($relatedTour->category)
+                                    @if ($relatedTour->display_category_name)
                                         <div class="category-badge">
-                                            {{ strtoupper($relatedTour->category->name) }}
+                                            {{ strtoupper($relatedTour->display_category_name) }}
                                         </div>
                                     @endif
                                 </div>
@@ -409,16 +410,11 @@
                                 </div>
                             </a>
                         </div>
-                    @empty
-                        <div class="col-12">
-                            <p class="text-center text-muted mb-0">
-                                No related tours found in this category yet.
-                            </p>
-                        </div>
-                    @endforelse
+                    @endforeach
                 </div>
             </div>
         </section>
+        @endif
     </main>
 
     <!-- Tour Gallery Lightbox Modal -->

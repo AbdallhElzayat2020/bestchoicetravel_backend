@@ -11,6 +11,8 @@ class Tour extends Model
     protected $fillable = [
         'category_id',
         'sub_category_id',
+        'cruise_group_id',
+        'cruise_experience_id',
         'country_id',
         'state_id',
         'title',
@@ -84,6 +86,30 @@ class Tour extends Model
     public function subCategory()
     {
         return $this->belongsTo(SubCategory::class);
+    }
+
+    /**
+     * Get the cruise group (main category) for the tour.
+     */
+    public function cruiseGroup()
+    {
+        return $this->belongsTo(CruiseGroup::class);
+    }
+
+    /**
+     * Get the cruise experience (sub category) for the tour.
+     */
+    public function cruiseExperience()
+    {
+        return $this->belongsTo(CruiseExperience::class);
+    }
+
+    /**
+     * Cruise experiences linked via pivot (kept in sync with cruise_experience_id).
+     */
+    public function cruiseExperiences()
+    {
+        return $this->belongsToMany(CruiseExperience::class, 'cruise_experience_tour')->withTimestamps();
     }
 
     /**
@@ -169,6 +195,22 @@ class Tour extends Model
             return $this->price_after_discount ?? $this->price;
         }
         return $this->price;
+    }
+
+    /**
+     * Display name for category badge (cruise group or legacy category).
+     */
+    public function getDisplayCategoryNameAttribute(): ?string
+    {
+        return $this->cruiseGroup?->name ?? $this->category?->name;
+    }
+
+    /**
+     * Display name for sub category (cruise experience or legacy sub category).
+     */
+    public function getDisplaySubCategoryNameAttribute(): ?string
+    {
+        return $this->cruiseExperience?->title ?? $this->subCategory?->name;
     }
 
     /**

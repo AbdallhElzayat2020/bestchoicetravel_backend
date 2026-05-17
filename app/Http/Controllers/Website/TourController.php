@@ -41,6 +41,8 @@ class TourController extends Controller
     {
         $tour = Tour::active()
             ->with([
+                'cruiseGroup',
+                'cruiseExperience',
                 'category',
                 'subCategory',
                 'state',
@@ -65,16 +67,29 @@ class TourController extends Controller
             ->where('slug', $slug)
             ->firstOrFail();
 
-        // Get related tours (same category only) with eager loading
-        // Laravel will optimize and reuse already loaded relations when IDs match
-        $relatedTours = Tour::active()
+        $relatedToursQuery = Tour::active()
             ->where('id', '!=', $tour->id)
-            ->where('category_id', $tour->category_id)
-            ->with(['category:id,name,slug', 'country:id,name,code', 'state:id,name,slug'])
+            ->with([
+                'cruiseGroup:id,name,slug',
+                'cruiseExperience:id,title,slug',
+                'category:id,name,slug',
+                'country:id,name,code',
+                'state:id,name,slug',
+            ])
             ->orderBy('sort_order')
-            ->latest()
-            ->take(8)
-            ->get();
+            ->latest();
+
+        if ($tour->cruise_experience_id) {
+            $relatedToursQuery->where('cruise_experience_id', $tour->cruise_experience_id);
+        } elseif ($tour->cruise_group_id) {
+            $relatedToursQuery->where('cruise_group_id', $tour->cruise_group_id);
+        } elseif ($tour->category_id) {
+            $relatedToursQuery->where('category_id', $tour->category_id);
+        } else {
+            $relatedToursQuery->whereRaw('1 = 0');
+        }
+
+        $relatedTours = $relatedToursQuery->take(8)->get();
 
         // Get FAQs for the tour page
         $faqs = Faq::where('status', 'active')
