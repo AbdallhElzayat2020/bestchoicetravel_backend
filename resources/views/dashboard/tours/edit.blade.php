@@ -383,8 +383,7 @@
                                                 id="cruise_group_id" name="cruise_group_id">
                                                 <option value="">Select Category</option>
                                                 @foreach ($cruiseGroups as $cruiseGroup)
-                                                    <option value="{{ $cruiseGroup->id }}"
-                                                        {{ old('cruise_group_id', $selectedCruiseGroupId) == $cruiseGroup->id ? 'selected' : '' }}>
+                                                    <option value="{{ $cruiseGroup->id }}" {{ old('cruise_group_id', $selectedCruiseGroupId) == $cruiseGroup->id ? 'selected' : '' }}>
                                                         {{ $cruiseGroup->name }}
                                                     </option>
                                                 @endforeach
@@ -399,8 +398,7 @@
                                                 id="cruise_experience_id" name="cruise_experience_id">
                                                 <option value="">Select Sub Category</option>
                                                 @foreach ($cruiseExperiences as $experience)
-                                                    <option value="{{ $experience->id }}"
-                                                        {{ old('cruise_experience_id', $tour->cruise_experience_id) == $experience->id ? 'selected' : '' }}>
+                                                    <option value="{{ $experience->id }}" {{ old('cruise_experience_id', $tour->cruise_experience_id) == $experience->id ? 'selected' : '' }}>
                                                         {{ $experience->title }}
                                                     </option>
                                                 @endforeach
@@ -420,8 +418,7 @@
                                                 id="country_id" name="country_id" required>
                                                 <option value="">Select Country</option>
                                                 @foreach ($countries as $country)
-                                                    <option value="{{ $country->id }}"
-                                                        {{ old('country_id', $tour->country_id) == $country->id ? 'selected' : '' }}>
+                                                    <option value="{{ $country->id }}" {{ old('country_id', $tour->country_id) == $country->id ? 'selected' : '' }}>
                                                         {{ $country->name }}
                                                     </option>
                                                 @endforeach
@@ -437,8 +434,7 @@
                                                 id="state_id" name="state_id">
                                                 <option value="">Select State</option>
                                                 @foreach ($states as $state)
-                                                    <option value="{{ $state->id }}"
-                                                        {{ old('state_id', $tour->state_id) == $state->id ? 'selected' : '' }}>
+                                                    <option value="{{ $state->id }}" {{ old('state_id', $tour->state_id) == $state->id ? 'selected' : '' }}>
                                                         {{ $state->name }}
                                                     </option>
                                                 @endforeach
@@ -453,8 +449,7 @@
                                         <label for="title" class="form-label">Title <span
                                                 class="text-danger">*</span></label>
                                         <input type="text" class="form-control @error('title') is-invalid @enderror"
-                                            id="title" name="title" value="{{ old('title', $tour->title) }}"
-                                            required>
+                                            id="title" name="title" value="{{ old('title', $tour->title) }}" required>
                                         @error('title')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -474,8 +469,9 @@
 
                                     <div class="mb-3">
                                         <label for="short_description" class="form-label">Short Description</label>
-                                        <textarea class="form-control @error('short_description') is-invalid @enderror" id="short_description"
-                                            name="short_description" rows="3">{{ old('short_description', $tour->short_description) }}</textarea>
+                                        <textarea class="form-control @error('short_description') is-invalid @enderror"
+                                            id="short_description" name="short_description"
+                                            rows="3">{{ old('short_description', $tour->short_description) }}</textarea>
                                         @error('short_description')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -483,7 +479,8 @@
 
                                     <div class="mb-3">
                                         <label for="description" class="form-label">Description</label>
-                                        <textarea class="form-control summernote @error('description') is-invalid @enderror" id="description"
+                                        <textarea class="form-control summernote @error('description') is-invalid @enderror"
+                                            id="description"
                                             name="description">{{ old('description', $tour->description) }}</textarea>
                                         @error('description')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -507,12 +504,10 @@
                                             <div class="mb-3">
                                                 <img src="{{ asset('uploads/tours/' . $tour->cover_image) }}"
                                                     alt="{{ $tour->cover_image_alt ?? $tour->title }}"
-                                                    class="img-thumbnail rounded"
-                                                    style="max-width: 300px; max-height: 200px;">
+                                                    class="img-thumbnail rounded" style="max-width: 300px; max-height: 200px;">
                                             </div>
                                         @endif
-                                        <input type="file"
-                                            class="form-control @error('cover_image') is-invalid @enderror"
+                                        <input type="file" class="form-control @error('cover_image') is-invalid @enderror"
                                             id="cover_image" name="cover_image" accept="image/*">
                                         <small class="text-muted">Leave empty to keep current image. Recommended size:
                                             1200x600px. Max size: 2MB</small>
@@ -568,8 +563,7 @@
                                                                         accept="image/*">
                                                                     <small class="text-muted">Leave empty to keep current
                                                                         image</small>
-                                                                    <input type="hidden"
-                                                                        name="tour_images[{{ $image->id }}][id]"
+                                                                    <input type="hidden" name="tour_images[{{ $image->id }}][id]"
                                                                         value="{{ $image->id }}">
                                                                     <div class="image-preview mt-2"></div>
                                                                 </div>
@@ -622,9 +616,9 @@
                                             <label for="duration" class="form-label">Duration <span
                                                     class="text-danger">*</span></label>
                                             <input type="number"
-                                                class="form-control @error('duration') is-invalid @enderror"
-                                                id="duration" name="duration"
-                                                value="{{ old('duration', $tour->duration) }}" min="1" required>
+                                                class="form-control @error('duration') is-invalid @enderror" id="duration"
+                                                name="duration" value="{{ old('duration', $tour->duration) }}" min="1"
+                                                required>
                                             @error('duration')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -635,11 +629,9 @@
                                                     class="text-danger">*</span></label>
                                             <select class="form-select @error('duration_type') is-invalid @enderror"
                                                 id="duration_type" name="duration_type" required>
-                                                <option value="days"
-                                                    {{ old('duration_type', $tour->duration_type) == 'days' ? 'selected' : '' }}>
+                                                <option value="days" {{ old('duration_type', $tour->duration_type) == 'days' ? 'selected' : '' }}>
                                                     Days</option>
-                                                <option value="hours"
-                                                    {{ old('duration_type', $tour->duration_type) == 'hours' ? 'selected' : '' }}>
+                                                <option value="hours" {{ old('duration_type', $tour->duration_type) == 'hours' ? 'selected' : '' }}>
                                                     Hours</option>
                                             </select>
                                             @error('duration_type')
@@ -655,9 +647,8 @@
                                         <div class="col-md-6 mb-3">
                                             <label for="price" class="form-label">Price <span
                                                     class="text-danger">*</span></label>
-                                            <input type="number"
-                                                class="form-control @error('price') is-invalid @enderror" id="price"
-                                                name="price" value="{{ old('price', $tour->price) }}" step="0.01"
+                                            <input type="number" class="form-control @error('price') is-invalid @enderror"
+                                                id="price" name="price" value="{{ old('price', $tour->price) }}" step="0.01"
                                                 min="0" required>
                                             @error('price')
                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -667,8 +658,7 @@
                                         <div class="col-md-6 mb-3">
                                             <div class="form-check mt-4">
                                                 <input class="form-check-input" type="checkbox" id="has_offer"
-                                                    name="has_offer" value="1"
-                                                    {{ old('has_offer', $tour->has_offer) ? 'checked' : '' }}>
+                                                    name="has_offer" value="1" {{ old('has_offer', $tour->has_offer) ? 'checked' : '' }}>
                                                 <label class="form-check-label" for="has_offer">
                                                     Has Offer
                                                 </label>
@@ -746,13 +736,11 @@
                                         <div class="col-md-6 mb-3">
                                             <label for="status" class="form-label">Status <span
                                                     class="text-danger">*</span></label>
-                                            <select class="form-select @error('status') is-invalid @enderror"
-                                                id="status" name="status" required>
-                                                <option value="active"
-                                                    {{ old('status', $tour->status ?? 'active') == 'active' ? 'selected' : '' }}>
+                                            <select class="form-select @error('status') is-invalid @enderror" id="status"
+                                                name="status" required>
+                                                <option value="active" {{ old('status', $tour->status ?? 'active') == 'active' ? 'selected' : '' }}>
                                                     Active</option>
-                                                <option value="inactive"
-                                                    {{ old('status', $tour->status ?? 'active') == 'inactive' ? 'selected' : '' }}>
+                                                <option value="inactive" {{ old('status', $tour->status ?? 'active') == 'inactive' ? 'selected' : '' }}>
                                                     Inactive</option>
                                             </select>
                                             @error('status')
@@ -778,24 +766,12 @@
                                     <div class="mb-3">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="show_on_homepage"
-                                                name="show_on_homepage" value="1"
-                                                {{ old('show_on_homepage', $tour->show_on_homepage ?? false) ? 'checked' : '' }}>
+                                                name="show_on_homepage" value="1" {{ old('show_on_homepage', $tour->show_on_homepage ?? false) ? 'checked' : '' }}>
                                             <label class="form-check-label" for="show_on_homepage">
                                                 Show on Homepage
                                             </label>
                                         </div>
                                         <small class="text-muted">Check this to display the tour on the homepage</small>
-                                    </div>
-
-                                    <hr class="divider">
-
-                                    <div class="mb-3">
-                                        <label for="notes" class="form-label">Notes</label>
-                                        <textarea class="form-control @error('notes') is-invalid @enderror" id="notes" name="notes" rows="5">{{ old('notes', $tour->notes ?? '') }}</textarea>
-                                        <small class="text-muted">Optional notes about this tour</small>
-                                        @error('notes')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
                                     </div>
                                 </div>
                             </div>
@@ -825,12 +801,10 @@
                                                     <div class="card-header d-flex justify-content-between align-items-center"
                                                         style="background: #252836; border-bottom: 1px solid #3a3d4a;">
                                                         <h6 class="mb-0" style="color: #e4e6eb;">
-                                                            <i class="ti ti-calendar-event me-2"
-                                                                style="color: #30cfd0;"></i>
+                                                            <i class="ti ti-calendar-event me-2" style="color: #30cfd0;"></i>
                                                             Day {{ $day->day_number }}
                                                         </h6>
-                                                        <button type="button"
-                                                            class="btn btn-sm btn-label-danger removeDayBtn">
+                                                        <button type="button" class="btn btn-sm btn-label-danger removeDayBtn">
                                                             <i class="ti ti-trash"></i> Delete Day
                                                         </button>
                                                     </div>
@@ -843,8 +817,7 @@
                                                                         class="text-danger">*</span></label>
                                                                 <input type="number" class="form-control day-number"
                                                                     name="tour_days[{{ $day->id }}][day_number]"
-                                                                    value="{{ $day->day_number }}" min="1"
-                                                                    required>
+                                                                    value="{{ $day->day_number }}" min="1" required>
                                                             </div>
                                                             <div class="col-md-9 mb-3">
                                                                 <label class="form-label">Day Title <span
@@ -856,7 +829,8 @@
                                                         </div>
                                                         <div class="mb-3">
                                                             <label class="form-label">Details</label>
-                                                            <textarea class="form-control summernote-day" name="tour_days[{{ $day->id }}][details]">{{ $day->details }}</textarea>
+                                                            <textarea class="form-control summernote-day"
+                                                                name="tour_days[{{ $day->id }}][details]">{{ $day->details }}</textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -892,15 +866,12 @@
                                         <div class="row">
                                             @foreach ($availableVariants as $variant)
                                                 <div class="col-md-6 mb-3">
-                                                    <div class="card"
-                                                        style="background: #252836; border: 1px solid #3a3d4a;">
+                                                    <div class="card" style="background: #252836; border: 1px solid #3a3d4a;">
                                                         <div class="card-body">
                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="checkbox"
-                                                                    name="selected_variants[]"
-                                                                    value="{{ $variant->id }}"
-                                                                    id="variant_{{ $variant->id }}"
-                                                                    {{ in_array($variant->id, $selectedVariantIds) ? 'checked' : '' }}>
+                                                                    name="selected_variants[]" value="{{ $variant->id }}"
+                                                                    id="variant_{{ $variant->id }}" {{ in_array($variant->id, $selectedVariantIds) ? 'checked' : '' }}>
                                                                 <label class="form-check-label w-100"
                                                                     for="variant_{{ $variant->id }}">
                                                                     <div class="d-flex align-items-start gap-2">
@@ -913,8 +884,7 @@
                                                                             <strong
                                                                                 style="color: #e4e6eb;">{{ $variant->title }}</strong>
                                                                             @if ($variant->description)
-                                                                                <p class="text-muted mb-1"
-                                                                                    style="font-size: 0.85rem;">
+                                                                                <p class="text-muted mb-1" style="font-size: 0.85rem;">
                                                                                     {{ Str::limit($variant->description, 80) }}
                                                                                 </p>
                                                                             @endif
@@ -928,8 +898,7 @@
                                                                                 @endif
                                                                                 @if ($variant->additional_price > 0)
                                                                                     <small class="text-muted">
-                                                                                        <i
-                                                                                            class="ti ti-currency-dollar"></i>
+                                                                                        <i class="ti ti-currency-dollar"></i>
                                                                                         +${{ number_format($variant->additional_price, 2) }}
                                                                                     </small>
                                                                                 @endif
@@ -974,14 +943,12 @@
                                     <div id="seasonalPricesContainer">
                                         @if ($tour->seasonalPrices && $tour->seasonalPrices->count() > 0)
                                             @foreach ($tour->seasonalPrices as $index => $price)
-                                                <div class="card mb-3 seasonal-price-item"
-                                                    data-seasonal-price-id="{{ $price->id }}"
+                                                <div class="card mb-3 seasonal-price-item" data-seasonal-price-id="{{ $price->id }}"
                                                     style="border: 1px solid #3a3d4a; border-radius: 8px;">
                                                     <div class="card-header d-flex justify-content-between align-items-center"
                                                         style="background: #252836; border-bottom: 1px solid #3a3d4a;">
                                                         <h6 class="mb-0" style="color: #e4e6eb;">
-                                                            <i class="ti ti-calendar-time me-2"
-                                                                style="color: #43e97b;"></i>
+                                                            <i class="ti ti-calendar-time me-2" style="color: #43e97b;"></i>
                                                             {{ $price->season_name }}
                                                         </h6>
                                                         <button type="button"
@@ -990,8 +957,7 @@
                                                         </button>
                                                     </div>
                                                     <div class="card-body">
-                                                        <input type="hidden"
-                                                            name="seasonal_prices[{{ $price->id }}][id]"
+                                                        <input type="hidden" name="seasonal_prices[{{ $price->id }}][id]"
                                                             value="{{ $price->id }}">
                                                         <div class="row">
                                                             <div class="col-md-12 mb-3">
@@ -1007,44 +973,31 @@
                                                                 <label class="form-label">Start Month <span
                                                                         class="text-danger">*</span></label>
                                                                 <select class="form-select"
-                                                                    name="seasonal_prices[{{ $price->id }}][start_month]"
-                                                                    required>
+                                                                    name="seasonal_prices[{{ $price->id }}][start_month]" required>
                                                                     <option value="">Select Month</option>
-                                                                    <option value="1"
-                                                                        {{ $price->start_month == 1 ? 'selected' : '' }}>
+                                                                    <option value="1" {{ $price->start_month == 1 ? 'selected' : '' }}>
                                                                         January</option>
-                                                                    <option value="2"
-                                                                        {{ $price->start_month == 2 ? 'selected' : '' }}>
+                                                                    <option value="2" {{ $price->start_month == 2 ? 'selected' : '' }}>
                                                                         February</option>
-                                                                    <option value="3"
-                                                                        {{ $price->start_month == 3 ? 'selected' : '' }}>
+                                                                    <option value="3" {{ $price->start_month == 3 ? 'selected' : '' }}>
                                                                         March</option>
-                                                                    <option value="4"
-                                                                        {{ $price->start_month == 4 ? 'selected' : '' }}>
+                                                                    <option value="4" {{ $price->start_month == 4 ? 'selected' : '' }}>
                                                                         April</option>
-                                                                    <option value="5"
-                                                                        {{ $price->start_month == 5 ? 'selected' : '' }}>
+                                                                    <option value="5" {{ $price->start_month == 5 ? 'selected' : '' }}>
                                                                         May</option>
-                                                                    <option value="6"
-                                                                        {{ $price->start_month == 6 ? 'selected' : '' }}>
+                                                                    <option value="6" {{ $price->start_month == 6 ? 'selected' : '' }}>
                                                                         June</option>
-                                                                    <option value="7"
-                                                                        {{ $price->start_month == 7 ? 'selected' : '' }}>
+                                                                    <option value="7" {{ $price->start_month == 7 ? 'selected' : '' }}>
                                                                         July</option>
-                                                                    <option value="8"
-                                                                        {{ $price->start_month == 8 ? 'selected' : '' }}>
+                                                                    <option value="8" {{ $price->start_month == 8 ? 'selected' : '' }}>
                                                                         August</option>
-                                                                    <option value="9"
-                                                                        {{ $price->start_month == 9 ? 'selected' : '' }}>
+                                                                    <option value="9" {{ $price->start_month == 9 ? 'selected' : '' }}>
                                                                         September</option>
-                                                                    <option value="10"
-                                                                        {{ $price->start_month == 10 ? 'selected' : '' }}>
+                                                                    <option value="10" {{ $price->start_month == 10 ? 'selected' : '' }}>
                                                                         October</option>
-                                                                    <option value="11"
-                                                                        {{ $price->start_month == 11 ? 'selected' : '' }}>
+                                                                    <option value="11" {{ $price->start_month == 11 ? 'selected' : '' }}>
                                                                         November</option>
-                                                                    <option value="12"
-                                                                        {{ $price->start_month == 12 ? 'selected' : '' }}>
+                                                                    <option value="12" {{ $price->start_month == 12 ? 'selected' : '' }}>
                                                                         December</option>
                                                                 </select>
                                                             </div>
@@ -1052,44 +1005,31 @@
                                                                 <label class="form-label">End Month <span
                                                                         class="text-danger">*</span></label>
                                                                 <select class="form-select"
-                                                                    name="seasonal_prices[{{ $price->id }}][end_month]"
-                                                                    required>
+                                                                    name="seasonal_prices[{{ $price->id }}][end_month]" required>
                                                                     <option value="">Select Month</option>
-                                                                    <option value="1"
-                                                                        {{ $price->end_month == 1 ? 'selected' : '' }}>
+                                                                    <option value="1" {{ $price->end_month == 1 ? 'selected' : '' }}>
                                                                         January</option>
-                                                                    <option value="2"
-                                                                        {{ $price->end_month == 2 ? 'selected' : '' }}>
+                                                                    <option value="2" {{ $price->end_month == 2 ? 'selected' : '' }}>
                                                                         February</option>
-                                                                    <option value="3"
-                                                                        {{ $price->end_month == 3 ? 'selected' : '' }}>
+                                                                    <option value="3" {{ $price->end_month == 3 ? 'selected' : '' }}>
                                                                         March</option>
-                                                                    <option value="4"
-                                                                        {{ $price->end_month == 4 ? 'selected' : '' }}>
+                                                                    <option value="4" {{ $price->end_month == 4 ? 'selected' : '' }}>
                                                                         April</option>
-                                                                    <option value="5"
-                                                                        {{ $price->end_month == 5 ? 'selected' : '' }}>
+                                                                    <option value="5" {{ $price->end_month == 5 ? 'selected' : '' }}>
                                                                         May</option>
-                                                                    <option value="6"
-                                                                        {{ $price->end_month == 6 ? 'selected' : '' }}>
+                                                                    <option value="6" {{ $price->end_month == 6 ? 'selected' : '' }}>
                                                                         June</option>
-                                                                    <option value="7"
-                                                                        {{ $price->end_month == 7 ? 'selected' : '' }}>
+                                                                    <option value="7" {{ $price->end_month == 7 ? 'selected' : '' }}>
                                                                         July</option>
-                                                                    <option value="8"
-                                                                        {{ $price->end_month == 8 ? 'selected' : '' }}>
+                                                                    <option value="8" {{ $price->end_month == 8 ? 'selected' : '' }}>
                                                                         August</option>
-                                                                    <option value="9"
-                                                                        {{ $price->end_month == 9 ? 'selected' : '' }}>
+                                                                    <option value="9" {{ $price->end_month == 9 ? 'selected' : '' }}>
                                                                         September</option>
-                                                                    <option value="10"
-                                                                        {{ $price->end_month == 10 ? 'selected' : '' }}>
+                                                                    <option value="10" {{ $price->end_month == 10 ? 'selected' : '' }}>
                                                                         October</option>
-                                                                    <option value="11"
-                                                                        {{ $price->end_month == 11 ? 'selected' : '' }}>
+                                                                    <option value="11" {{ $price->end_month == 11 ? 'selected' : '' }}>
                                                                         November</option>
-                                                                    <option value="12"
-                                                                        {{ $price->end_month == 12 ? 'selected' : '' }}>
+                                                                    <option value="12" {{ $price->end_month == 12 ? 'selected' : '' }}>
                                                                         December</option>
                                                                 </select>
                                                             </div>
@@ -1097,14 +1037,14 @@
                                                         <div class="row">
                                                             <div class="col-md-12 mb-3">
                                                                 <label class="form-label">Description</label>
-                                                                <textarea class="form-control" name="seasonal_prices[{{ $price->id }}][description]" rows="2"
+                                                                <textarea class="form-control"
+                                                                    name="seasonal_prices[{{ $price->id }}][description]" rows="2"
                                                                     placeholder="Description for this season">{{ $price->description ?? '' }}</textarea>
                                                             </div>
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-md-12 mb-3">
-                                                                <div
-                                                                    class="d-flex justify-content-between align-items-center mb-2">
+                                                                <div class="d-flex justify-content-between align-items-center mb-2">
                                                                     <label class="form-label mb-0">Price Items</label>
                                                                     <button type="button"
                                                                         class="btn btn-sm btn-label-primary addPriceItemBtn"
@@ -1113,8 +1053,7 @@
                                                                         <i class="ti ti-plus"></i> Add Price Item
                                                                     </button>
                                                                 </div>
-                                                                <div class="price-items-container"
-                                                                    id="price-items-{{ $price->id }}"
+                                                                <div class="price-items-container" id="price-items-{{ $price->id }}"
                                                                     data-seasonal-price-index="{{ $price->id }}">
                                                                     @if ($price->priceItems && $price->priceItems->count() > 0)
                                                                         @foreach ($price->priceItems as $itemIndex => $item)
@@ -1156,16 +1095,12 @@
                                                                                             <label class="form-label"
                                                                                                 style="font-size: 0.85rem;">Price
                                                                                                 Value
-                                                                                                <span
-                                                                                                    class="text-danger">*</span></label>
+                                                                                                <span class="text-danger">*</span></label>
                                                                                             <input type="number"
                                                                                                 class="form-control form-control-sm"
                                                                                                 name="seasonal_prices[{{ $price->id }}][price_items][{{ $item->id }}][price_value]"
-                                                                                                value="{{ $item->price_value }}"
-                                                                                                step="0.01"
-                                                                                                min="0"
-                                                                                                placeholder="0.00"
-                                                                                                required>
+                                                                                                value="{{ $item->price_value }}" step="0.01"
+                                                                                                min="0" placeholder="0.00" required>
                                                                                         </div>
                                                                                         <div class="col-md-3 mb-2">
                                                                                             <label class="form-label"
@@ -1174,8 +1109,7 @@
                                                                                             <input type="number"
                                                                                                 class="form-control form-control-sm"
                                                                                                 name="seasonal_prices[{{ $price->id }}][price_items][{{ $item->id }}][sort_order]"
-                                                                                                value="{{ $item->sort_order }}"
-                                                                                                min="0">
+                                                                                                value="{{ $item->sort_order }}" min="0">
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="row">
@@ -1183,7 +1117,8 @@
                                                                                             <label class="form-label"
                                                                                                 style="font-size: 0.85rem;">Description</label>
                                                                                             <textarea class="form-control form-control-sm"
-                                                                                                name="seasonal_prices[{{ $price->id }}][price_items][{{ $item->id }}][description]" rows="2"
+                                                                                                name="seasonal_prices[{{ $price->id }}][price_items][{{ $item->id }}][description]"
+                                                                                                rows="2"
                                                                                                 placeholder="Optional description">{{ $item->description ?? '' }}</textarea>
                                                                                         </div>
                                                                                     </div>
@@ -1199,11 +1134,9 @@
                                                                 <label class="form-label">Status</label>
                                                                 <select class="form-select"
                                                                     name="seasonal_prices[{{ $price->id }}][status]">
-                                                                    <option value="active"
-                                                                        {{ $price->status == 'active' ? 'selected' : '' }}>
+                                                                    <option value="active" {{ $price->status == 'active' ? 'selected' : '' }}>
                                                                         Active</option>
-                                                                    <option value="inactive"
-                                                                        {{ $price->status == 'inactive' ? 'selected' : '' }}>
+                                                                    <option value="inactive" {{ $price->status == 'inactive' ? 'selected' : '' }}>
                                                                         Inactive</option>
                                                                 </select>
                                                             </div>
@@ -1237,8 +1170,7 @@
                                 <div class="section-body">
                                     <div class="mb-3">
                                         <label for="meta_title" class="form-label">Meta Title</label>
-                                        <input type="text"
-                                            class="form-control @error('meta_title') is-invalid @enderror"
+                                        <input type="text" class="form-control @error('meta_title') is-invalid @enderror"
                                             id="meta_title" name="meta_title"
                                             value="{{ old('meta_title', $tour->meta_title) }}" maxlength="60">
                                         <small class="text-muted">Recommended: 50-60 characters</small>
@@ -1249,8 +1181,9 @@
 
                                     <div class="mb-3">
                                         <label for="meta_description" class="form-label">Meta Description</label>
-                                        <textarea class="form-control @error('meta_description') is-invalid @enderror" id="meta_description"
-                                            name="meta_description" rows="3" maxlength="160">{{ old('meta_description', $tour->meta_description) }}</textarea>
+                                        <textarea class="form-control @error('meta_description') is-invalid @enderror"
+                                            id="meta_description" name="meta_description" rows="3"
+                                            maxlength="160">{{ old('meta_description', $tour->meta_description) }}</textarea>
                                         <small class="text-muted">Recommended: 150-160 characters</small>
                                         @error('meta_description')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -1259,8 +1192,7 @@
 
                                     <div class="mb-3">
                                         <label for="meta_keywords" class="form-label">Meta Keywords</label>
-                                        <input type="text"
-                                            class="form-control @error('meta_keywords') is-invalid @enderror"
+                                        <input type="text" class="form-control @error('meta_keywords') is-invalid @enderror"
                                             id="meta_keywords" name="meta_keywords"
                                             value="{{ old('meta_keywords', $tour->meta_keywords) }}"
                                             placeholder="keyword1, keyword2, keyword3">
@@ -1297,7 +1229,7 @@
         console.log('jQuery available:', typeof $ !== 'undefined');
         console.log('Summernote available:', typeof $.fn.summernote !== 'undefined');
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             if (typeof $.fn.summernote !== 'undefined') {
                 console.log('Initializing Summernote...');
 
@@ -1358,7 +1290,7 @@
                 });
 
                 // Initialize Summernote for existing days
-                $('.summernote-day').each(function() {
+                $('.summernote-day').each(function () {
                     $(this).summernote({
                         height: 200,
                         tooltip: false,
@@ -1403,7 +1335,7 @@
                 });
 
                 // Fix Summernote dropdowns
-                $(document).on('click', '.note-btn-group .dropdown-toggle', function(e) {
+                $(document).on('click', '.note-btn-group .dropdown-toggle', function (e) {
                     e.preventDefault();
                     e.stopPropagation();
                     var $this = $(this);
@@ -1418,7 +1350,7 @@
                 });
 
                 // Close dropdowns when clicking outside
-                $(document).on('click', function(e) {
+                $(document).on('click', function (e) {
                     if (!$(e.target).closest('.note-btn-group').length) {
                         $('.note-btn-group').removeClass('open');
                         $('.note-dropdown-menu').removeClass('open').hide();
@@ -1431,11 +1363,11 @@
             }
 
             // Cover image preview
-            $('#cover_image').change(function(e) {
+            $('#cover_image').change(function (e) {
                 const file = e.target.files[0];
                 if (file) {
                     const reader = new FileReader();
-                    reader.onload = function(e) {
+                    reader.onload = function (e) {
                         $('#coverImagePreview').html('<img src="' + e.target.result +
                             '" class="img-thumbnail rounded" style="max-width: 300px; max-height: 200px; border: 2px solid #3a3d4a;">'
                         );
@@ -1445,7 +1377,7 @@
             });
 
             // Toggle offer fields
-            $('#has_offer').change(function() {
+            $('#has_offer').change(function () {
                 if ($(this).is(':checked')) {
                     $('#offerFields').slideDown();
                 } else {
@@ -1466,11 +1398,11 @@
                             country_id: countryId
                         },
                         dataType: 'json',
-                        success: function(data) {
+                        success: function (data) {
                             console.log('States loaded:', data);
                             $('#state_id').html('<option value="">Select State</option>');
                             if (data && data.length > 0) {
-                                $.each(data, function(key, value) {
+                                $.each(data, function (key, value) {
                                     const selected = (selectedStateId && value.id ==
                                         selectedStateId) ? 'selected' : '';
                                     $('#state_id').append('<option value="' + value.id + '" ' +
@@ -1480,7 +1412,7 @@
                                 $('#state_id').append('<option value="">No states available</option>');
                             }
                         },
-                        error: function(xhr, status, error) {
+                        error: function (xhr, status, error) {
                             console.error('Error loading states:', error);
                             console.error('Response:', xhr.responseText);
                             $('#state_id').html('<option value="">Error loading states</option>');
@@ -1492,7 +1424,7 @@
             }
 
             // Load states when country changes
-            $(document).on('change', '#country_id', function() {
+            $(document).on('change', '#country_id', function () {
                 const countryId = $(this).val();
                 console.log('Country changed:', countryId);
                 console.log('State select element:', $('#state_id').length);
@@ -1507,7 +1439,7 @@
                 loadStates({{ $tour->country_id }}, {{ $tour->state_id ?? 'null' }});
             @endif
 
-            const selectedCruiseExperienceId = @json(old('cruise_experience_id', $tour->cruise_experience_id));
+                    const selectedCruiseExperienceId = @json(old('cruise_experience_id', $tour->cruise_experience_id));
 
             function loadCruiseExperiences(cruiseGroupId, selectedExperienceId) {
                 if (cruiseGroupId) {
@@ -1518,13 +1450,13 @@
                             cruise_group_id: cruiseGroupId
                         },
                         dataType: 'json',
-                        success: function(data) {
+                        success: function (data) {
                             $('#cruise_experience_id').html(
                                 '<option value="">Select Sub Category</option>');
                             if (data && data.length > 0) {
-                                $.each(data, function(key, value) {
+                                $.each(data, function (key, value) {
                                     const selected = selectedExperienceId && String(
-                                            selectedExperienceId) === String(value.id) ?
+                                        selectedExperienceId) === String(value.id) ?
                                         ' selected' : '';
                                     $('#cruise_experience_id').append('<option value="' + value
                                         .id + '"' + selected + '>' + value.name +
@@ -1535,7 +1467,7 @@
                                     '<option value="">No sub categories available</option>');
                             }
                         },
-                        error: function() {
+                        error: function () {
                             $('#cruise_experience_id').html(
                                 '<option value="">Error loading sub categories</option>');
                         }
@@ -1545,7 +1477,7 @@
                 }
             }
 
-            $(document).on('change', '#cruise_group_id', function() {
+            $(document).on('change', '#cruise_group_id', function () {
                 loadCruiseExperiences($(this).val(), null);
             });
 
@@ -1553,34 +1485,34 @@
             let imageCounter = {{ $tour->tourImages->count() ?? 0 }};
 
             // Add new image
-            $('#addImageBtn').click(function() {
+            $('#addImageBtn').click(function () {
                 const imageHtml =
                     `
-                                                                                                                                <div class="card mb-3 image-item image-preview-card" data-image-index="new-${imageCounter}">
-                                                                                                                                    <div class="card-body">
-                                                                                                                                        <div class="row align-items-end">
-                                                                                                                                            <div class="col-md-5 mb-3">
-                                                                                                                                                <label class="form-label">Image</label>
-                                                                                                                                                <input type="file" class="form-control image-input" name="tour_images[new-${imageCounter}][image]" accept="image/*" required>
-                                                                                                                                                <div class="image-preview mt-2"></div>
-                                                                                                                                            </div>
-                                                                                                                                            <div class="col-md-4 mb-3">
-                                                                                                                                                <label class="form-label">Image Alt Text</label>
-                                                                                                                                                <input type="text" class="form-control" name="tour_images[new-${imageCounter}][alt]" placeholder="Enter alt text for the image">
-                                                                                                                                            </div>
-                                                                                                                                            <div class="col-md-2 mb-3">
-                                                                                                                                                <label class="form-label">Sort Order</label>
-                                                                                                                                                <input type="number" class="form-control" name="tour_images[new-${imageCounter}][sort_order]" value="${imageCounter}" min="0">
-                                                                                                                                            </div>
-                                                                                                                                            <div class="col-md-1 mb-3">
-                                                                                                                                                <button type="button" class="btn btn-sm btn-label-danger removeImageBtn">
-                                                                                                                                                    <i class="ti ti-trash"></i>
-                                                                                                                                                </button>
+                                                                                                                                        <div class="card mb-3 image-item image-preview-card" data-image-index="new-${imageCounter}">
+                                                                                                                                            <div class="card-body">
+                                                                                                                                                <div class="row align-items-end">
+                                                                                                                                                    <div class="col-md-5 mb-3">
+                                                                                                                                                        <label class="form-label">Image</label>
+                                                                                                                                                        <input type="file" class="form-control image-input" name="tour_images[new-${imageCounter}][image]" accept="image/*" required>
+                                                                                                                                                        <div class="image-preview mt-2"></div>
+                                                                                                                                                    </div>
+                                                                                                                                                    <div class="col-md-4 mb-3">
+                                                                                                                                                        <label class="form-label">Image Alt Text</label>
+                                                                                                                                                        <input type="text" class="form-control" name="tour_images[new-${imageCounter}][alt]" placeholder="Enter alt text for the image">
+                                                                                                                                                    </div>
+                                                                                                                                                    <div class="col-md-2 mb-3">
+                                                                                                                                                        <label class="form-label">Sort Order</label>
+                                                                                                                                                        <input type="number" class="form-control" name="tour_images[new-${imageCounter}][sort_order]" value="${imageCounter}" min="0">
+                                                                                                                                                    </div>
+                                                                                                                                                    <div class="col-md-1 mb-3">
+                                                                                                                                                        <button type="button" class="btn btn-sm btn-label-danger removeImageBtn">
+                                                                                                                                                            <i class="ti ti-trash"></i>
+                                                                                                                                                        </button>
+                                                                                                                                                    </div>
+                                                                                                                                                </div>
                                                                                                                                             </div>
                                                                                                                                         </div>
-                                                                                                                                    </div>
-                                                                                                                                </div>
-                                                                                                                            `;
+                                                                                                                                    `;
                 if ($('#tourImagesContainer p').length > 0) {
                     $('#tourImagesContainer p').remove();
                 }
@@ -1589,7 +1521,7 @@
             });
 
             // Remove image - mark for deletion if it's an existing image
-            $(document).on('click', '.removeImageBtn', function() {
+            $(document).on('click', '.removeImageBtn', function () {
                 const imageItem = $(this).closest('.image-item');
                 const imageId = imageItem.data('image-id');
 
@@ -1611,12 +1543,12 @@
             });
 
             // Image preview
-            $(document).on('change', '.image-input', function(e) {
+            $(document).on('change', '.image-input', function (e) {
                 const file = e.target.files[0];
                 const preview = $(this).closest('.image-item').find('.image-preview');
                 if (file) {
                     const reader = new FileReader();
-                    reader.onload = function(e) {
+                    reader.onload = function (e) {
                         preview.html('<img src="' + e.target.result +
                             '" class="img-thumbnail rounded" style="max-width: 200px; max-height: 150px; border: 2px solid #3a3d4a;">'
                         );
@@ -1670,10 +1602,10 @@
             };
 
             // Add new day
-            $('#addDayBtn').click(function() {
+            $('#addDayBtn').click(function () {
                 // 1) Save content of existing day editors so it is not lost when we append
                 var savedDetails = [];
-                $('#tourDaysContainer .day-item').each(function() {
+                $('#tourDaysContainer .day-item').each(function () {
                     var $ed = $(this).find('.summernote-day');
                     if ($ed.length && $ed.data('summernote')) {
                         try {
@@ -1688,34 +1620,34 @@
 
                 const dayHtml =
                     `
-                                                                                                                                <div class="card mb-3 day-item" data-day-index="new-${dayCounter}" style="border: 1px solid #3a3d4a; border-radius: 8px;">
-                                                                                                                                    <div class="card-header d-flex justify-content-between align-items-center" style="background: #252836; border-bottom: 1px solid #3a3d4a;">
-                                                                                                                                        <h6 class="mb-0" style="color: #e4e6eb;">
-                                                                                                                                            <i class="ti ti-calendar-event me-2" style="color: #30cfd0;"></i>
-                                                                                                                                            Day ${dayCounter}
-                                                                                                                                        </h6>
-                                                                                                                                        <button type="button" class="btn btn-sm btn-label-danger removeDayBtn">
-                                                                                                                                            <i class="ti ti-trash"></i> Delete Day
-                                                                                                                                        </button>
-                                                                                                                                    </div>
-                                                                                                                                    <div class="card-body">
-                                                                                                                                        <div class="row">
-                                                                                                                                            <div class="col-md-3 mb-3">
-                                                                                                                                                <label class="form-label">Day Number <span class="text-danger">*</span></label>
-                                                                                                                                                <input type="number" class="form-control day-number" name="tour_days[new-${dayCounter}][day_number]" value="${dayCounter}" min="1" required>
+                                                                                                                                        <div class="card mb-3 day-item" data-day-index="new-${dayCounter}" style="border: 1px solid #3a3d4a; border-radius: 8px;">
+                                                                                                                                            <div class="card-header d-flex justify-content-between align-items-center" style="background: #252836; border-bottom: 1px solid #3a3d4a;">
+                                                                                                                                                <h6 class="mb-0" style="color: #e4e6eb;">
+                                                                                                                                                    <i class="ti ti-calendar-event me-2" style="color: #30cfd0;"></i>
+                                                                                                                                                    Day ${dayCounter}
+                                                                                                                                                </h6>
+                                                                                                                                                <button type="button" class="btn btn-sm btn-label-danger removeDayBtn">
+                                                                                                                                                    <i class="ti ti-trash"></i> Delete Day
+                                                                                                                                                </button>
                                                                                                                                             </div>
-                                                                                                                                            <div class="col-md-9 mb-3">
-                                                                                                                                                <label class="form-label">Day Title <span class="text-danger">*</span></label>
-                                                                                                                                                <input type="text" class="form-control day-title" name="tour_days[new-${dayCounter}][day_title]" placeholder="e.g., Day ${dayCounter}: Arrival in Cairo" required>
+                                                                                                                                            <div class="card-body">
+                                                                                                                                                <div class="row">
+                                                                                                                                                    <div class="col-md-3 mb-3">
+                                                                                                                                                        <label class="form-label">Day Number <span class="text-danger">*</span></label>
+                                                                                                                                                        <input type="number" class="form-control day-number" name="tour_days[new-${dayCounter}][day_number]" value="${dayCounter}" min="1" required>
+                                                                                                                                                    </div>
+                                                                                                                                                    <div class="col-md-9 mb-3">
+                                                                                                                                                        <label class="form-label">Day Title <span class="text-danger">*</span></label>
+                                                                                                                                                        <input type="text" class="form-control day-title" name="tour_days[new-${dayCounter}][day_title]" placeholder="e.g., Day ${dayCounter}: Arrival in Cairo" required>
+                                                                                                                                                    </div>
+                                                                                                                                                </div>
+                                                                                                                                                <div class="mb-3">
+                                                                                                                                                    <label class="form-label">Details</label>
+                                                                                                                                                    <textarea class="form-control summernote-day" name="tour_days[new-${dayCounter}][details]" rows="5"></textarea>
+                                                                                                                                                </div>
                                                                                                                                             </div>
                                                                                                                                         </div>
-                                                                                                                                        <div class="mb-3">
-                                                                                                                                            <label class="form-label">Details</label>
-                                                                                                                                            <textarea class="form-control summernote-day" name="tour_days[new-${dayCounter}][details]" rows="5"></textarea>
-                                                                                                                                        </div>
-                                                                                                                                    </div>
-                                                                                                                                </div>
-                                                                                                                            `;
+                                                                                                                                    `;
                 if ($('#tourDaysContainer p').length > 0) {
                     $('#tourDaysContainer p').remove();
                 }
@@ -1728,7 +1660,7 @@
                 }
 
                 // 3) Restore existing days' Details so the UI does not appear empty
-                $('#tourDaysContainer .day-item').each(function(i) {
+                $('#tourDaysContainer .day-item').each(function (i) {
                     if (i >= savedDetails.length) return;
                     if (savedDetails[i] === undefined || savedDetails[i] === null) return;
                     var $ed = $(this).find('.summernote-day');
@@ -1739,14 +1671,14 @@
                         }
                         $ed.val(savedDetails[i]);
                         $ed.summernote(summernoteDayOptions);
-                    } catch (err) {}
+                    } catch (err) { }
                 });
 
                 dayCounter++;
             });
 
             // Remove day
-            $(document).on('click', '.removeDayBtn', function() {
+            $(document).on('click', '.removeDayBtn', function () {
                 const dayItem = $(this).closest('.day-item');
                 const dayId = dayItem.data('day-index');
 
@@ -1771,65 +1703,65 @@
             let variantCounter = {{ $tour->variants->count() ?? 0 }};
 
             // Add new variant
-            $('#addVariantBtn').click(function() {
+            $('#addVariantBtn').click(function () {
                 const variantHtml =
                     `
-                                                                                                                                <div class="card mb-3 variant-item" data-variant-index="new-${variantCounter}" style="border: 1px solid #3a3d4a; border-radius: 8px;">
-                                                                                                                                    <div class="card-header d-flex justify-content-between align-items-center" style="background: #252836; border-bottom: 1px solid #3a3d4a;">
-                                                                                                                                        <h6 class="mb-0" style="color: #e4e6eb;">
-                                                                                                                                            <i class="ti ti-adjustments me-2" style="color: #fa709a;"></i>
-                                                                                                                                            Variant ${variantCounter + 1}
-                                                                                                                                        </h6>
-                                                                                                                                        <button type="button" class="btn btn-sm btn-label-danger removeVariantBtn">
-                                                                                                                                            <i class="ti ti-trash"></i> Delete Variant
-                                                                                                                                        </button>
-                                                                                                                                    </div>
-                                                                                                                                    <div class="card-body">
-                                                                                                                                        <div class="row">
-                                                                                                                                            <div class="col-md-12 mb-3">
-                                                                                                                                                <label class="form-label">Title <span class="text-danger">*</span></label>
-                                                                                                                                                <input type="text" class="form-control variant-title" name="tour_variants[new-${variantCounter}][title]" placeholder="e.g., Extra Day, VIP Service, etc." required>
+                                                                                                                                        <div class="card mb-3 variant-item" data-variant-index="new-${variantCounter}" style="border: 1px solid #3a3d4a; border-radius: 8px;">
+                                                                                                                                            <div class="card-header d-flex justify-content-between align-items-center" style="background: #252836; border-bottom: 1px solid #3a3d4a;">
+                                                                                                                                                <h6 class="mb-0" style="color: #e4e6eb;">
+                                                                                                                                                    <i class="ti ti-adjustments me-2" style="color: #fa709a;"></i>
+                                                                                                                                                    Variant ${variantCounter + 1}
+                                                                                                                                                </h6>
+                                                                                                                                                <button type="button" class="btn btn-sm btn-label-danger removeVariantBtn">
+                                                                                                                                                    <i class="ti ti-trash"></i> Delete Variant
+                                                                                                                                                </button>
+                                                                                                                                            </div>
+                                                                                                                                            <div class="card-body">
+                                                                                                                                                <div class="row">
+                                                                                                                                                    <div class="col-md-12 mb-3">
+                                                                                                                                                        <label class="form-label">Title <span class="text-danger">*</span></label>
+                                                                                                                                                        <input type="text" class="form-control variant-title" name="tour_variants[new-${variantCounter}][title]" placeholder="e.g., Extra Day, VIP Service, etc." required>
+                                                                                                                                                    </div>
+                                                                                                                                                </div>
+                                                                                                                                                <div class="row">
+                                                                                                                                                    <div class="col-md-12 mb-3">
+                                                                                                                                                        <label class="form-label">Description</label>
+                                                                                                                                                        <textarea class="form-control" name="tour_variants[new-${variantCounter}][description]" rows="2" placeholder="Describe what this variant includes..."></textarea>
+                                                                                                                                                    </div>
+                                                                                                                                                </div>
+                                                                                                                                                <div class="row">
+                                                                                                                                                    <div class="col-md-4 mb-3">
+                                                                                                                                                        <label class="form-label">Additional Duration</label>
+                                                                                                                                                        <input type="number" class="form-control" name="tour_variants[new-${variantCounter}][additional_duration]" value="0" min="0">
+                                                                                                                                                    </div>
+                                                                                                                                                    <div class="col-md-4 mb-3">
+                                                                                                                                                        <label class="form-label">Duration Type</label>
+                                                                                                                                                        <select class="form-select" name="tour_variants[new-${variantCounter}][additional_duration_type]">
+                                                                                                                                                            <option value="days">Days</option>
+                                                                                                                                                            <option value="hours">Hours</option>
+                                                                                                                                                        </select>
+                                                                                                                                                    </div>
+                                                                                                                                                    <div class="col-md-4 mb-3">
+                                                                                                                                                        <label class="form-label">Additional Price</label>
+                                                                                                                                                        <input type="number" class="form-control" name="tour_variants[new-${variantCounter}][additional_price]" value="0" step="0.01" min="0" placeholder="0.00">
+                                                                                                                                                    </div>
+                                                                                                                                                </div>
+                                                                                                                                                <div class="row">
+                                                                                                                                                    <div class="col-md-6 mb-3">
+                                                                                                                                                        <label class="form-label">Status</label>
+                                                                                                                                                        <select class="form-select" name="tour_variants[new-${variantCounter}][status]">
+                                                                                                                                                            <option value="active">Active</option>
+                                                                                                                                                            <option value="inactive">Inactive</option>
+                                                                                                                                                        </select>
+                                                                                                                                                    </div>
+                                                                                                                                                    <div class="col-md-6 mb-3">
+                                                                                                                                                        <label class="form-label">Sort Order</label>
+                                                                                                                                                        <input type="number" class="form-control" name="tour_variants[new-${variantCounter}][sort_order]" value="${variantCounter}" min="0">
+                                                                                                                                                    </div>
+                                                                                                                                                </div>
                                                                                                                                             </div>
                                                                                                                                         </div>
-                                                                                                                                        <div class="row">
-                                                                                                                                            <div class="col-md-12 mb-3">
-                                                                                                                                                <label class="form-label">Description</label>
-                                                                                                                                                <textarea class="form-control" name="tour_variants[new-${variantCounter}][description]" rows="2" placeholder="Describe what this variant includes..."></textarea>
-                                                                                                                                            </div>
-                                                                                                                                        </div>
-                                                                                                                                        <div class="row">
-                                                                                                                                            <div class="col-md-4 mb-3">
-                                                                                                                                                <label class="form-label">Additional Duration</label>
-                                                                                                                                                <input type="number" class="form-control" name="tour_variants[new-${variantCounter}][additional_duration]" value="0" min="0">
-                                                                                                                                            </div>
-                                                                                                                                            <div class="col-md-4 mb-3">
-                                                                                                                                                <label class="form-label">Duration Type</label>
-                                                                                                                                                <select class="form-select" name="tour_variants[new-${variantCounter}][additional_duration_type]">
-                                                                                                                                                    <option value="days">Days</option>
-                                                                                                                                                    <option value="hours">Hours</option>
-                                                                                                                                                </select>
-                                                                                                                                            </div>
-                                                                                                                                            <div class="col-md-4 mb-3">
-                                                                                                                                                <label class="form-label">Additional Price</label>
-                                                                                                                                                <input type="number" class="form-control" name="tour_variants[new-${variantCounter}][additional_price]" value="0" step="0.01" min="0" placeholder="0.00">
-                                                                                                                                            </div>
-                                                                                                                                        </div>
-                                                                                                                                        <div class="row">
-                                                                                                                                            <div class="col-md-6 mb-3">
-                                                                                                                                                <label class="form-label">Status</label>
-                                                                                                                                                <select class="form-select" name="tour_variants[new-${variantCounter}][status]">
-                                                                                                                                                    <option value="active">Active</option>
-                                                                                                                                                    <option value="inactive">Inactive</option>
-                                                                                                                                                </select>
-                                                                                                                                            </div>
-                                                                                                                                            <div class="col-md-6 mb-3">
-                                                                                                                                                <label class="form-label">Sort Order</label>
-                                                                                                                                                <input type="number" class="form-control" name="tour_variants[new-${variantCounter}][sort_order]" value="${variantCounter}" min="0">
-                                                                                                                                            </div>
-                                                                                                                                        </div>
-                                                                                                                                    </div>
-                                                                                                                                </div>
-                                                                                                                            `;
+                                                                                                                                    `;
                 if ($('#tourVariantsContainer p').length > 0) {
                     $('#tourVariantsContainer p').remove();
                 }
@@ -1838,7 +1770,7 @@
             });
 
             // Remove variant
-            $(document).on('click', '.removeVariantBtn', function() {
+            $(document).on('click', '.removeVariantBtn', function () {
                 const variantItem = $(this).closest('.variant-item');
                 const variantId = variantItem.data('variant-id');
 
@@ -1861,128 +1793,128 @@
 
             // Seasonal Prices
             const months = [{
-                    value: 1,
-                    name: 'January'
-                },
-                {
-                    value: 2,
-                    name: 'February'
-                },
-                {
-                    value: 3,
-                    name: 'March'
-                },
-                {
-                    value: 4,
-                    name: 'April'
-                },
-                {
-                    value: 5,
-                    name: 'May'
-                },
-                {
-                    value: 6,
-                    name: 'June'
-                },
-                {
-                    value: 7,
-                    name: 'July'
-                },
-                {
-                    value: 8,
-                    name: 'August'
-                },
-                {
-                    value: 9,
-                    name: 'September'
-                },
-                {
-                    value: 10,
-                    name: 'October'
-                },
-                {
-                    value: 11,
-                    name: 'November'
-                },
-                {
-                    value: 12,
-                    name: 'December'
-                }
+                value: 1,
+                name: 'January'
+            },
+            {
+                value: 2,
+                name: 'February'
+            },
+            {
+                value: 3,
+                name: 'March'
+            },
+            {
+                value: 4,
+                name: 'April'
+            },
+            {
+                value: 5,
+                name: 'May'
+            },
+            {
+                value: 6,
+                name: 'June'
+            },
+            {
+                value: 7,
+                name: 'July'
+            },
+            {
+                value: 8,
+                name: 'August'
+            },
+            {
+                value: 9,
+                name: 'September'
+            },
+            {
+                value: 10,
+                name: 'October'
+            },
+            {
+                value: 11,
+                name: 'November'
+            },
+            {
+                value: 12,
+                name: 'December'
+            }
             ];
 
             let seasonalPriceCounter = {{ $tour->seasonalPrices->count() ?? 0 }};
 
             // Add new seasonal price
-            $('#addSeasonalPriceBtn').click(function() {
+            $('#addSeasonalPriceBtn').click(function () {
                 const monthOptions = months.map(m => `<option value="${m.value}">${m.name}</option>`).join(
                     '');
                 const seasonalPriceHtml = `
-                                                                            <div class="card mb-3 seasonal-price-item" data-seasonal-price-index="new-${seasonalPriceCounter}" style="border: 1px solid #3a3d4a; border-radius: 8px;">
-                                                                                <div class="card-header d-flex justify-content-between align-items-center" style="background: #252836; border-bottom: 1px solid #3a3d4a;">
-                                                                                    <h6 class="mb-0" style="color: #e4e6eb;">
-                                                                                        <i class="ti ti-calendar-time me-2" style="color: #43e97b;"></i>
-                                                                                        Seasonal Price ${seasonalPriceCounter + 1}
-                                                                                    </h6>
-                                                                                    <button type="button" class="btn btn-sm btn-label-danger removeSeasonalPriceBtn">
-                                                                                        <i class="ti ti-trash"></i> Delete
-                                                                                    </button>
-                                                                                </div>
-                                                                                <div class="card-body">
-                                                                                    <div class="row">
-                                                                                        <div class="col-md-12 mb-3">
-                                                                                            <label class="form-label">Season Name <span class="text-danger">*</span></label>
-                                                                                            <input type="text" class="form-control" name="seasonal_prices[new-${seasonalPriceCounter}][season_name]" placeholder="e.g., Summer, Winter, MAY-SEP, OCT-APR" required>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="row">
-                                                                                        <div class="col-md-6 mb-3">
-                                                                                            <label class="form-label">Start Month <span class="text-danger">*</span></label>
-                                                                                            <select class="form-select" name="seasonal_prices[new-${seasonalPriceCounter}][start_month]" required>
-                                                                                                <option value="">Select Month</option>
-                                                                                                ${monthOptions}
-                                                                                            </select>
-                                                                                        </div>
-                                                                                        <div class="col-md-6 mb-3">
-                                                                                            <label class="form-label">End Month <span class="text-danger">*</span></label>
-                                                                                            <select class="form-select" name="seasonal_prices[new-${seasonalPriceCounter}][end_month]" required>
-                                                                                                <option value="">Select Month</option>
-                                                                                                ${monthOptions}
-                                                                                            </select>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="row">
-                                                                                        <div class="col-md-12 mb-3">
-                                                                                            <label class="form-label">Description</label>
-                                                                                            <textarea class="form-control" name="seasonal_prices[new-${seasonalPriceCounter}][description]" rows="2" placeholder="Description for this season"></textarea>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                <div class="row">
-                                                                                    <div class="col-md-12 mb-3">
-                                                                                        <div class="d-flex justify-content-between align-items-center mb-2">
-                                                                                            <label class="form-label mb-0">Price Items</label>
-                                                                                            <button type="button" class="btn btn-sm btn-label-primary addPriceItemBtn" data-seasonal-price-index="new-${seasonalPriceCounter}" data-price-items-container="price-items-new-${seasonalPriceCounter}">
-                                                                                                <i class="ti ti-plus"></i> Add Price Item
+                                                                                    <div class="card mb-3 seasonal-price-item" data-seasonal-price-index="new-${seasonalPriceCounter}" style="border: 1px solid #3a3d4a; border-radius: 8px;">
+                                                                                        <div class="card-header d-flex justify-content-between align-items-center" style="background: #252836; border-bottom: 1px solid #3a3d4a;">
+                                                                                            <h6 class="mb-0" style="color: #e4e6eb;">
+                                                                                                <i class="ti ti-calendar-time me-2" style="color: #43e97b;"></i>
+                                                                                                Seasonal Price ${seasonalPriceCounter + 1}
+                                                                                            </h6>
+                                                                                            <button type="button" class="btn btn-sm btn-label-danger removeSeasonalPriceBtn">
+                                                                                                <i class="ti ti-trash"></i> Delete
                                                                                             </button>
                                                                                         </div>
-                                                                                        <div class="price-items-container" id="price-items-new-${seasonalPriceCounter}" data-seasonal-price-index="new-${seasonalPriceCounter}"></div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                    <div class="row">
-                                                                                        <div class="col-md-6 mb-3">
-                                                                                            <label class="form-label">Status</label>
-                                                                                            <select class="form-select" name="seasonal_prices[new-${seasonalPriceCounter}][status]">
-                                                                                                <option value="active">Active</option>
-                                                                                                <option value="inactive">Inactive</option>
-                                                                                            </select>
-                                                                                        </div>
-                                                                                        <div class="col-md-6 mb-3">
-                                                                                            <label class="form-label">Sort Order</label>
-                                                                                            <input type="number" class="form-control" name="seasonal_prices[new-${seasonalPriceCounter}][sort_order]" value="${seasonalPriceCounter}" min="0">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                                    </div>
+                                                                                        <div class="card-body">
+                                                                                            <div class="row">
+                                                                                                <div class="col-md-12 mb-3">
+                                                                                                    <label class="form-label">Season Name <span class="text-danger">*</span></label>
+                                                                                                    <input type="text" class="form-control" name="seasonal_prices[new-${seasonalPriceCounter}][season_name]" placeholder="e.g., Summer, Winter, MAY-SEP, OCT-APR" required>
                                                                                                 </div>
-                                                                                            `;
+                                                                                            </div>
+                                                                                            <div class="row">
+                                                                                                <div class="col-md-6 mb-3">
+                                                                                                    <label class="form-label">Start Month <span class="text-danger">*</span></label>
+                                                                                                    <select class="form-select" name="seasonal_prices[new-${seasonalPriceCounter}][start_month]" required>
+                                                                                                        <option value="">Select Month</option>
+                                                                                                        ${monthOptions}
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                                <div class="col-md-6 mb-3">
+                                                                                                    <label class="form-label">End Month <span class="text-danger">*</span></label>
+                                                                                                    <select class="form-select" name="seasonal_prices[new-${seasonalPriceCounter}][end_month]" required>
+                                                                                                        <option value="">Select Month</option>
+                                                                                                        ${monthOptions}
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="row">
+                                                                                                <div class="col-md-12 mb-3">
+                                                                                                    <label class="form-label">Description</label>
+                                                                                                    <textarea class="form-control" name="seasonal_prices[new-${seasonalPriceCounter}][description]" rows="2" placeholder="Description for this season"></textarea>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-12 mb-3">
+                                                                                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                                                                                    <label class="form-label mb-0">Price Items</label>
+                                                                                                    <button type="button" class="btn btn-sm btn-label-primary addPriceItemBtn" data-seasonal-price-index="new-${seasonalPriceCounter}" data-price-items-container="price-items-new-${seasonalPriceCounter}">
+                                                                                                        <i class="ti ti-plus"></i> Add Price Item
+                                                                                                    </button>
+                                                                                                </div>
+                                                                                                <div class="price-items-container" id="price-items-new-${seasonalPriceCounter}" data-seasonal-price-index="new-${seasonalPriceCounter}"></div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                            <div class="row">
+                                                                                                <div class="col-md-6 mb-3">
+                                                                                                    <label class="form-label">Status</label>
+                                                                                                    <select class="form-select" name="seasonal_prices[new-${seasonalPriceCounter}][status]">
+                                                                                                        <option value="active">Active</option>
+                                                                                                        <option value="inactive">Inactive</option>
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                                <div class="col-md-6 mb-3">
+                                                                                                    <label class="form-label">Sort Order</label>
+                                                                                                    <input type="number" class="form-control" name="seasonal_prices[new-${seasonalPriceCounter}][sort_order]" value="${seasonalPriceCounter}" min="0">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    `;
                 if ($('#seasonalPricesContainer p').length > 0) {
                     $('#seasonalPricesContainer p').remove();
                 }
@@ -1991,7 +1923,7 @@
             });
 
             // Remove seasonal price
-            $(document).on('click', '.removeSeasonalPriceBtn', function() {
+            $(document).on('click', '.removeSeasonalPriceBtn', function () {
                 const seasonalPriceItem = $(this).closest('.seasonal-price-item');
                 const seasonalPriceId = seasonalPriceItem.data('seasonal-price-id');
 
@@ -2025,7 +1957,7 @@
             @endif
 
             // Add new price item
-            $(document).on('click', '.addPriceItemBtn', function(e) {
+            $(document).on('click', '.addPriceItemBtn', function (e) {
                 e.preventDefault();
                 e.stopPropagation();
 
@@ -2070,46 +2002,46 @@
                 }
 
                 const priceItemHtml = `
-                                                                            <div class="card mb-2 price-item" data-price-item-index="${itemIndex}" style="border: 1px solid #3a3d4a; border-radius: 6px; background: #1e2028;">
-                                                                                <div class="card-body p-3">
-                                                                                    <div class="d-flex justify-content-between align-items-start mb-2">
-                                                                                        <h6 class="mb-0" style="color: #e4e6eb; font-size: 0.9rem;">
-                                                                                            <i class="ti ti-currency-dollar me-1" style="color: #43e97b;"></i>
-                                                                                            Price Item ${priceItemCounter[seasonalPriceIndex] + 1}
-                                                                                        </h6>
-                                                                                        <button type="button" class="btn btn-sm btn-label-danger removePriceItemBtn">
-                                                                                            <i class="ti ti-x"></i>
-                                                                                        </button>
+                                                                                    <div class="card mb-2 price-item" data-price-item-index="${itemIndex}" style="border: 1px solid #3a3d4a; border-radius: 6px; background: #1e2028;">
+                                                                                        <div class="card-body p-3">
+                                                                                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                                                                                <h6 class="mb-0" style="color: #e4e6eb; font-size: 0.9rem;">
+                                                                                                    <i class="ti ti-currency-dollar me-1" style="color: #43e97b;"></i>
+                                                                                                    Price Item ${priceItemCounter[seasonalPriceIndex] + 1}
+                                                                                                </h6>
+                                                                                                <button type="button" class="btn btn-sm btn-label-danger removePriceItemBtn">
+                                                                                                    <i class="ti ti-x"></i>
+                                                                                                </button>
+                                                                                            </div>
+                                                                                            <div class="row">
+                                                                                                <div class="col-md-5 mb-2">
+                                                                                                    <label class="form-label" style="font-size: 0.85rem;">Price Name <span class="text-danger">*</span></label>
+                                                                                                    <input type="text" class="form-control form-control-sm" name="seasonal_prices[${seasonalPriceIndex}][price_items][${itemIndex}][price_name]" placeholder="e.g., Per Person in Single_room" required>
+                                                                                                </div>
+                                                                                                <div class="col-md-4 mb-2">
+                                                                                                    <label class="form-label" style="font-size: 0.85rem;">Price Value <span class="text-danger">*</span></label>
+                                                                                                    <input type="number" class="form-control form-control-sm" name="seasonal_prices[${seasonalPriceIndex}][price_items][${itemIndex}][price_value]" value="0" step="0.01" min="0" placeholder="0.00" required>
+                                                                                                </div>
+                                                                                                <div class="col-md-3 mb-2">
+                                                                                                    <label class="form-label" style="font-size: 0.85rem;">Sort Order</label>
+                                                                                                    <input type="number" class="form-control form-control-sm" name="seasonal_prices[${seasonalPriceIndex}][price_items][${itemIndex}][sort_order]" value="${priceItemCounter[seasonalPriceIndex]}" min="0">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="row">
+                                                                                                <div class="col-md-12 mb-2">
+                                                                                                    <label class="form-label" style="font-size: 0.85rem;">Description</label>
+                                                                                                    <textarea class="form-control form-control-sm" name="seasonal_prices[${seasonalPriceIndex}][price_items][${itemIndex}][description]" rows="2" placeholder="Optional description"></textarea>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
                                                                                     </div>
-                                                                                    <div class="row">
-                                                                                        <div class="col-md-5 mb-2">
-                                                                                            <label class="form-label" style="font-size: 0.85rem;">Price Name <span class="text-danger">*</span></label>
-                                                                                            <input type="text" class="form-control form-control-sm" name="seasonal_prices[${seasonalPriceIndex}][price_items][${itemIndex}][price_name]" placeholder="e.g., Per Person in Single_room" required>
-                                                                                        </div>
-                                                                                        <div class="col-md-4 mb-2">
-                                                                                            <label class="form-label" style="font-size: 0.85rem;">Price Value <span class="text-danger">*</span></label>
-                                                                                            <input type="number" class="form-control form-control-sm" name="seasonal_prices[${seasonalPriceIndex}][price_items][${itemIndex}][price_value]" value="0" step="0.01" min="0" placeholder="0.00" required>
-                                                                                        </div>
-                                                                                        <div class="col-md-3 mb-2">
-                                                                                            <label class="form-label" style="font-size: 0.85rem;">Sort Order</label>
-                                                                                            <input type="number" class="form-control form-control-sm" name="seasonal_prices[${seasonalPriceIndex}][price_items][${itemIndex}][sort_order]" value="${priceItemCounter[seasonalPriceIndex]}" min="0">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="row">
-                                                                                        <div class="col-md-12 mb-2">
-                                                                                            <label class="form-label" style="font-size: 0.85rem;">Description</label>
-                                                                                            <textarea class="form-control form-control-sm" name="seasonal_prices[${seasonalPriceIndex}][price_items][${itemIndex}][description]" rows="2" placeholder="Optional description"></textarea>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        `;
+                                                                                `;
                 container.append(priceItemHtml);
                 priceItemCounter[seasonalPriceIndex]++;
             });
 
             // Remove price item
-            $(document).on('click', '.removePriceItemBtn', function() {
+            $(document).on('click', '.removePriceItemBtn', function () {
                 const priceItem = $(this).closest('.price-item');
                 const priceItemId = priceItem.data('price-item-id');
 
@@ -2127,8 +2059,8 @@
             });
 
             // Initialize counter for new seasonal prices
-            $('#addSeasonalPriceBtn').on('click', function() {
-                setTimeout(function() {
+            $('#addSeasonalPriceBtn').on('click', function () {
+                setTimeout(function () {
                     const newIndex = `new-${seasonalPriceCounter - 1}`;
                     if (!priceItemCounter[newIndex]) {
                         priceItemCounter[newIndex] = 0;

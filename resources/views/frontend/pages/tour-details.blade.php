@@ -10,13 +10,13 @@
 @endphp
 @section('meta_title', $metaTitle)
 @if ($metaDescription)
-    @section('meta_description', $metaDescription)
+@section('meta_description', $metaDescription)
 @endif
 @if ($tour->meta_keywords)
-    @section('meta_keywords', $tour->meta_keywords)
+@section('meta_keywords', $tour->meta_keywords)
 @endif
 @if ($metaImage)
-    @section('meta_image', $metaImage)
+@section('meta_image', $metaImage)
 @endif
 
 @section('content')
@@ -27,16 +27,16 @@
                 <div class="tour-hero-header row g-4 align-items-center">
                     <div class="col-lg-8">
                         <h1 class="tour-title scroll-animate" data-animation="fadeInUp" data-delay="50">
-                            Classic Pyramids &amp; Cairo Highlights
+                            {{ $tour->title }}
                         </h1>
                         <div class="tour-meta scroll-animate" data-animation="fadeInUp" data-delay="150">
                             <div class="tour-meta-item">
                                 <i class="fa-solid fa-clock"></i>
-                                <span>3 Days / 2 Nights</span>
+                                <span>{{ $tour->duration }} {{ ucfirst($tour->duration_type) }}</span>
                             </div>
                             <div class="tour-meta-item">
                                 <i class="fa-solid fa-star text-warning"></i>
-                                <span>4.9 (124 reviews)</span>
+                                <span>{{ $averageRating > 0 ? $averageRating : '4.9' }} ({{ $testimonials->count() > 0 ? $testimonials->count() : '124' }} reviews)</span>
                             </div>
                         </div>
                     </div>
@@ -62,7 +62,8 @@
                                                 @foreach ($galleryImages as $image)
                                                     @php
                                                         $imageUrl = asset('uploads/tours/' . $image->image);
-                                                        $imageAlt = $image->alt ?: $tour->title . ' image ' . $loop->iteration;
+                                                        $imageAlt =
+                                                            $image->alt ?: $tour->title . ' image ' . $loop->iteration;
                                                     @endphp
                                                     <div class="swiper-slide">
                                                         <img src="{{ $imageUrl }}" alt="{{ $imageAlt }}" />
@@ -87,7 +88,9 @@
                                                 @foreach ($galleryImages as $image)
                                                     @php
                                                         $thumbUrl = asset('uploads/tours/' . $image->image);
-                                                        $thumbAlt = $image->alt ?: $tour->title . ' thumbnail ' . $loop->iteration;
+                                                        $thumbAlt =
+                                                            $image->alt ?:
+                                                            $tour->title . ' thumbnail ' . $loop->iteration;
                                                     @endphp
                                                     <div class="swiper-slide">
                                                         <img src="{{ $thumbUrl }}" alt="{{ $thumbAlt }}" />
@@ -103,17 +106,7 @@
                         <!-- Text description under gallery -->
                         <div class="tour-intro-text scroll-animate mt-4" data-animation="fadeInUp" data-delay="350">
                             <h2>About this experience</h2>
-                            <p>
-                                Spend three unforgettable days between the ancient wonders of the Giza Plateau and the
-                                vibrant streets of modern Cairo. This curated itinerary combines must‑see highlights
-                                with carefully chosen moments to slow down, enjoy the view, and connect with Egypt’s
-                                culture, food, and people.
-                            </p>
-                            <p>
-                                Perfect for first‑time visitors and returning travellers who want a seamless,
-                                well‑organized introduction to Cairo with expert local support from the moment you
-                                arrive.
-                            </p>
+                            {!! $tour->description !!}
                         </div>
                     </div>
 
@@ -122,9 +115,10 @@
                         <aside class="tour-booking-card scroll-animate" id="booking" data-animation="fadeInUp"
                             data-delay="300">
                             @php
-                                $basePrice = $tour->current_price ?? $tour->price ?? 0;
+                                $basePrice = $tour->current_price ?? ($tour->price ?? 0);
                                 $hasOffer = $tour->has_offer && $tour->isOfferActive();
-                                $oldPrice = $hasOffer && $tour->price_before_discount ? $tour->price_before_discount : null;
+                                $oldPrice =
+                                    $hasOffer && $tour->price_before_discount ? $tour->price_before_discount : null;
                                 $displayPrice = $basePrice;
                             @endphp
                             <div class="tour-booking-price-strip">
@@ -132,11 +126,13 @@
                                 @if ($oldPrice)
                                     <span class="tour-booking-old">${{ number_format($oldPrice, 0) }}</span>
                                 @endif
-                                <span class="tour-booking-new" id="tour-booking-per-person">${{ number_format($displayPrice, 0) }}</span>
+                                <span class="tour-booking-new"
+                                    id="tour-booking-per-person">${{ number_format($displayPrice, 0) }}</span>
                                 <span class="tour-booking-per">per person</span>
                             </div>
                             @if (session('success'))
-                                <div class="alert alert-success alert-dismissible fade show tour-booking-flash mb-3" role="alert">
+                                <div class="alert alert-success alert-dismissible fade show tour-booking-flash mb-3"
+                                    role="alert">
                                     {{ session('success') }}
                                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>
@@ -151,65 +147,95 @@
                                     </ul>
                                 </div>
                             @endif
-                            <form class="tour-booking-form" id="booking-form" action="{{ route('bookings.store') }}" method="POST" novalidate>
+                            <form class="tour-booking-form" id="booking-form" action="{{ route('bookings.store') }}"
+                                method="POST" novalidate>
                                 @csrf
                                 <input type="hidden" name="tour_id" value="{{ $tour->id }}">
                                 <input type="hidden" id="base-tour-price" name="base_tour_price" value="{{ $basePrice }}">
-                                <input type="hidden" id="total-price-input" name="total_price" value="{{ old('total_price') }}">
-                                <input type="hidden" id="selected-variants" name="selected_variants" value="{{ old('selected_variants', '[]') }}">
+                                <input type="hidden" id="total-price-input" name="total_price"
+                                    value="{{ old('total_price') }}">
+                                <input type="hidden" id="selected-variants" name="selected_variants"
+                                    value="{{ old('selected_variants', '[]') }}">
                                 <div class="tour-booking-field mb-2">
                                     <label class="form-label" for="full_name">Full Name</label>
                                     <input type="text" id="full_name" name="full_name"
-                                        class="form-control @error('full_name') is-invalid @enderror" placeholder="Full name"
-                                        value="{{ old('full_name') }}" autocomplete="name" />
-                                    <div class="tour-booking-field__error" id="booking-feedback-full_name" role="alert" aria-live="polite">@error('full_name'){{ $message }}@enderror</div>
+                                        class="form-control @error('full_name') is-invalid @enderror"
+                                        placeholder="Full name" value="{{ old('full_name') }}" autocomplete="name" />
+                                    <div class="tour-booking-field__error" id="booking-feedback-full_name" role="alert"
+                                        aria-live="polite">
+                                        @error('full_name')
+                                            {{ $message }}
+                                        @enderror
+                                    </div>
                                 </div>
                                 <div class="tour-booking-field mb-2">
                                     <label class="form-label" for="email">Email</label>
                                     <input type="email" id="email" name="email"
-                                        class="form-control @error('email') is-invalid @enderror" placeholder="you@example.com"
-                                        value="{{ old('email') }}" autocomplete="email" inputmode="email" />
-                                    <div class="tour-booking-field__error" id="booking-feedback-email" role="alert" aria-live="polite">@error('email'){{ $message }}@enderror</div>
+                                        class="form-control @error('email') is-invalid @enderror"
+                                        placeholder="you@example.com" value="{{ old('email') }}" autocomplete="email"
+                                        inputmode="email" />
+                                    <div class="tour-booking-field__error" id="booking-feedback-email" role="alert"
+                                        aria-live="polite">
+                                        @error('email')
+                                            {{ $message }}
+                                        @enderror
+                                    </div>
                                 </div>
                                 <div class="tour-booking-field mb-2">
                                     <label class="form-label" for="phone">Phone</label>
                                     <input type="tel" id="phone" name="phone"
-                                        class="form-control @error('phone') is-invalid @enderror" placeholder="+20 123 456 7890"
-                                        value="{{ old('phone') }}" autocomplete="tel" />
-                                    <div class="tour-booking-field__error" id="booking-feedback-phone" role="alert" aria-live="polite">@error('phone'){{ $message }}@enderror</div>
+                                        class="form-control @error('phone') is-invalid @enderror"
+                                        placeholder="+20 123 456 7890" value="{{ old('phone') }}" autocomplete="tel" />
+                                    <div class="tour-booking-field__error" id="booking-feedback-phone" role="alert"
+                                        aria-live="polite">
+                                        @error('phone')
+                                            {{ $message }}
+                                        @enderror
+                                    </div>
                                 </div>
                                 <div class="tour-booking-field mb-2">
                                     <label class="form-label" for="nationality">Nationality</label>
                                     <input type="text" id="nationality" name="nationality"
                                         class="form-control @error('nationality') is-invalid @enderror"
-                                        placeholder="e.g. Egyptian, Italian" value="{{ old('nationality') }}" autocomplete="country-name" />
-                                    <div class="tour-booking-field__error" id="booking-feedback-nationality" role="alert" aria-live="polite">@error('nationality'){{ $message }}@enderror</div>
+                                        placeholder="e.g. Egyptian, Italian" value="{{ old('nationality') }}"
+                                        autocomplete="country-name" />
+                                    <div class="tour-booking-field__error" id="booking-feedback-nationality" role="alert"
+                                        aria-live="polite">
+                                        @error('nationality')
+                                            {{ $message }}
+                                        @enderror
+                                    </div>
                                 </div>
                                 <div class="tour-booking-field mb-2">
                                     <label class="form-label" for="no_of_travellers">No. of Travellers</label>
                                     <input type="number" id="no_of_travellers" name="no_of_travellers"
-                                        class="form-control @error('no_of_travellers') is-invalid @enderror" min="1" step="1"
-                                        value="{{ old('no_of_travellers', 1) }}" inputmode="numeric" />
-                                    <div class="tour-booking-field__error" id="booking-feedback-no_of_travellers" role="alert" aria-live="polite">@error('no_of_travellers'){{ $message }}@enderror</div>
+                                        class="form-control @error('no_of_travellers') is-invalid @enderror" min="1"
+                                        step="1" value="{{ old('no_of_travellers', 1) }}" inputmode="numeric" />
+                                    <div class="tour-booking-field__error" id="booking-feedback-no_of_travellers"
+                                        role="alert" aria-live="polite">
+                                        @error('no_of_travellers')
+                                            {{ $message }}
+                                        @enderror
+                                    </div>
                                 </div>
                                 <div class="mb-2">
                                     <label class="form-label">Extra Options</label>
                                     <div class="tour-extras-list">
                                         @php
                                             $oldExtras = old('extra_options', []);
-                                            if (! is_array($oldExtras)) {
+                                            if (!is_array($oldExtras)) {
                                                 $oldExtras = [];
                                             }
                                         @endphp
                                         @forelse ($tour->variants ?? [] as $variant)
                                             @php $addPrice = (float) ($variant->additional_price ?? 0); @endphp
                                             <label class="form-check">
-                                                <input class="form-check-input variant-checkbox" type="checkbox" name="extra_options[]"
-                                                    value="{{ $variant->id }}"
-                                                    data-price="{{ $addPrice }}"
-                                                    data-title="{{ $variant->title }}"
+                                                <input class="form-check-input variant-checkbox" type="checkbox"
+                                                    name="extra_options[]" value="{{ $variant->id }}"
+                                                    data-price="{{ $addPrice }}" data-title="{{ $variant->title }}"
                                                     @checked(in_array((string) $variant->id, array_map('strval', $oldExtras), true))>
-                                                <span class="form-check-label">{{ $variant->title }} (${{ number_format($addPrice, 0) }})</span>
+                                                <span class="form-check-label">{{ $variant->title }}
+                                                    (${{ number_format($addPrice, 0) }})</span>
                                             </label>
                                         @empty
                                             <p class="text-muted small mb-0">No extra options for this tour.</p>
@@ -217,9 +243,7 @@
                                     </div>
                                 </div>
                                 <div class="tour-booking-summary">
-                                    <div id="tour-booking-breakdown"
-                                        class="tour-booking-breakdown"
-                                        aria-live="polite"
+                                    <div id="tour-booking-breakdown" class="tour-booking-breakdown" aria-live="polite"
                                         aria-atomic="true"></div>
                                     <div class="tour-booking-row tour-booking-total">
                                         <span>Total:</span>
@@ -243,79 +267,23 @@
         <section class="tour-details section-padding">
             <div class="container">
                 <div class="row g-5">
-                    <div class="col-lg-7">
+                    <div class="col-lg-12">
                         <div class="tour-expect-card">
                             <h2 class="tour-expect-title">What To Expect</h2>
 
-                            <div class="tour-day">
-                                <div class="tour-day-number">1</div>
-                                <div class="tour-day-body">
-                                    <h3 class="tour-day-title">Welcome to Cairo &amp; Giza</h3>
-                                    <p>
-                                        Arrival in Cairo and transfer to your hotel. In the afternoon, head to the
-                                        Giza Plateau for your first breathtaking view of the Great Pyramids and the
-                                        Sphinx, followed by a sunset photo stop in the desert.
-                                    </p>
-                                    <ul>
-                                        <li>Airport meet &amp; greet and private transfer</li>
-                                        <li>Guided visit to the Pyramids &amp; Sphinx</li>
-                                        <li>Welcome dinner overlooking the city</li>
-                                    </ul>
+                            @forelse ($tour->tourDays as $day)
+                                <div class="tour-day">
+                                    <div class="tour-day-number">{{ $day->day_number }}</div>
+                                    <div class="tour-day-body">
+                                        <h3 class="tour-day-title">{{ $day->day_title }}</h3>
+                                        <div class="tour-day-details">
+                                            {!! $day->details !!}
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-
-                            <div class="tour-day">
-                                <div class="tour-day-number">2</div>
-                                <div class="tour-day-body">
-                                    <h3 class="tour-day-title">Egyptian Museum &amp; Old Cairo</h3>
-                                    <p>
-                                        Dive deeper into Egypt’s history at the Egyptian Museum, then wander through
-                                        the lanes of Old Cairo and Khan El‑Khalili bazaar with time for coffee,
-                                        souvenirs, and street photography.
-                                    </p>
-                                    <ul>
-                                        <li>Guided tour of key Museum highlights</li>
-                                        <li>Visit Old Cairo &amp; historic mosques</li>
-                                        <li>Optional evening Nile dinner cruise</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="tour-day">
-                                <div class="tour-day-number">3</div>
-                                <div class="tour-day-body">
-                                    <h3 class="tour-day-title">Last Views &amp; Departure</h3>
-                                    <p>
-                                        Enjoy a relaxed breakfast and some final views of Cairo before your private
-                                        transfer to the airport, or extend your adventure with a Red Sea or Nile
-                                        cruise add‑on.
-                                    </p>
-                                    <ul>
-                                        <li>Breakfast at the hotel</li>
-                                        <li>Free time for last‑minute shopping</li>
-                                        <li>Private transfer to Cairo Airport</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-5">
-                        <div class="tour-facts-card">
-                            <h3>Tour Details</h3>
-                            <dl>
-                                <div class="tour-fact-row">
-                                    <dt>Category</dt>
-                                    <dd>City &amp; Culture</dd>
-                                </div>
-                                <div class="tour-fact-row">
-                                    <dt>Duration</dt>
-                                    <dd>3 Days / 2 Nights</dd>
-                                </div>
-                                <div class="tour-fact-row">
-                                    <dt>Departure</dt>
-                                    <dd>Daily from Cairo</dd>
-                                </div>
-                            </dl>
+                            @empty
+                                <p class="text-muted">No itinerary details available for this tour yet.</p>
+                            @endforelse
                         </div>
                     </div>
                 </div>
@@ -323,97 +291,97 @@
         </section>
 
         @if (isset($relatedTours) && $relatedTours->isNotEmpty())
-        <!-- Related Tours -->
-        <section class="tour-related section-padding">
-            <div class="container">
-                <div class="section-header scroll-animate" data-animation="fadeInUp">
-                    <div class="section-label">
-                        <span class="star-icon">✦</span>
-                        <span>RELATED TOURS</span>
-                        <span class="star-icon">✦</span>
+            <!-- Related Tours -->
+            <section class="tour-related section-padding">
+                <div class="container">
+                    <div class="section-header scroll-animate" data-animation="fadeInUp">
+                        <div class="section-label">
+                            <span class="star-icon">✦</span>
+                            <span>RELATED TOURS</span>
+                            <span class="star-icon">✦</span>
+                        </div>
+                        <h2 class="section-title">
+                            You May Also <span class="highlight">Like</span>
+                        </h2>
                     </div>
-                    <h2 class="section-title">
-                        You May Also <span class="highlight">Like</span>
-                    </h2>
-                </div>
-                <div class="row g-4">
-                    @foreach ($relatedTours as $relatedTour)
-                        @php
-                            $relatedCover = $relatedTour->cover_image
-                                ? asset('uploads/tours/' . $relatedTour->cover_image)
-                                : asset('assets/frontend/assets/images/blogs/01.png');
+                    <div class="row g-4">
+                        @foreach ($relatedTours as $relatedTour)
+                            @php
+                                $relatedCover = $relatedTour->cover_image
+                                    ? asset('uploads/tours/' . $relatedTour->cover_image)
+                                    : asset('assets/frontend/assets/images/blogs/01.png');
 
-                            $isOnSale = $relatedTour->has_offer && $relatedTour->isOfferActive();
-                            $currentPrice =
-                                $isOnSale && $relatedTour->price_after_discount
+                                $isOnSale = $relatedTour->has_offer && $relatedTour->isOfferActive();
+                                $currentPrice =
+                                    $isOnSale && $relatedTour->price_after_discount
                                     ? $relatedTour->price_after_discount
                                     : $relatedTour->price;
-                            $oldPrice =
-                                $isOnSale && $relatedTour->price_before_discount
+                                $oldPrice =
+                                    $isOnSale && $relatedTour->price_before_discount
                                     ? $relatedTour->price_before_discount
                                     : null;
 
-                            $durationValue = (int) ($relatedTour->duration ?? 0);
-                            $durationText = $durationValue > 0 ? $durationValue . ' Days' : null;
+                                $durationValue = (int) ($relatedTour->duration ?? 0);
+                                $durationText = $durationValue > 0 ? $durationValue . ' Days' : null;
 
-                            $locationParts = [];
-                            if ($relatedTour->state) {
-                                $locationParts[] = $relatedTour->state->name;
-                            }
-                            if ($relatedTour->country) {
-                                $locationParts[] = $relatedTour->country->name;
-                            }
-                            $location = implode(' · ', $locationParts);
-                        @endphp
+                                $locationParts = [];
+                                if ($relatedTour->state) {
+                                    $locationParts[] = $relatedTour->state->name;
+                                }
+                                if ($relatedTour->country) {
+                                    $locationParts[] = $relatedTour->country->name;
+                                }
+                                $location = implode(' · ', $locationParts);
+                            @endphp
 
-                        <div class="col-md-4">
-                            <a href="{{ route('tours.show', $relatedTour->slug) }}" class="related-tour-card">
-                                <div class="related-tour-image">
-                                    <img src="{{ $relatedCover }}" alt="{{ $relatedTour->title }}" loading="lazy" />
-                                    @if ($location)
-                                        <div class="location-badge">
-                                            <span class="pin-icon">📍</span>
-                                            <span>{{ strtoupper($location) }}</span>
-                                        </div>
-                                    @endif
-                                    @if ($relatedTour->display_category_name)
-                                        <div class="category-badge">
-                                            {{ strtoupper($relatedTour->display_category_name) }}
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="related-tour-body">
-                                    <h3 class="related-tour-title">{{ $relatedTour->title }}</h3>
-                                    <div class="related-tour-meta">
-                                        @if ($durationText)
-                                            <span><i class="fa-regular fa-clock"></i> {{ $durationText }}</span>
-                                        @endif
+                            <div class="col-md-4">
+                                <a href="{{ route('tours.show', $relatedTour->slug) }}" class="related-tour-card">
+                                    <div class="related-tour-image">
+                                        <img src="{{ $relatedCover }}" alt="{{ $relatedTour->title }}" loading="lazy" />
                                         @if ($location)
-                                            <span><i class="fa-solid fa-location-dot"></i> {{ $location }}</span>
+                                            <div class="location-badge">
+                                                <span class="pin-icon">📍</span>
+                                                <span>{{ strtoupper($location) }}</span>
+                                            </div>
+                                        @endif
+                                        @if ($relatedTour->display_category_name)
+                                            <div class="category-badge">
+                                                {{ strtoupper($relatedTour->display_category_name) }}
+                                            </div>
                                         @endif
                                     </div>
-                                    <div class="related-tour-price-row">
-                                        <span class="related-tour-price-label">From</span>
-                                        @if ($oldPrice)
-                                            <span class="related-tour-price related-tour-price-old">
-                                                ${{ number_format($oldPrice, 0) }}
-                                            </span>
-                                        @endif
-                                        @if ($currentPrice !== null)
-                                            <span
-                                                class="related-tour-price {{ $oldPrice ? 'related-tour-price-main-discount' : '' }}">
-                                                ${{ number_format($currentPrice, 0) }}
-                                            </span>
-                                        @endif
-                                        <span class="related-tour-price-unit">/ person</span>
+                                    <div class="related-tour-body">
+                                        <h3 class="related-tour-title">{{ $relatedTour->title }}</h3>
+                                        <div class="related-tour-meta">
+                                            @if ($durationText)
+                                                <span><i class="fa-regular fa-clock"></i> {{ $durationText }}</span>
+                                            @endif
+                                            @if ($location)
+                                                <span><i class="fa-solid fa-location-dot"></i> {{ $location }}</span>
+                                            @endif
+                                        </div>
+                                        <div class="related-tour-price-row">
+                                            <span class="related-tour-price-label">From</span>
+                                            @if ($oldPrice)
+                                                <span class="related-tour-price related-tour-price-old">
+                                                    ${{ number_format($oldPrice, 0) }}
+                                                </span>
+                                            @endif
+                                            @if ($currentPrice !== null)
+                                                <span
+                                                    class="related-tour-price {{ $oldPrice ? 'related-tour-price-main-discount' : '' }}">
+                                                    ${{ number_format($currentPrice, 0) }}
+                                                </span>
+                                            @endif
+                                            <span class="related-tour-price-unit">/ person</span>
+                                        </div>
                                     </div>
-                                </div>
-                            </a>
-                        </div>
-                    @endforeach
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
         @endif
     </main>
 
@@ -440,7 +408,7 @@
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     @endif
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Parse price from string (handles "450", "1,950", "45.50")
             function parsePrice(val) {
                 if (val === null || val === undefined || val === '') return 0;
@@ -475,7 +443,7 @@
                 }
 
                 const selectedExtras = [];
-                variantCheckboxes.forEach(function(checkbox) {
+                variantCheckboxes.forEach(function (checkbox) {
                     if (checkbox.checked) {
                         const p = parsePrice(checkbox.getAttribute('data-price'));
                         pricePerPerson += p;
@@ -519,7 +487,7 @@
                                 amount: Math.round(accP * noOfTravellers),
                             });
                         }
-                        selectedExtras.forEach(function(extra) {
+                        selectedExtras.forEach(function (extra) {
                             rows.push({
                                 label: extra.title,
                                 amount: Math.round(extra.price * noOfTravellers),
@@ -530,7 +498,7 @@
                         html +=
                             '<div class="tour-breakdown-panel__head"><i class="fa-solid fa-receipt" aria-hidden="true"></i> Price breakdown</div>';
                         html += '<ul class="tour-breakdown-panel__list">';
-                        rows.forEach(function(row) {
+                        rows.forEach(function (row) {
                             html += '<li class="tour-breakdown-panel__row">';
                             html +=
                                 '<span class="tour-breakdown-panel__label">' +
@@ -553,13 +521,16 @@
 
                 const accommodationTypeIdInput = document.getElementById('accommodation-type-id');
                 if (accommodationTypeIdInput) {
-                    accommodationTypeIdInput.value = (accommodationSelect && accommodationSelect.value) ? accommodationSelect.value : '';
+                    accommodationTypeIdInput.value = (accommodationSelect && accommodationSelect.value) ?
+                        accommodationSelect.value : '';
                 }
 
                 const selectedVariantsInput = document.getElementById('selected-variants');
                 if (selectedVariantsInput) {
                     const ids = [];
-                    variantCheckboxes.forEach(function(cb) { if (cb.checked) ids.push(cb.value); });
+                    variantCheckboxes.forEach(function (cb) {
+                        if (cb.checked) ids.push(cb.value);
+                    });
                     selectedVariantsInput.value = JSON.stringify(ids);
                 }
             }
@@ -567,12 +538,12 @@
 
             // Event listeners
 
-            variantCheckboxes.forEach(function(checkbox) {
+            variantCheckboxes.forEach(function (checkbox) {
                 checkbox.addEventListener('change', calculateTotal);
             });
 
             if (accommodationSelect) {
-                accommodationSelect.addEventListener('change', function() {
+                accommodationSelect.addEventListener('change', function () {
                     calculateTotal();
                     // Update accommodation type id when changed
                     const accommodationTypeIdInput = document.getElementById('accommodation-type-id');
@@ -584,7 +555,7 @@
 
             // Listen to number of travellers changes
             if (noOfTravellersInput) {
-                noOfTravellersInput.addEventListener('input', function() {
+                noOfTravellersInput.addEventListener('input', function () {
                     const value = parseInt(this.value) || 1;
                     if (value < 1) {
                         this.value = 1;
@@ -597,14 +568,14 @@
             calculateTotal();
 
             // Function to select accommodation from table
-            window.selectAccommodation = function(itemId, price, displayName) {
+            window.selectAccommodation = function (itemId, price, displayName) {
                 if (accommodationSelect) {
                     accommodationSelect.value = itemId;
                     // Trigger change event to recalculate
                     accommodationSelect.dispatchEvent(new Event('change'));
 
                     // Highlight selected row
-                    document.querySelectorAll('.accommodation-row').forEach(function(row) {
+                    document.querySelectorAll('.accommodation-row').forEach(function (row) {
                         row.classList.remove('bg-green-zomp');
                         const nameCell = row.querySelector('.accommodation-name');
                         const priceCell = row.querySelector('.accommodation-price');
@@ -766,26 +737,28 @@
                     no_of_travellers: validateNoOfTravellers,
                 };
 
-                Object.keys(fieldValidators).forEach(function(fieldId) {
+                Object.keys(fieldValidators).forEach(function (fieldId) {
                     const input = document.getElementById(fieldId);
                     if (!input) return;
                     const run = fieldValidators[fieldId];
-                    input.addEventListener('input', function() {
+                    input.addEventListener('input', function () {
                         run();
                     });
-                    input.addEventListener('blur', function() {
+                    input.addEventListener('blur', function () {
                         run();
                     });
                 });
 
-                bookingForm.addEventListener('submit', function(e) {
+                bookingForm.addEventListener('submit', function (e) {
                     calculateTotal();
 
                     if (!validateBookingFormAll()) {
                         e.preventDefault();
                         const firstInvalid = bookingForm.querySelector('.form-control.is-invalid');
                         if (firstInvalid) {
-                            firstInvalid.focus({ preventScroll: false });
+                            firstInvalid.focus({
+                                preventScroll: false
+                            });
                         }
                         return false;
                     }

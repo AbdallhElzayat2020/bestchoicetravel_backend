@@ -672,17 +672,6 @@
                                         </div>
                                         <small class="text-muted">Check this to display the tour on the homepage</small>
                                     </div>
-
-                                    <hr class="divider">
-
-                                    <div class="mb-3">
-                                        <label for="notes" class="form-label">Notes</label>
-                                        <textarea class="form-control @error('notes') is-invalid @enderror" id="notes" name="notes" rows="5">{{ old('notes') }}</textarea>
-                                        <small class="text-muted">Optional notes about this tour</small>
-                                        @error('notes')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
                                 </div>
                             </div>
 
