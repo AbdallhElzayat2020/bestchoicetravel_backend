@@ -120,10 +120,7 @@ class CruiseExperienceController extends Controller
                 $experience->update(['banner_image' => $path]);
             }
 
-            // Sync related tours
-            if ($request->filled('tour_ids')) {
-                $experience->tours()->sync($request->tour_ids);
-            }
+            $this->syncExperienceTours($experience, $request->input('tour_ids', []));
 
             // Attach selected global FAQs (optional)
             if ($request->filled('faq_ids')) {
@@ -237,12 +234,7 @@ class CruiseExperienceController extends Controller
                 $experience->update(['banner_image' => $path]);
             }
 
-            // Sync related tours
-            if ($request->filled('tour_ids')) {
-                $experience->tours()->sync($request->tour_ids);
-            } else {
-                $experience->tours()->detach();
-            }
+            $this->syncExperienceTours($experience, $request->input('tour_ids', []));
 
             // Replace related FAQs with selected global ones
             $experience->faqs()->delete();
@@ -305,5 +297,31 @@ class CruiseExperienceController extends Controller
             return back()
                 ->with('error', 'An error occurred while deleting the cruise experience. Please try again.');
         }
+    }
+
+    /**
+     * Link tours to this sub category (pivot + cruise_experience_id column).
+     */
+    private function syncExperienceTours(CruiseExperience $experience, ?array $tourIds): void
+    {
+        $tourIds = array_values(array_filter($tourIds ?? []));
+
+        Tour::where('cruise_experience_id', $experience->id)
+            ->whereNotIn('id', $tourIds)
+            ->update([
+                'cruise_experience_id' => null,
+                'cruise_group_id' => null,
+            ]);
+
+        $experience->tours()->sync($tourIds);
+
+        if ($tourIds === []) {
+            return;
+        }
+
+        Tour::whereIn('id', $tourIds)->update([
+            'cruise_experience_id' => $experience->id,
+            'cruise_group_id' => $experience->cruise_group_id,
+        ]);
     }
 }

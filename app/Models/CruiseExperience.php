@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -78,11 +79,25 @@ class CruiseExperience extends Model
     }
 
     /**
-     * Related tours for this experience.
+     * Related tours for this experience (pivot table).
      */
     public function tours(): BelongsToMany
     {
         return $this->belongsToMany(Tour::class, 'cruise_experience_tour')->withTimestamps();
+    }
+
+    /**
+     * Active tours assigned to this sub category (column or pivot).
+     */
+    public function activeToursQuery(): Builder
+    {
+        return Tour::active()
+            ->where(function (Builder $query) {
+                $query->where('cruise_experience_id', $this->id)
+                    ->orWhereHas('cruiseExperiences', function (Builder $relation) {
+                        $relation->where('cruise_experiences.id', $this->id);
+                    });
+            });
     }
 
     /**

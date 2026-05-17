@@ -50,9 +50,8 @@ class CruiseExperienceController extends Controller
             ->where('slug', $slug)
             ->firstOrFail();
 
-        // Get only the selected related tours
-        $relatedTours = $experience->tours()
-            ->active()
+        // Tours assigned via sub category on tour form and/or linked from experience admin
+        $relatedTours = $experience->activeToursQuery()
             ->with(['cruiseGroup', 'cruiseExperience', 'category', 'country', 'state'])
             ->orderBy('sort_order')
             ->latest()

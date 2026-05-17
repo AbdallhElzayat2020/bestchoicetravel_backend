@@ -68,7 +68,7 @@
                                     @foreach ($experiences as $experience)
                                         <li>
                                             <a class="dropdown-item"
-                                                href="{{ url($group->slug . '/' . $experience->slug) }}">
+                                                href="{{ route('cruise-group-' . $group->id . '.show', $experience->slug) }}">
                                                 {{ $experience->title }}
                                             </a>
                                         </li>

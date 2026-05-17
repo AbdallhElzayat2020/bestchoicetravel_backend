@@ -240,7 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const toursPage = document.querySelector('.tours-page');
     if (!toursPage) return;
 
-    const cards = Array.from(document.querySelectorAll('.tours-card[data-tour="1"]'));
+    const cards = Array.from(document.querySelectorAll('.tours-card[data-tour]'));
     const grids = Array.from(document.querySelectorAll('[data-tours-grid]'));
     const sections = Array.from(document.querySelectorAll('.tours-section'));
 
@@ -248,6 +248,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('toursSearch');
     const sortSelect = document.getElementById('toursSort');
     const durationSelect = document.getElementById('toursDuration');
+
+    // Sub-category pages list tours without filter controls — skip client-side filtering
+    const hasFilterControls = chips.length > 0 || searchInput || sortSelect || durationSelect;
+    if (!hasFilterControls) {
+        return;
+    }
     const minPriceInput = document.getElementById('toursMinPrice');
     const maxPriceInput = document.getElementById('toursMaxPrice');
     const onSaleInput = document.getElementById('toursOnSale');
@@ -325,7 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Hide empty sections
         sections.forEach((section) => {
-            const sectionCards = section.querySelectorAll('.tours-card[data-tour="1"]');
+            const sectionCards = section.querySelectorAll('.tours-card[data-tour]');
             const anyVisible = Array.from(sectionCards).some((c) => !c.classList.contains('tours-card--hidden'));
             section.classList.toggle('tours-section--empty', !anyVisible);
         });
@@ -338,8 +344,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (sort === 'recommended') return;
 
         grids.forEach((grid) => {
-            const visibleCards = Array.from(grid.querySelectorAll('.tours-card[data-tour="1"]:not(.tours-card--hidden)'));
-            const hiddenCards = Array.from(grid.querySelectorAll('.tours-card[data-tour="1"].tours-card--hidden'));
+            const visibleCards = Array.from(grid.querySelectorAll('.tours-card[data-tour]:not(.tours-card--hidden)'));
+            const hiddenCards = Array.from(grid.querySelectorAll('.tours-card[data-tour].tours-card--hidden'));
 
             const valueFor = (card) => {
                 const price = Number(card.dataset.price || 0);
