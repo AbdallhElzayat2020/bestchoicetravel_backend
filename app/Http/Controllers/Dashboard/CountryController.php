@@ -36,7 +36,7 @@ class CountryController extends Controller
             'name' => 'required|string|max:255|unique:countries,name',
             'slug' => 'nullable|string|max:255|unique:countries,slug|regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/',
             'code' => 'nullable|string|max:3|unique:countries,code',
-            'flag' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'flag' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'status' => 'required|in:active,inactive',
             'sort_order' => 'nullable|integer|min:0',
         ]);
@@ -89,7 +89,7 @@ class CountryController extends Controller
             'name' => 'required|string|max:255|unique:countries,name,' . $id,
             'slug' => 'nullable|string|max:255|unique:countries,slug,' . $id . '|regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/',
             'code' => 'nullable|string|max:3|unique:countries,code,' . $id,
-            'flag' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'flag' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'status' => 'required|in:active,inactive',
             'sort_order' => 'nullable|integer|min:0',
         ]);
