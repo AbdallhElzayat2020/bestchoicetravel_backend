@@ -606,51 +606,7 @@
                                 </div>
                             </div>
 
-                            <!-- SEO Section -->
-                            <div class="section-card">
-                                <div class="section-header seo">
-                                    <h6>
-                                        <i class="ti ti-search"></i>
-                                        SEO Information
-                                    </h6>
-                                </div>
-                                <div class="section-body">
-                                    <div class="mb-3">
-                                        <label for="meta_title" class="form-label">Meta Title</label>
-                                        <input type="text"
-                                            class="form-control @error('meta_title') is-invalid @enderror"
-                                            id="meta_title" name="meta_title"
-                                            value="{{ old('meta_title', $tour->meta_title) }}" maxlength="60">
-                                        <small class="text-muted">Recommended: 50-60 characters</small>
-                                        @error('meta_title')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
 
-                                    <div class="mb-3">
-                                        <label for="meta_description" class="form-label">Meta Description</label>
-                                        <textarea class="form-control @error('meta_description') is-invalid @enderror" id="meta_description"
-                                            name="meta_description" rows="3" maxlength="160">{{ old('meta_description', $tour->meta_description) }}</textarea>
-                                        <small class="text-muted">Recommended: 150-160 characters</small>
-                                        @error('meta_description')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="meta_keywords" class="form-label">Meta Keywords</label>
-                                        <input type="text"
-                                            class="form-control @error('meta_keywords') is-invalid @enderror"
-                                            id="meta_keywords" name="meta_keywords"
-                                            value="{{ old('meta_keywords', $tour->meta_keywords) }}"
-                                            placeholder="keyword1, keyword2, keyword3">
-                                        <small class="text-muted">Separate keywords with commas</small>
-                                        @error('meta_keywords')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
 
                             <!-- Pricing & Duration Section -->
                             <div class="section-card">
@@ -1270,6 +1226,52 @@
                                 </div>
                             </div>
 
+                            <!-- SEO Section -->
+                            <div class="section-card">
+                                <div class="section-header seo">
+                                    <h6>
+                                        <i class="ti ti-search"></i>
+                                        SEO Information
+                                    </h6>
+                                </div>
+                                <div class="section-body">
+                                    <div class="mb-3">
+                                        <label for="meta_title" class="form-label">Meta Title</label>
+                                        <input type="text"
+                                            class="form-control @error('meta_title') is-invalid @enderror"
+                                            id="meta_title" name="meta_title"
+                                            value="{{ old('meta_title', $tour->meta_title) }}" maxlength="60">
+                                        <small class="text-muted">Recommended: 50-60 characters</small>
+                                        @error('meta_title')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="meta_description" class="form-label">Meta Description</label>
+                                        <textarea class="form-control @error('meta_description') is-invalid @enderror" id="meta_description"
+                                            name="meta_description" rows="3" maxlength="160">{{ old('meta_description', $tour->meta_description) }}</textarea>
+                                        <small class="text-muted">Recommended: 150-160 characters</small>
+                                        @error('meta_description')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="meta_keywords" class="form-label">Meta Keywords</label>
+                                        <input type="text"
+                                            class="form-control @error('meta_keywords') is-invalid @enderror"
+                                            id="meta_keywords" name="meta_keywords"
+                                            value="{{ old('meta_keywords', $tour->meta_keywords) }}"
+                                            placeholder="keyword1, keyword2, keyword3">
+                                        <small class="text-muted">Separate keywords with commas</small>
+                                        @error('meta_keywords')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+
                             <!-- Form Actions -->
                             <div class="d-flex justify-content-end gap-2 mt-4">
                                 <a href="{{ route('admin.tours.index') }}" class="btn btn-label-secondary">
@@ -1512,21 +1514,30 @@
                     $.ajax({
                         url: '{{ route('admin.tours.get-subcategories-by-category') }}',
                         type: 'GET',
-                        data: { cruise_group_id: cruiseGroupId },
+                        data: {
+                            cruise_group_id: cruiseGroupId
+                        },
                         dataType: 'json',
                         success: function(data) {
-                            $('#cruise_experience_id').html('<option value="">Select Sub Category</option>');
+                            $('#cruise_experience_id').html(
+                                '<option value="">Select Sub Category</option>');
                             if (data && data.length > 0) {
                                 $.each(data, function(key, value) {
-                                    const selected = selectedExperienceId && String(selectedExperienceId) === String(value.id) ? ' selected' : '';
-                                    $('#cruise_experience_id').append('<option value="' + value.id + '"' + selected + '>' + value.name + '</option>');
+                                    const selected = selectedExperienceId && String(
+                                            selectedExperienceId) === String(value.id) ?
+                                        ' selected' : '';
+                                    $('#cruise_experience_id').append('<option value="' + value
+                                        .id + '"' + selected + '>' + value.name +
+                                        '</option>');
                                 });
                             } else {
-                                $('#cruise_experience_id').append('<option value="">No sub categories available</option>');
+                                $('#cruise_experience_id').append(
+                                    '<option value="">No sub categories available</option>');
                             }
                         },
                         error: function() {
-                            $('#cruise_experience_id').html('<option value="">Error loading sub categories</option>');
+                            $('#cruise_experience_id').html(
+                                '<option value="">Error loading sub categories</option>');
                         }
                     });
                 } else {
