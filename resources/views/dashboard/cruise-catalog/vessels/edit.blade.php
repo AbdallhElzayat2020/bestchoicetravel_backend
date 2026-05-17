@@ -51,18 +51,21 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Short description</label>
-                    <textarea name="short_description" class="form-control" rows="2">{{ old('short_description', $vessel->short_description) }}</textarea>
+                    <textarea name="short_description" class="form-control"
+                        rows="2">{{ old('short_description', $vessel->short_description) }}</textarea>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Full description</label>
-                    <textarea name="description" class="form-control" rows="6">{{ old('description', $vessel->description) }}</textarea>
+                    <textarea name="description" class="form-control"
+                        rows="6">{{ old('description', $vessel->description) }}</textarea>
                 </div>
 
                 <div class="row">
                     <div class="col-md-4 mb-3">
                         <label class="form-label">Price (per person) <span class="text-danger">*</span></label>
                         <input type="number" step="0.01" name="price_tier_1" class="form-control"
-                            value="{{ old('price_tier_1', $vessel->price_tier_1) }}" min="0" required>
+                            value="{{ old('price_tier_1', $vessel->price_tier_1 !== null ? (float) $vessel->price_tier_1 : '') }}"
+                            min="0" required>
                     </div>
                 </div>
 
@@ -74,8 +77,7 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Add gallery images</label>
-                    <input type="file" name="gallery[]" id="gallery_input" class="form-control" accept="image/*"
-                        multiple>
+                    <input type="file" name="gallery[]" id="gallery_input" class="form-control" accept="image/*" multiple>
                     <div id="gallery-preview" class="row g-2 mt-2"></div>
                     <small class="text-muted d-block mt-1">Preview newly selected gallery images.</small>
                 </div>
@@ -85,11 +87,10 @@
                     <div id="program_cards" class="row g-2">
                         @foreach ($programs as $p)
                             <div class="col-md-6 program-card-item" data-category="{{ $p->cruise_catalog_category_id }}">
-                                <label
-                                    class="border rounded p-3 d-flex align-items-start gap-2 w-100 h-100 program-card-label"
+                                <label class="border rounded p-3 d-flex align-items-start gap-2 w-100 h-100 program-card-label"
                                     style="cursor: pointer;">
-                                    <input type="checkbox" class="form-check-input mt-1 program-checkbox"
-                                        name="program_ids[]" value="{{ $p->id }}" @checked(in_array($p->id, $selectedPrograms))>
+                                    <input type="checkbox" class="form-check-input mt-1 program-checkbox" name="program_ids[]"
+                                        value="{{ $p->id }}" @checked(in_array($p->id, $selectedPrograms))>
                                     <span class="d-block">
                                         <span class="fw-semibold d-block">{{ $p->title }}</span>
                                         <span class="small text-muted d-block">
@@ -128,7 +129,8 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Meta description</label>
-                    <textarea name="meta_description" class="form-control" rows="2">{{ old('meta_description', $vessel->meta_description) }}</textarea>
+                    <textarea name="meta_description" class="form-control"
+                        rows="2">{{ old('meta_description', $vessel->meta_description) }}</textarea>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Meta keywords</label>
@@ -152,11 +154,10 @@
                         <div class="border rounded p-2 bg-light-subtle d-flex align-items-center justify-content-center"
                             style="height: 220px;">
                             <img src="{{ asset('uploads/cruise-catalog/' . $vessel->cover_image) }}" alt=""
-                                class="img-fluid rounded"
-                                style="max-height: 200px; max-width: 100%; object-fit: contain;">
+                                class="img-fluid rounded" style="max-height: 200px; max-width: 100%; object-fit: contain;">
                         </div>
-                        <form action="{{ route('admin.cruise-catalog.vessels.cover.destroy', $vessel) }}" method="POST"
-                            class="mt-2" onsubmit="return confirm('Delete the current cover image from the server?');">
+                        <form action="{{ route('admin.cruise-catalog.vessels.cover.destroy', $vessel) }}" method="POST" class="mt-2"
+                            onsubmit="return confirm('Delete the current cover image from the server?');">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-sm btn-outline-danger">
@@ -173,18 +174,14 @@
                             <div class="col-6 col-md-3">
                                 <div class="border rounded p-2 bg-light-subtle d-flex align-items-center justify-content-center"
                                     style="height: 220px;">
-                                    <img src="{{ asset('uploads/cruise-catalog/' . $img->image_path) }}"
-                                        class="img-fluid rounded" alt=""
-                                        style="max-height: 200px; max-width: 100%; object-fit: contain;">
+                                    <img src="{{ asset('uploads/cruise-catalog/' . $img->image_path) }}" class="img-fluid rounded"
+                                        alt="" style="max-height: 200px; max-width: 100%; object-fit: contain;">
                                 </div>
-                                <form
-                                    action="{{ route('admin.cruise-catalog.vessels.gallery.destroy', [$vessel, $img->id]) }}"
-                                    method="POST" class="mt-2"
-                                    onsubmit="return confirm('Permanently delete this image?');">
+                                <form action="{{ route('admin.cruise-catalog.vessels.gallery.destroy', [$vessel, $img->id]) }}"
+                                    method="POST" class="mt-2" onsubmit="return confirm('Permanently delete this image?');">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-outline-danger w-100"
-                                        title="Delete image">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger w-100" title="Delete image">
                                         <i class="ti ti-trash me-1"></i> Delete
                                     </button>
                                 </form>
@@ -199,7 +196,7 @@
 
 @push('js')
     <script>
-        (function() {
+        (function () {
             const cat = document.getElementById('vessel_category_id');
             const programCards = Array.from(document.querySelectorAll('.program-card-item'));
             const programCheckboxes = Array.from(document.querySelectorAll('.program-checkbox'));
@@ -232,7 +229,7 @@
             const coverInput = document.getElementById('cover_image_input');
             const coverPreview = document.getElementById('cover-preview');
             let coverObjectUrl = null;
-            coverInput?.addEventListener('change', function() {
+            coverInput?.addEventListener('change', function () {
                 if (coverObjectUrl) URL.revokeObjectURL(coverObjectUrl);
                 coverObjectUrl = null;
                 coverPreview.innerHTML = '';
@@ -250,7 +247,7 @@
             const galleryInput = document.getElementById('gallery_input');
             const galleryPreview = document.getElementById('gallery-preview');
             const galleryObjectUrls = [];
-            galleryInput?.addEventListener('change', function() {
+            galleryInput?.addEventListener('change', function () {
                 galleryObjectUrls.forEach(u => URL.revokeObjectURL(u));
                 galleryObjectUrls.length = 0;
                 galleryPreview.innerHTML = '';
