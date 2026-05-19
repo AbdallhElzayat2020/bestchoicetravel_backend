@@ -9,7 +9,7 @@
     $bannerPath = $experience->banner_image ? asset('uploads/cruise-experiences/' . $experience->banner_image) : null;
     $coverImageUrl = $bannerPath ?: asset('assets/frontend/assets/images/destination-01.png');
     $heroH1 = $experience->h1_title ?: $experience->title;
-    $sectionH2 = $experience->h2_title ?: ('Egypt ' . $experience->title);
+    $sectionH2 = $experience->h2_title ?: 'Egypt ' . $experience->title;
 @endphp
 
 @section('meta_title', $metaTitle)
@@ -57,9 +57,7 @@
                     @endphp
                     @if ($longDescription)
                         {{-- Full container width (not the narrow heading column) --}}
-                        <div
-                            class="tours-section-long-description scroll-animate"
-                            data-animation="fadeInUp"
+                        <div class="tours-section-long-description scroll-animate" data-animation="fadeInUp"
                             data-delay="100">
                             <div class="tours-section-prose">
                                 {!! $longDescription !!}
@@ -67,10 +65,8 @@
                         </div>
                     @elseif ($bannerSubtitle)
                         <div class="tours-section-heading">
-                            <p
-                                class="section-description tours-section-prose tours-section-prose--short scroll-animate"
-                                data-animation="fadeInUp"
-                                data-delay="100">
+                            <p class="section-description tours-section-prose tours-section-prose--short scroll-animate"
+                                data-animation="fadeInUp" data-delay="100">
                                 {{ $bannerSubtitle }}
                             </p>
                         </div>
@@ -160,7 +156,17 @@
                             </article>
                         @endforeach
                     @else
-                        <p class="text-center text-muted">No tours are linked to this cruise yet.</p>
+                        <div class="col-span-full">
+                            <div class="custom-alert" role="alert">
+                                <div class="custom-alert-icon">
+                                    <i class="fas fa-info-circle"></i>
+                                </div>
+                                <div class="custom-alert-content">
+                                    <h4 class="custom-alert-title">No Tours Available</h4>
+                                    <p>No tours are linked to this cruise yet. Please check back later.</p>
+                                </div>
+                            </div>
+                        </div>
                     @endif
                 </div>
 
@@ -249,4 +255,3 @@
         }
     </style>
 @endpush
-
