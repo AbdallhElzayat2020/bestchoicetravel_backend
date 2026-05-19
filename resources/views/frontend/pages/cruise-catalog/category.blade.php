@@ -118,8 +118,7 @@
                 <div class="faq-layout">
                     <div class="faq-list">
                         @foreach ($faqs->take(15) as $index => $faq)
-                            <div class="faq-item scroll-animate" data-animation="fadeInUp"
-                                data-delay="{{ $index * 50 }}">
+                            <div class="faq-item scroll-animate" data-animation="fadeInUp" data-delay="{{ $index * 50 }}">
                                 <button class="faq-question" type="button">
                                     <span>{{ $faq->question }}</span>
                                     <i class="fa-solid fa-chevron-down"></i>
@@ -197,7 +196,7 @@
 
         .cruise-category-banner__desc {
             max-width: 760px;
-            font-size: .95rem;
+            font-size: 18px;
             line-height: 1.5;
             opacity: .96;
         }
