@@ -10,13 +10,13 @@
 @endphp
 @section('meta_title', $metaTitle)
 @if ($metaDescription)
-@section('meta_description', $metaDescription)
+    @section('meta_description', $metaDescription)
 @endif
 @if ($tour->meta_keywords)
-@section('meta_keywords', $tour->meta_keywords)
+    @section('meta_keywords', $tour->meta_keywords)
 @endif
 @if ($metaImage)
-@section('meta_image', $metaImage)
+    @section('meta_image', $metaImage)
 @endif
 
 @section('content')
@@ -36,11 +36,25 @@
                             </div>
                             <div class="tour-meta-item">
                                 <i class="fa-solid fa-star text-warning"></i>
-                                <span>{{ $averageRating > 0 ? $averageRating : '4.9' }} ({{ $testimonials->count() > 0 ? $testimonials->count() : '124' }} reviews)</span>
+                                <span>{{ $averageRating > 0 ? $averageRating : '4.9' }}
+                                    ({{ $testimonials->count() > 0 ? $testimonials->count() : '124' }} reviews)</span>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <style>
+                    @media (max-width: 991.98px) {
+                        .tour-booking-mobile-wrapper {
+                            order: 3;
+                            margin-top: 40px;
+                        }
+
+                        .tour-details {
+                            order: 2;
+                        }
+                    }
+                </style>
 
                 <div class="tour-main-layout row g-4">
                     <!-- Gallery + short description -->
@@ -111,7 +125,7 @@
                     </div>
 
                     <!-- Booking card -->
-                    <div class="col-lg-4">
+                    <div class="col-lg-4 d-none d-lg-block">
                         <aside class="tour-booking-card scroll-animate" id="booking" data-animation="fadeInUp"
                             data-delay="300">
                             @php
@@ -134,7 +148,8 @@
                                 <div class="alert alert-success alert-dismissible fade show tour-booking-flash mb-3"
                                     role="alert">
                                     {{ session('success') }}
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
                                 </div>
                             @endif
                             @if ($errors->any())
@@ -151,7 +166,8 @@
                                 method="POST" novalidate>
                                 @csrf
                                 <input type="hidden" name="tour_id" value="{{ $tour->id }}">
-                                <input type="hidden" id="base-tour-price" name="base_tour_price" value="{{ $basePrice }}">
+                                <input type="hidden" id="base-tour-price" name="base_tour_price"
+                                    value="{{ $basePrice }}">
                                 <input type="hidden" id="total-price-input" name="total_price"
                                     value="{{ old('total_price') }}">
                                 <input type="hidden" id="selected-variants" name="selected_variants"
@@ -199,8 +215,8 @@
                                         class="form-control @error('nationality') is-invalid @enderror"
                                         placeholder="e.g. Egyptian, Italian" value="{{ old('nationality') }}"
                                         autocomplete="country-name" />
-                                    <div class="tour-booking-field__error" id="booking-feedback-nationality" role="alert"
-                                        aria-live="polite">
+                                    <div class="tour-booking-field__error" id="booking-feedback-nationality"
+                                        role="alert" aria-live="polite">
                                         @error('nationality')
                                             {{ $message }}
                                         @enderror
@@ -209,8 +225,9 @@
                                 <div class="tour-booking-field mb-2">
                                     <label class="form-label" for="no_of_travellers">No. of Travellers</label>
                                     <input type="number" id="no_of_travellers" name="no_of_travellers"
-                                        class="form-control @error('no_of_travellers') is-invalid @enderror" min="1"
-                                        step="1" value="{{ old('no_of_travellers', 1) }}" inputmode="numeric" />
+                                        class="form-control @error('no_of_travellers') is-invalid @enderror"
+                                        min="1" step="1" value="{{ old('no_of_travellers', 1) }}"
+                                        inputmode="numeric" />
                                     <div class="tour-booking-field__error" id="booking-feedback-no_of_travellers"
                                         role="alert" aria-live="polite">
                                         @error('no_of_travellers')
@@ -235,7 +252,8 @@
                                                     data-price="{{ $addPrice }}" data-title="{{ $variant->title }}"
                                                     @checked(in_array((string) $variant->id, array_map('strval', $oldExtras), true))>
                                                 <span class="form-check-label">{{ $variant->title }}
-                                                    (${{ number_format($addPrice, 0) }})</span>
+                                                    (${{ number_format($addPrice, 0) }})
+                                                </span>
                                             </label>
                                         @empty
                                             <p class="text-muted small mb-0">No extra options for this tour.</p>
@@ -264,7 +282,7 @@
         </section>
 
         <!-- Itinerary & Details -->
-        <section class="tour-details section-padding">
+        <section class="tour-details section-padding" style="order: 2;">
             <div class="container">
                 <div class="row g-5">
                     <div class="col-lg-12">
@@ -286,10 +304,10 @@
                             @endforelse
                         </div>
 
-                        @if(!empty($tour->included) || !empty($tour->excluded))
+                        @if (!empty($tour->included) || !empty($tour->excluded))
                             <!-- Inclusions and Exclusions -->
                             <div class="row g-4 mt-4 scroll-animate" data-animation="fadeInUp">
-                                @if(!empty($tour->included))
+                                @if (!empty($tour->included))
                                     <div class="{{ !empty($tour->excluded) ? 'col-md-6' : 'col-12' }}">
                                         <div class="inclusion-box">
                                             <h3 class="inc-exc-title">
@@ -303,7 +321,7 @@
                                     </div>
                                 @endif
 
-                                @if(!empty($tour->excluded))
+                                @if (!empty($tour->excluded))
                                     <div class="{{ !empty($tour->included) ? 'col-md-6' : 'col-12' }}">
                                         <div class="exclusion-box">
                                             <h3 class="inc-exc-title">
@@ -319,7 +337,8 @@
                             </div>
 
                             <style>
-                                .inclusion-box, .exclusion-box {
+                                .inclusion-box,
+                                .exclusion-box {
                                     background: #ffffff;
                                     border: 1px solid rgba(0, 0, 0, 0.08);
                                     border-radius: 16px;
@@ -409,6 +428,166 @@
             </div>
         </section>
 
+        <!-- Booking Form - Mobile Only -->
+        <section class="tour-booking-mobile d-lg-none section-padding" style="background-color: #f8f9fa;">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-12 col-md-8">
+                        <aside class="tour-booking-card scroll-animate" id="booking-mobile" data-animation="fadeInUp"
+                            data-delay="300">
+                            @php
+                                $basePrice = $tour->current_price ?? ($tour->price ?? 0);
+                                $hasOffer = $tour->has_offer && $tour->isOfferActive();
+                                $oldPrice =
+                                    $hasOffer && $tour->price_before_discount ? $tour->price_before_discount : null;
+                                $displayPrice = $basePrice;
+                            @endphp
+                            <div class="tour-booking-price-strip">
+                                <span class="tour-booking-from">From</span>
+                                @if ($oldPrice)
+                                    <span class="tour-booking-old">${{ number_format($oldPrice, 0) }}</span>
+                                @endif
+                                <span class="tour-booking-new"
+                                    id="tour-booking-per-person-mobile">${{ number_format($displayPrice, 0) }}</span>
+                                <span class="tour-booking-per">per person</span>
+                            </div>
+                            @if (session('success'))
+                                <div class="alert alert-success alert-dismissible fade show tour-booking-flash mb-3"
+                                    role="alert">
+                                    {{ session('success') }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                                </div>
+                            @endif
+                            @if ($errors->any())
+                                <div class="alert alert-danger tour-booking-flash mb-3" role="alert">
+                                    <strong>Could not submit booking.</strong>
+                                    <ul class="mb-0 mt-1 ps-3 small">
+                                        @foreach ($errors->all() as $err)
+                                            <li>{{ $err }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                            <form class="tour-booking-form" id="booking-form-mobile"
+                                action="{{ route('bookings.store') }}" method="POST" novalidate>
+                                @csrf
+                                <input type="hidden" name="tour_id" value="{{ $tour->id }}">
+                                <input type="hidden" id="base-tour-price-mobile" name="base_tour_price"
+                                    value="{{ $basePrice }}">
+                                <input type="hidden" id="total-price-input-mobile" name="total_price"
+                                    value="{{ old('total_price') }}">
+                                <input type="hidden" id="selected-variants-mobile" name="selected_variants"
+                                    value="{{ old('selected_variants', '[]') }}">
+                                <div class="tour-booking-field mb-2">
+                                    <label class="form-label" for="full_name-mobile">Full Name</label>
+                                    <input type="text" id="full_name-mobile" name="full_name"
+                                        class="form-control @error('full_name') is-invalid @enderror"
+                                        placeholder="Full name" value="{{ old('full_name') }}" autocomplete="name" />
+                                    <div class="tour-booking-field__error" id="booking-feedback-full_name-mobile"
+                                        role="alert" aria-live="polite">
+                                        @error('full_name')
+                                            {{ $message }}
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="tour-booking-field mb-2">
+                                    <label class="form-label" for="email-mobile">Email</label>
+                                    <input type="email" id="email-mobile" name="email"
+                                        class="form-control @error('email') is-invalid @enderror"
+                                        placeholder="you@example.com" value="{{ old('email') }}" autocomplete="email"
+                                        inputmode="email" />
+                                    <div class="tour-booking-field__error" id="booking-feedback-email-mobile"
+                                        role="alert" aria-live="polite">
+                                        @error('email')
+                                            {{ $message }}
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="tour-booking-field mb-2">
+                                    <label class="form-label" for="phone-mobile">Phone</label>
+                                    <input type="tel" id="phone-mobile" name="phone"
+                                        class="form-control @error('phone') is-invalid @enderror"
+                                        placeholder="+20 123 456 7890" value="{{ old('phone') }}" autocomplete="tel" />
+                                    <div class="tour-booking-field__error" id="booking-feedback-phone-mobile"
+                                        role="alert" aria-live="polite">
+                                        @error('phone')
+                                            {{ $message }}
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="tour-booking-field mb-2">
+                                    <label class="form-label" for="nationality-mobile">Nationality</label>
+                                    <input type="text" id="nationality-mobile" name="nationality"
+                                        class="form-control @error('nationality') is-invalid @enderror"
+                                        placeholder="e.g. Egyptian, Italian" value="{{ old('nationality') }}"
+                                        autocomplete="country-name" />
+                                    <div class="tour-booking-field__error" id="booking-feedback-nationality-mobile"
+                                        role="alert" aria-live="polite">
+                                        @error('nationality')
+                                            {{ $message }}
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="tour-booking-field mb-2">
+                                    <label class="form-label" for="no_of_travellers-mobile">No. of Travellers</label>
+                                    <input type="number" id="no_of_travellers-mobile" name="no_of_travellers"
+                                        class="form-control @error('no_of_travellers') is-invalid @enderror"
+                                        min="1" step="1" value="{{ old('no_of_travellers', 1) }}"
+                                        inputmode="numeric" />
+                                    <div class="tour-booking-field__error" id="booking-feedback-no_of_travellers-mobile"
+                                        role="alert" aria-live="polite">
+                                        @error('no_of_travellers')
+                                            {{ $message }}
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="mb-2">
+                                    <label class="form-label">Extra Options</label>
+                                    <div class="tour-extras-list">
+                                        @php
+                                            $oldExtras = old('extra_options', []);
+                                            if (!is_array($oldExtras)) {
+                                                $oldExtras = [];
+                                            }
+                                        @endphp
+                                        @forelse ($tour->variants ?? [] as $variant)
+                                            @php $addPrice = (float) ($variant->additional_price ?? 0); @endphp
+                                            <label class="form-check">
+                                                <input class="form-check-input variant-checkbox-mobile" type="checkbox"
+                                                    name="extra_options[]" value="{{ $variant->id }}"
+                                                    data-price="{{ $addPrice }}" data-title="{{ $variant->title }}"
+                                                    @checked(in_array((string) $variant->id, array_map('strval', $oldExtras), true))>
+                                                <span class="form-check-label">{{ $variant->title }}
+                                                    (${{ number_format($addPrice, 0) }})
+                                                </span>
+                                            </label>
+                                        @empty
+                                            <p class="text-muted small mb-0">No extra options for this tour.</p>
+                                        @endforelse
+                                    </div>
+                                </div>
+                                <div class="tour-booking-summary">
+                                    <div id="tour-booking-breakdown-mobile" class="tour-booking-breakdown"
+                                        aria-live="polite" aria-atomic="true"></div>
+                                    <div class="tour-booking-row tour-booking-total">
+                                        <span>Total:</span>
+                                        <span id="total-price-mobile">${{ number_format($basePrice, 0) }}</span>
+                                    </div>
+                                </div>
+                                @if (!empty($recaptchaSiteKey ?? null))
+                                    <div class="g-recaptcha mb-2" data-sitekey="{{ $recaptchaSiteKey }}"></div>
+                                @endif
+                                <button type="submit" class="btn btn-primary w-100 mt-2">
+                                    Submit Enquiry
+                                </button>
+                            </form>
+                        </aside>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         @if (isset($relatedTours) && $relatedTours->isNotEmpty())
             <!-- Related Tours -->
             <section class="tour-related section-padding">
@@ -433,12 +612,12 @@
                                 $isOnSale = $relatedTour->has_offer && $relatedTour->isOfferActive();
                                 $currentPrice =
                                     $isOnSale && $relatedTour->price_after_discount
-                                    ? $relatedTour->price_after_discount
-                                    : $relatedTour->price;
+                                        ? $relatedTour->price_after_discount
+                                        : $relatedTour->price;
                                 $oldPrice =
                                     $isOnSale && $relatedTour->price_before_discount
-                                    ? $relatedTour->price_before_discount
-                                    : null;
+                                        ? $relatedTour->price_before_discount
+                                        : null;
 
                                 $durationValue = (int) ($relatedTour->duration ?? 0);
                                 $durationText = $durationValue > 0 ? $durationValue . ' Days' : null;
@@ -456,7 +635,8 @@
                             <div class="col-md-4">
                                 <a href="{{ route('tours.show', $relatedTour->slug) }}" class="related-tour-card">
                                     <div class="related-tour-image">
-                                        <img src="{{ $relatedCover }}" alt="{{ $relatedTour->title }}" loading="lazy" />
+                                        <img src="{{ $relatedCover }}" alt="{{ $relatedTour->title }}"
+                                            loading="lazy" />
                                         @if ($location)
                                             <div class="location-badge">
                                                 <span class="pin-icon">📍</span>
@@ -527,7 +707,7 @@
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     @endif
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             // Parse price from string (handles "450", "1,950", "45.50")
             function parsePrice(val) {
                 if (val === null || val === undefined || val === '') return 0;
@@ -542,159 +722,179 @@
                 return div.innerHTML;
             }
 
-            const baseTourPrice = parsePrice(document.getElementById('base-tour-price')?.value);
+            // Function to handle price calculation for a form
+            function setupFormCalculation(formId, baseId, totalPriceId, perPersonId, breakdownId, checkboxSelector,
+                noOfTravellersId) {
+                const baseTourPrice = parsePrice(document.getElementById(baseId)?.value);
+                const variantCheckboxes = document.querySelectorAll(checkboxSelector);
+                const accommodationSelect = document.getElementById('accommodation_type');
+                const totalPriceElement = document.getElementById(totalPriceId);
+                const perPersonPriceElement = document.getElementById(perPersonId);
+                const breakdownElement = document.getElementById(breakdownId);
+                const noOfTravellersInput = document.getElementById(noOfTravellersId);
 
-            const variantCheckboxes = document.querySelectorAll('.variant-checkbox');
-            const accommodationSelect = document.getElementById('accommodation_type');
-            const totalPriceElement = document.getElementById('total-price');
-            const perPersonPriceElement = document.getElementById('tour-booking-per-person');
-            const breakdownElement = document.getElementById('tour-booking-breakdown');
-            const noOfTravellersInput = document.getElementById('no_of_travellers');
+                function calculateTotal() {
+                    const noOfTravellers = Math.max(1, parseInt(noOfTravellersInput?.value || 1, 10) || 1);
 
-            function calculateTotal() {
-                const noOfTravellers = Math.max(1, parseInt(noOfTravellersInput?.value || 1, 10) || 1);
+                    let pricePerPerson = baseTourPrice;
 
-                let pricePerPerson = baseTourPrice;
-
-                if (accommodationSelect && accommodationSelect.value) {
-                    const selectedOption = accommodationSelect.options[accommodationSelect.selectedIndex];
-                    pricePerPerson += parsePrice(selectedOption.getAttribute('data-price'));
-                }
-
-                const selectedExtras = [];
-                variantCheckboxes.forEach(function (checkbox) {
-                    if (checkbox.checked) {
-                        const p = parsePrice(checkbox.getAttribute('data-price'));
-                        pricePerPerson += p;
-                        selectedExtras.push({
-                            title: checkbox.getAttribute('data-title') || 'Extra',
-                            price: p
-                        });
+                    if (accommodationSelect && accommodationSelect.value) {
+                        const selectedOption = accommodationSelect.options[accommodationSelect.selectedIndex];
+                        pricePerPerson += parsePrice(selectedOption.getAttribute('data-price'));
                     }
-                });
 
-                const total = pricePerPerson * noOfTravellers;
-
-                if (perPersonPriceElement) {
-                    perPersonPriceElement.textContent = '$' + Math.round(pricePerPerson).toLocaleString();
-                }
-                if (totalPriceElement) {
-                    totalPriceElement.textContent = '$' + Math.round(total).toLocaleString();
-                }
-
-                if (breakdownElement) {
-                    const showBreakdown =
-                        Math.round(pricePerPerson * 100) > Math.round(baseTourPrice * 100);
-                    if (!showBreakdown) {
-                        breakdownElement.innerHTML = '';
-                        breakdownElement.style.display = 'none';
-                    } else {
-                        const rows = [];
-                        rows.push({
-                            label: 'Base tour',
-                            amount: Math.round(baseTourPrice * noOfTravellers),
-                        });
-                        if (accommodationSelect && accommodationSelect.value) {
-                            const opt = accommodationSelect.options[accommodationSelect.selectedIndex];
-                            const accP = parsePrice(opt.getAttribute('data-price'));
-                            const accLabel =
-                                opt.getAttribute('data-label') ||
-                                opt.textContent.replace(/\s+/g, ' ').trim() ||
-                                'Accommodation';
-                            rows.push({
-                                label: accLabel,
-                                amount: Math.round(accP * noOfTravellers),
+                    const selectedExtras = [];
+                    variantCheckboxes.forEach(function(checkbox) {
+                        if (checkbox.checked) {
+                            const p = parsePrice(checkbox.getAttribute('data-price'));
+                            pricePerPerson += p;
+                            selectedExtras.push({
+                                title: checkbox.getAttribute('data-title') || 'Extra',
+                                price: p
                             });
                         }
-                        selectedExtras.forEach(function (extra) {
-                            rows.push({
-                                label: extra.title,
-                                amount: Math.round(extra.price * noOfTravellers),
-                            });
-                        });
-                        let html =
-                            '<div class="tour-breakdown-panel" role="region" aria-label="Price breakdown">';
-                        html +=
-                            '<div class="tour-breakdown-panel__head"><i class="fa-solid fa-receipt" aria-hidden="true"></i> Price breakdown</div>';
-                        html += '<ul class="tour-breakdown-panel__list">';
-                        rows.forEach(function (row) {
-                            html += '<li class="tour-breakdown-panel__row">';
-                            html +=
-                                '<span class="tour-breakdown-panel__label">' +
-                                escapeHtml(row.label) +
-                                '</span>';
-                            html +=
-                                '<span class="tour-breakdown-panel__value">$' +
-                                row.amount.toLocaleString() +
-                                '</span>';
-                            html += '</li>';
-                        });
-                        html += '</ul></div>';
-                        breakdownElement.innerHTML = html;
-                        breakdownElement.style.display = 'block';
-                    }
-                }
-
-                const totalPriceInput = document.getElementById('total-price-input');
-                if (totalPriceInput) totalPriceInput.value = total;
-
-                const accommodationTypeIdInput = document.getElementById('accommodation-type-id');
-                if (accommodationTypeIdInput) {
-                    accommodationTypeIdInput.value = (accommodationSelect && accommodationSelect.value) ?
-                        accommodationSelect.value : '';
-                }
-
-                const selectedVariantsInput = document.getElementById('selected-variants');
-                if (selectedVariantsInput) {
-                    const ids = [];
-                    variantCheckboxes.forEach(function (cb) {
-                        if (cb.checked) ids.push(cb.value);
                     });
-                    selectedVariantsInput.value = JSON.stringify(ids);
-                }
-            }
 
+                    const total = pricePerPerson * noOfTravellers;
 
-            // Event listeners
+                    if (perPersonPriceElement) {
+                        perPersonPriceElement.textContent = '$' + Math.round(pricePerPerson).toLocaleString();
+                    }
+                    if (totalPriceElement) {
+                        totalPriceElement.textContent = '$' + Math.round(total).toLocaleString();
+                    }
 
-            variantCheckboxes.forEach(function (checkbox) {
-                checkbox.addEventListener('change', calculateTotal);
-            });
+                    if (breakdownElement) {
+                        const showBreakdown =
+                            Math.round(pricePerPerson * 100) > Math.round(baseTourPrice * 100);
+                        if (!showBreakdown) {
+                            breakdownElement.innerHTML = '';
+                            breakdownElement.style.display = 'none';
+                        } else {
+                            const rows = [];
+                            rows.push({
+                                label: 'Base tour',
+                                amount: Math.round(baseTourPrice * noOfTravellers),
+                            });
+                            if (accommodationSelect && accommodationSelect.value) {
+                                const opt = accommodationSelect.options[accommodationSelect.selectedIndex];
+                                const accP = parsePrice(opt.getAttribute('data-price'));
+                                const accLabel =
+                                    opt.getAttribute('data-label') ||
+                                    opt.textContent.replace(/\s+/g, ' ').trim() ||
+                                    'Accommodation';
+                                rows.push({
+                                    label: accLabel,
+                                    amount: Math.round(accP * noOfTravellers),
+                                });
+                            }
+                            selectedExtras.forEach(function(extra) {
+                                rows.push({
+                                    label: extra.title,
+                                    amount: Math.round(extra.price * noOfTravellers),
+                                });
+                            });
+                            let html =
+                                '<div class="tour-breakdown-panel" role="region" aria-label="Price breakdown">';
+                            html +=
+                                '<div class="tour-breakdown-panel__head"><i class="fa-solid fa-receipt" aria-hidden="true"></i> Price breakdown</div>';
+                            html += '<ul class="tour-breakdown-panel__list">';
+                            rows.forEach(function(row) {
+                                html += '<li class="tour-breakdown-panel__row">';
+                                html +=
+                                    '<span class="tour-breakdown-panel__label">' +
+                                    escapeHtml(row.label) +
+                                    '</span>';
+                                html +=
+                                    '<span class="tour-breakdown-panel__value">$' +
+                                    row.amount.toLocaleString() +
+                                    '</span>';
+                                html += '</li>';
+                            });
+                            html += '</ul></div>';
+                            breakdownElement.innerHTML = html;
+                            breakdownElement.style.display = 'block';
+                        }
+                    }
 
-            if (accommodationSelect) {
-                accommodationSelect.addEventListener('change', function () {
-                    calculateTotal();
-                    // Update accommodation type id when changed
+                    const totalPriceInput = document.querySelector(`#${formId} input[name="total_price"]`);
+                    if (totalPriceInput) totalPriceInput.value = total;
+
                     const accommodationTypeIdInput = document.getElementById('accommodation-type-id');
                     if (accommodationTypeIdInput) {
-                        accommodationTypeIdInput.value = accommodationSelect.value || '';
+                        accommodationTypeIdInput.value = (accommodationSelect && accommodationSelect.value) ?
+                            accommodationSelect.value : '';
                     }
+
+                    const selectedVariantsInput = document.querySelector(
+                        `#${formId} input[name="selected_variants"]`);
+                    if (selectedVariantsInput) {
+                        const ids = [];
+                        variantCheckboxes.forEach(function(cb) {
+                            if (cb.checked) ids.push(cb.value);
+                        });
+                        selectedVariantsInput.value = JSON.stringify(ids);
+                    }
+                }
+
+                // Event listeners
+                variantCheckboxes.forEach(function(checkbox) {
+                    checkbox.addEventListener('change', calculateTotal);
                 });
+
+                if (accommodationSelect) {
+                    accommodationSelect.addEventListener('change', function() {
+                        calculateTotal();
+                        const accommodationTypeIdInput = document.getElementById('accommodation-type-id');
+                        if (accommodationTypeIdInput) {
+                            accommodationTypeIdInput.value = accommodationSelect.value || '';
+                        }
+                    });
+                }
+
+                if (noOfTravellersInput) {
+                    noOfTravellersInput.addEventListener('input', function() {
+                        const value = parseInt(this.value) || 1;
+                        if (value < 1) {
+                            this.value = 1;
+                        }
+                        calculateTotal();
+                    });
+                }
+
+                calculateTotal();
             }
 
-            // Listen to number of travellers changes
-            if (noOfTravellersInput) {
-                noOfTravellersInput.addEventListener('input', function () {
-                    const value = parseInt(this.value) || 1;
-                    if (value < 1) {
-                        this.value = 1;
-                    }
-                    calculateTotal();
-                });
-            }
+            // Setup for desktop form
+            setupFormCalculation(
+                'booking-form',
+                'base-tour-price',
+                'total-price',
+                'tour-booking-per-person',
+                'tour-booking-breakdown',
+                '.variant-checkbox',
+                'no_of_travellers'
+            );
 
-            // Initialize on page load
-            calculateTotal();
+            // Setup for mobile form
+            setupFormCalculation(
+                'booking-form-mobile',
+                'base-tour-price-mobile',
+                'total-price-mobile',
+                'tour-booking-per-person-mobile',
+                'tour-booking-breakdown-mobile',
+                '.variant-checkbox-mobile',
+                'no_of_travellers-mobile'
+            );
 
             // Function to select accommodation from table
-            window.selectAccommodation = function (itemId, price, displayName) {
+            window.selectAccommodation = function(itemId, price, displayName) {
+                const accommodationSelect = document.getElementById('accommodation_type');
                 if (accommodationSelect) {
                     accommodationSelect.value = itemId;
-                    // Trigger change event to recalculate
                     accommodationSelect.dispatchEvent(new Event('change'));
 
-                    // Highlight selected row
-                    document.querySelectorAll('.accommodation-row').forEach(function (row) {
+                    document.querySelectorAll('.accommodation-row').forEach(function(row) {
                         row.classList.remove('bg-green-zomp');
                         const nameCell = row.querySelector('.accommodation-name');
                         const priceCell = row.querySelector('.accommodation-price');
@@ -856,19 +1056,19 @@
                     no_of_travellers: validateNoOfTravellers,
                 };
 
-                Object.keys(fieldValidators).forEach(function (fieldId) {
+                Object.keys(fieldValidators).forEach(function(fieldId) {
                     const input = document.getElementById(fieldId);
                     if (!input) return;
                     const run = fieldValidators[fieldId];
-                    input.addEventListener('input', function () {
+                    input.addEventListener('input', function() {
                         run();
                     });
-                    input.addEventListener('blur', function () {
+                    input.addEventListener('blur', function() {
                         run();
                     });
                 });
 
-                bookingForm.addEventListener('submit', function (e) {
+                bookingForm.addEventListener('submit', function(e) {
                     calculateTotal();
 
                     if (!validateBookingFormAll()) {
