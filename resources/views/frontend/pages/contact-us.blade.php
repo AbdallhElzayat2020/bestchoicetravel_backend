@@ -202,10 +202,10 @@
 @push('css')
     <style>
         :root {
-            --bct-navy: #0f172a;
-            --bct-gold: #0f172a;
+            --bct-navy: #26375e;
+            --bct-gold: #26375e;
             --bct-bg: #f8f6f3;
-            --bct-dark-text: #2d3e50;
+            --bct-dark-text: #26375e;
         }
 
         /* Hero */
@@ -307,7 +307,7 @@
         .intro-block .intro-text {
             font-size: 16px;
             line-height: 1.7;
-            color: #555;
+            color: var(--bct-dark-text);
             margin: 0;
         }
 

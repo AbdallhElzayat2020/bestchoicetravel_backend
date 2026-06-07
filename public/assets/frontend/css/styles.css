@@ -556,7 +556,7 @@ body.has-announcement-bar .main-navbar.fixed-top {
 }
 
 .navbar.bg-body-tertiary .navbar-nav .nav-link {
-    color: #1f2937;
+    color: var(--text-dark) !important;
     font-weight: 500;
     font-size: 14px;
     padding: 0.75rem 1rem;
@@ -570,17 +570,20 @@ body.has-announcement-bar .main-navbar.fixed-top {
     color: var(--brand-blue-light);
 }
 
-.main-navbar .navbar-nav .nav-link:hover,
-.main-navbar .navbar-nav .nav-link:focus,
-.main-navbar .navbar-nav .nav-link.active {
+.main-navbar .navbar-nav .nav-link:hover {
     color: var(--brand-blue-light);
 }
-
+.main-navbar .navbar-nav .nav-link.active {
+    color: var(--bg-light) !important;
+}
 .nav-menu {
     display: flex;
     list-style: none;
     gap: 30px;
     align-items: center;
+}
+.dropdown-item {
+    color: var(--brand-blue-light) !important;
 }
 
 .nav-link {
@@ -5831,8 +5834,14 @@ body.modal-open {
 
 @media (max-width: 576px) {
     .about-banner {
-        padding: 120px 0 80px;
-        min-height: 38vh;
+        padding: 235px 0 92px;
+
+        min-height: 60vh;
+    }
+
+    .about-banner .container {
+        padding-left: 24px;
+        padding-right: 24px;
     }
 
     .about-banner-title {
@@ -7333,4 +7342,7 @@ body.modal-open {
     font-size: 14px;
     line-height: 1.5;
     margin: 0;
+}
+.dropdown-item li a {
+    color: var(--text-dark) !important;
 }
