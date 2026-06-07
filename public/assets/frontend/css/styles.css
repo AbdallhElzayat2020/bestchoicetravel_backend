@@ -21,10 +21,10 @@
     --primary-gradient-end: var(--brand-yellow);
 
     /* Text Colors */
-    --text-dark: #111827;
-    --text-medium: #1f2937;
-    --text-light: #6b7280;
-    --text-lighter: #9ca3af;
+    --text-dark: var(--brand-blue-dark);
+    --text-medium: var(--brand-blue-dark);
+    --text-light: var(--brand-blue-dark);
+    --text-lighter: var(--brand-blue-dark);
 
     /* Background Colors */
     --bg-light: #f3f4f6;
@@ -128,7 +128,7 @@ body {
     font-family: "Anta", sans-serif;
 
     background-color: var(--bg-light);
-    color: var(--text-dark);
+    color: var(--brand-blue-dark);
     padding: 0;
     direction: ltr;
     overflow-x: hidden;
@@ -529,6 +529,7 @@ body.has-announcement-bar .main-navbar.fixed-top {
         text-align: center;
         white-space: normal;
         display: -webkit-box;
+        line-clamp: 2;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
@@ -4706,6 +4707,7 @@ body.modal-open {
     font-size: 1.1rem;
     background: #ffffff;
     color: #0f172a;
+    appearance: textfield;
     -moz-appearance: textfield;
 }
 
