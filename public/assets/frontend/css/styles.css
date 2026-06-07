@@ -4536,6 +4536,20 @@ body.modal-open {
     border-bottom-right-radius: 12px;
 }
 
+/* Mobile: limit FAQ answer height and enable scrolling when text is long */
+@media (max-width: 576px) {
+    .faq-section .faq-item.active .faq-answer {
+        max-height: 220px; /* adjust as needed */
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-right: 8px; /* avoid text clipping under scrollbar */
+    }
+
+    .faq-section .faq-answer-card {
+        padding: 16px; /* slightly reduced padding on small screens */
+    }
+}
+
 .no-faqs-message {
     font-size: 14px;
     color: var(--text-medium);
