@@ -32,6 +32,8 @@ return Application::configure(basePath: dirname(__DIR__))
 
             return route('user.home');
         });
+
+        $middleware->redirectGuestsTo(fn () => '/travel-portal-login');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
