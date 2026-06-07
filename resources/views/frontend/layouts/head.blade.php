@@ -36,12 +36,26 @@
         $currentUrl = url()->current();
     @endphp
 
-    <title>@hasSection('meta_title')@yield('meta_title')@else Travel Website @endif</title>
+    <title>
+        @hasSection('meta_title')
+            @yield('meta_title')
+        @else
+            Travel Website
+        @endif
+    </title>
 
     <!-- Primary Meta Tags -->
-    <meta name="title" content="@hasSection('meta_title')@yield('meta_title')@else Travel Website @endif">
+    <meta name="title" content="@hasSection('meta_title')
+@yield('meta_title')
+@else
+Travel Website
+@endif">
     <meta name="description"
-        content="@hasSection('meta_description')@yield('meta_description')@else Discover amazing travel destinations and book your next adventure with us. @endif">
+        content="@hasSection('meta_description')
+@yield('meta_description')
+@else
+Discover amazing travel destinations and book your next adventure with us.
+@endif">
     @hasSection('meta_author')
         <meta name="author" content="@yield('meta_author')">
     @endif
@@ -55,21 +69,45 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ $currentUrl }}">
-    <meta property="og:title" content="@hasSection('meta_title')@yield('meta_title')@else Travel Website @endif">
+    <meta property="og:title" content="@hasSection('meta_title')
+@yield('meta_title')
+@else
+Travel Website
+@endif">
     <meta property="og:description"
-        content="@hasSection('meta_description')@yield('meta_description')@else Discover amazing travel destinations and book your next adventure with us. @endif">
+        content="@hasSection('meta_description')
+@yield('meta_description')
+@else
+Discover amazing travel destinations and book your next adventure with us.
+@endif">
     <meta property="og:image"
-        content="@hasSection('meta_image')@yield('meta_image')@else {{ asset('assets/frontend/images/logo_main.png') }} @endif">
+        content="@hasSection('meta_image')
+@yield('meta_image')
+@else
+{{ asset('assets/frontend/images/logo_main.png') }}
+@endif">
     <meta property="og:site_name" content="{{ config('app.name', 'Travel Website') }}">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="{{ $currentUrl }}">
-    <meta name="twitter:title" content="@hasSection('meta_title')@yield('meta_title')@else Travel Website @endif">
+    <meta name="twitter:title" content="@hasSection('meta_title')
+@yield('meta_title')
+@else
+Travel Website
+@endif">
     <meta name="twitter:description"
-        content="@hasSection('meta_description')@yield('meta_description')@else Discover amazing travel destinations and book your next adventure with us. @endif">
+        content="@hasSection('meta_description')
+@yield('meta_description')
+@else
+Discover amazing travel destinations and book your next adventure with us.
+@endif">
     <meta name="twitter:image"
-        content="@hasSection('meta_image')@yield('meta_image')@else {{ asset('assets/frontend/images/logo_main.png') }} @endif">
+        content="@hasSection('meta_image')
+@yield('meta_image')
+@else
+{{ asset('assets/frontend/images/logo_main.png') }}
+@endif">
     <style>
         #announcement-bar {
             position: relative;
@@ -124,7 +162,7 @@
 
         .nav-dropdown li a:hover {
             background-color: #f2f4f4;
-            color: #8b7138;
+            color: #d4af37 !important;
         }
 
         /* Width for all navbar dropdown menus */
@@ -225,12 +263,12 @@
         /* Hero Slider Text Color Override */
         .hero-swiper .swiper-slide h1,
         .hero-swiper .swiper-slide h1 * {
-            color: #8b7138 !important;
+            color: #d4af37 !important;
         }
 
         .hero-swiper .swiper-slide p,
         .hero-swiper .swiper-slide p * {
-            color: #8b7138 !important;
+            color: #d4af37 !important;
         }
 
         @media (max-width: 768px) {

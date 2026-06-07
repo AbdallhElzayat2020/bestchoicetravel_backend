@@ -110,13 +110,8 @@
             <div class="container">
                 <!-- Header Section -->
                 <div class="section-header">
-                    <div class="section-label">
-                        <span class="star-icon">✦</span>
-                        <span>TRAVEL WITH CONFIDENCE</span>
-                        <span class="star-icon">✦</span>
-                    </div>
                     <h2 class="section-title">
-                        Why Travelers Choose <span class="text-primary">Best Choice Travel</span>
+                        Why Travelers Choose <span style="color:#d4af37">Best Choice Travel</span>
                     </h2>
                     <p class="section-description">
                         Trusted local experts crafting private Egypt tours, luxury Nile cruises, and seamless travel
@@ -124,97 +119,92 @@
                     </p>
                 </div>
 
-            <!-- Swiper Carousel -->
-            <div class="swiper packages-carousel">
-                <div class="swiper-wrapper">
-                    @foreach ($activeTours as $tour)
-                        @php
-                            $coverImage = $tour->cover_image
-                                ? asset('uploads/tours/' . $tour->cover_image)
-                                : asset('assets/frontend/assets/images/blogs/01.png');
+                <!-- Swiper Carousel -->
+                <div class="swiper packages-carousel">
+                    <div class="swiper-wrapper">
+                        @foreach ($activeTours as $tour)
+                            @php
+                                $coverImage = $tour->cover_image
+                                    ? asset('uploads/tours/' . $tour->cover_image)
+                                    : asset('assets/frontend/assets/images/blogs/01.png');
 
-                            $isOnSale = $tour->has_offer && $tour->isOfferActive();
-                            $currentPrice =
-                                $isOnSale && $tour->price_after_discount ? $tour->price_after_discount : $tour->price;
-                            $oldPrice = $isOnSale && $tour->price_before_discount ? $tour->price_before_discount : null;
+                                $isOnSale = $tour->has_offer && $tour->isOfferActive();
+                                $currentPrice =
+                                    $isOnSale && $tour->price_after_discount
+                                        ? $tour->price_after_discount
+                                        : $tour->price;
+                                $oldPrice =
+                                    $isOnSale && $tour->price_before_discount ? $tour->price_before_discount : null;
 
-                            $durationValue = (int) ($tour->duration ?? 0);
-                            $durationText = $durationValue > 0 ? $durationValue . ' Days' : null;
+                                $durationValue = (int) ($tour->duration ?? 0);
+                                $durationText = $durationValue > 0 ? $durationValue . ' Days' : null;
 
-                            $locationParts = [];
-                            if ($tour->state) {
-                                $locationParts[] = $tour->state->name;
-                            }
-                            if ($tour->country) {
-                                $locationParts[] = $tour->country->name;
-                            }
-                            $location = implode(' · ', $locationParts);
-                        @endphp
+                                $locationParts = [];
+                                if ($tour->state) {
+                                    $locationParts[] = $tour->state->name;
+                                }
+                                if ($tour->country) {
+                                    $locationParts[] = $tour->country->name;
+                                }
+                                $location = implode(' · ', $locationParts);
+                            @endphp
 
-                        <div class="swiper-slide">
-                            <div class="package-card">
-                                <div class="card-image">
-                                    <img src="{{ $coverImage }}" alt="{{ $tour->title }}" loading="lazy">
-                                    @if ($location)
-                                        <div class="location-badge">
-                                            <span class="pin-icon">
-                                                <i class="fa-solid fa-location-dot"></i>
-                                            </span>
-                                            <span>{{ strtoupper($location) }}</span>
+                            <div class="swiper-slide">
+                                <div class="package-card">
+                                    <div class="card-image">
+                                        <img src="{{ $coverImage }}" alt="{{ $tour->title }}" loading="lazy">
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="price-section">
+                                            <span class="price-label">STARTING FROM</span>
+                                            @if ($oldPrice)
+                                                <span class="price-old">
+                                                    ${{ number_format($oldPrice, 0) }}
+                                                </span>
+                                            @endif
+                                            @if ($currentPrice !== null)
+                                                <span class="price">
+                                                    ${{ number_format($currentPrice, 0) }}
+                                                </span>
+                                            @endif
                                         </div>
-                                    @endif
-                                </div>
-                                <div class="card-content">
-                                    <div class="price-section">
-                                        <span class="price-label">STARTING FROM</span>
-                                        @if ($oldPrice)
-                                            <span class="price-old">
-                                                ${{ number_format($oldPrice, 0) }}
-                                            </span>
-                                        @endif
-                                        @if ($currentPrice !== null)
-                                            <span class="price">
-                                                ${{ number_format($currentPrice, 0) }}
-                                            </span>
-                                        @endif
-                                    </div>
 
-                                    <h3 class="package-title">{{ $tour->title }}</h3>
-                                    <div class="package-details">
-                                        @if ($durationText)
-                                            <div class="detail-item">
-                                                <span class="detail-icon">
-                                                    <i class="fa-regular fa-clock"></i>
-                                                </span>
-                                                <span>{{ $durationText }}</span>
-                                            </div>
-                                        @endif
-                                        @if ($location)
-                                            <div class="detail-item">
-                                                <span class="detail-icon">
-                                                    <i class="fa-solid fa-location-dot"></i>
-                                                </span>
-                                                <span>{{ $location }}</span>
-                                            </div>
-                                        @endif
+                                        <h3 class="package-title">{{ $tour->title }}</h3>
+                                        <div class="package-details">
+                                            @if ($durationText)
+                                                <div class="detail-item">
+                                                    <span class="detail-icon">
+                                                        <i class="fa-regular fa-clock"></i>
+                                                    </span>
+                                                    <span>{{ $durationText }}</span>
+                                                </div>
+                                            @endif
+                                            @if ($location)
+                                                <div class="detail-item">
+                                                    <span class="detail-icon">
+                                                        <i class="fa-solid fa-location-dot"></i>
+                                                    </span>
+                                                    <span>{{ $location }}</span>
+                                                </div>
+                                            @endif
+                                        </div>
+                                        <a href="{{ route('tours.show', $tour->slug) }}" class="explore-btn">
+                                            EXPLORE DETAILS
+                                        </a>
                                     </div>
-                                    <a href="{{ route('tours.show', $tour->slug) }}" class="explore-btn">
-                                        EXPLORE DETAILS
-                                    </a>
                                 </div>
                             </div>
-                        </div>
-                    @endforeach
+                        @endforeach
 
+                    </div>
+
+                    <!-- Navigation Buttons -->
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+
+                    <!-- Pagination -->
+                    <div class="swiper-pagination"></div>
                 </div>
-
-                <!-- Navigation Buttons -->
-                <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div>
-
-                <!-- Pagination -->
-                <div class="swiper-pagination"></div>
-            </div>
             </div>
         </section>
     @endif
@@ -314,38 +304,38 @@
             </div>
 
             <!-- <div class="redsea-stats-grid">
-                                    <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="100">
-                                        <div class="redsea-stat-icon">
-                                            <i class="fa-solid fa-fish"></i>
-                                        </div>
-                                        <div class="redsea-stat-number">1000+</div>
-                                        <div class="redsea-stat-label">Fish Species</div>
-                                    </div>
+                                                            <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="100">
+                                                                <div class="redsea-stat-icon">
+                                                                    <i class="fa-solid fa-fish"></i>
+                                                                </div>
+                                                                <div class="redsea-stat-number">1000+</div>
+                                                                <div class="redsea-stat-label">Fish Species</div>
+                                                            </div>
 
-                                    <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="200">
-                                        <div class="redsea-stat-icon">
-                                            <i class="fa-solid fa-sun"></i>
-                                        </div>
-                                        <div class="redsea-stat-number">365</div>
-                                        <div class="redsea-stat-label">Sunny Days</div>
-                                    </div>
+                                                            <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="200">
+                                                                <div class="redsea-stat-icon">
+                                                                    <i class="fa-solid fa-sun"></i>
+                                                                </div>
+                                                                <div class="redsea-stat-number">365</div>
+                                                                <div class="redsea-stat-label">Sunny Days</div>
+                                                            </div>
 
-                                    <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="300">
-                                        <div class="redsea-stat-icon">
-                                            <i class="fa-solid fa-hotel"></i>
-                                        </div>
-                                        <div class="redsea-stat-number">50+</div>
-                                        <div class="redsea-stat-label">Luxury Resorts</div>
-                                    </div>
+                                                            <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="300">
+                                                                <div class="redsea-stat-icon">
+                                                                    <i class="fa-solid fa-hotel"></i>
+                                                                </div>
+                                                                <div class="redsea-stat-number">50+</div>
+                                                                <div class="redsea-stat-label">Luxury Resorts</div>
+                                                            </div>
 
-                                    <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="400">
-                                        <div class="redsea-stat-icon">
-                                            <i class="fa-solid fa-water"></i>
-                                        </div>
-                                        <div class="redsea-stat-number">30m</div>
-                                        <div class="redsea-stat-label">Underwater Visibility</div>
-                                    </div>
-                                </div> -->
+                                                            <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="400">
+                                                                <div class="redsea-stat-icon">
+                                                                    <i class="fa-solid fa-water"></i>
+                                                                </div>
+                                                                <div class="redsea-stat-number">30m</div>
+                                                                <div class="redsea-stat-label">Underwater Visibility</div>
+                                                            </div>
+                                                        </div> -->
 
             <div class="redsea-cta scroll-animate" data-animation="fadeInUp" data-delay="500">
                 @php
@@ -354,9 +344,7 @@
                             ? $dayToursSection->button_text
                             : 'Egypt Day Tours';
                     $dayToursBtnLink =
-                        $dayToursSection && $dayToursSection->button_link
-                            ? $dayToursSection->button_link
-                            : '#packages';
+                        $dayToursSection && $dayToursSection->button_link ? $dayToursSection->button_link : '#packages';
                 @endphp
                 <a href="{{ $dayToursBtnLink }}" class="btn btn-brown">{{ $dayToursBtnText }}</a>
             </div>
@@ -398,7 +386,7 @@
                         {{ $desertSection && $desertSection->description
                             ? $desertSection->description
                             : "Ride across Egypt's golden dunes at sunset, camp under a sky filled with stars, and
-                                                                        feel the silence of the desert with our expert Bedouin guides and premium desert camps." }}
+                                                                                                                                                                                                                        feel the silence of the desert with our expert Bedouin guides and premium desert camps." }}
                     </p>
 
                     <div class="desert-cta">
@@ -447,7 +435,7 @@
                         {{ $egyptJordanSection && $egyptJordanSection->description
                             ? $egyptJordanSection->description
                             : "Ride across Egypt's golden dunes at sunset, camp under a sky filled with stars, and
-                                                                        feel the silence of the desert with our expert Bedouin guides and premium desert camps." }}
+                                                                                                                                                                                                                        feel the silence of the desert with our expert Bedouin guides and premium desert camps." }}
                     </p>
 
                     <div class="desert-cta">
@@ -513,43 +501,43 @@
                     {{ $redseaSection && $redseaSection->description
                         ? $redseaSection->description
                         : "Dive into a magical world of colorful coral reefs and incredible marine life. Enjoy unforgettable
-                                                            diving experiences in crystal-clear waters along Egypt's Red Sea coast." }}
+                                                                                                                                                                                    diving experiences in crystal-clear waters along Egypt's Red Sea coast." }}
                 </p>
             </div>
 
             <!-- <div class="redsea-stats-grid">
-                                            <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="100">
-                                                <div class="redsea-stat-icon">
-                                                    <i class="fa-solid fa-fish"></i>
-                                                </div>
-                                                <div class="redsea-stat-number">1000+</div>
-                                                <div class="redsea-stat-label">Fish Species</div>
-                                            </div>
+                                                                    <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="100">
+                                                                        <div class="redsea-stat-icon">
+                                                                            <i class="fa-solid fa-fish"></i>
+                                                                        </div>
+                                                                        <div class="redsea-stat-number">1000+</div>
+                                                                        <div class="redsea-stat-label">Fish Species</div>
+                                                                    </div>
 
-                                            <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="200">
-                                                <div class="redsea-stat-icon">
-                                                    <i class="fa-solid fa-sun"></i>
-                                                </div>
-                                                <div class="redsea-stat-number">365</div>
-                                                <div class="redsea-stat-label">Sunny Days</div>
-                                            </div>
+                                                                    <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="200">
+                                                                        <div class="redsea-stat-icon">
+                                                                            <i class="fa-solid fa-sun"></i>
+                                                                        </div>
+                                                                        <div class="redsea-stat-number">365</div>
+                                                                        <div class="redsea-stat-label">Sunny Days</div>
+                                                                    </div>
 
-                                            <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="300">
-                                                <div class="redsea-stat-icon">
-                                                    <i class="fa-solid fa-hotel"></i>
-                                                </div>
-                                                <div class="redsea-stat-number">50+</div>
-                                                <div class="redsea-stat-label">Luxury Resorts</div>
-                                            </div>
+                                                                    <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="300">
+                                                                        <div class="redsea-stat-icon">
+                                                                            <i class="fa-solid fa-hotel"></i>
+                                                                        </div>
+                                                                        <div class="redsea-stat-number">50+</div>
+                                                                        <div class="redsea-stat-label">Luxury Resorts</div>
+                                                                    </div>
 
-                                            <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="400">
-                                                <div class="redsea-stat-icon">
-                                                    <i class="fa-solid fa-water"></i>
-                                                </div>
-                                                <div class="redsea-stat-number">30m</div>
-                                                <div class="redsea-stat-label">Underwater Visibility</div>
-                                            </div>
-                                        </div> -->
+                                                                    <div class="redsea-stat-card scroll-animate" data-animation="fadeInUp" data-delay="400">
+                                                                        <div class="redsea-stat-icon">
+                                                                            <i class="fa-solid fa-water"></i>
+                                                                        </div>
+                                                                        <div class="redsea-stat-number">30m</div>
+                                                                        <div class="redsea-stat-label">Underwater Visibility</div>
+                                                                    </div>
+                                                                </div> -->
 
             <div class="redsea-cta scroll-animate" data-animation="fadeInUp" data-delay="500">
                 @php
@@ -574,7 +562,7 @@
     </section>
 
     <!-- FAQ Section -->
-    <section class="faq-section section-padding" id="faq">
+    <section class="faq-section section-padding py-5" id="faq">
         <div class="container">
             <div class="section-header scroll-animate" data-animation="fadeInUp">
                 <div class="section-label">
@@ -591,14 +579,21 @@
                 <div class="faq-list">
                     @if (isset($homeFaqs) && $homeFaqs->count())
                         @foreach ($homeFaqs as $index => $faq)
-                            <div class="faq-item scroll-animate" data-animation="fadeInUp"
+                            <div class="faq-item mt-2 scroll-animate" data-animation="fadeInUp"
                                 data-delay="{{ $index * 50 }}">
                                 <button class="faq-question" type="button">
-                                    <span>{{ $faq->question }}</span>
+                                    <div class="faq-question-left">
+                                        <span class="faq-number">{{ $index + 1 }}</span>
+                                    </div>
+                                    <div class="faq-question-body">
+                                        <span>{{ $faq->question }}</span>
+                                    </div>
                                     <i class="fa-solid fa-chevron-down"></i>
                                 </button>
                                 <div class="faq-answer">
-                                    <p>{!! nl2br(e($faq->answer)) !!}</p>
+                                    <div class="faq-answer-card">
+                                        <p>{!! nl2br(e($faq->answer)) !!}</p>
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
@@ -606,15 +601,23 @@
                         {{-- Fallback to static FAQs if none flagged for homepage --}}
                         <div class="faq-item scroll-animate" data-animation="fadeInUp" data-delay="0">
                             <button class="faq-question" type="button">
-                                <span>How do I book a tour with Travel Egypt?</span>
+                                <div class="faq-question-left">
+                                    <span class="faq-number">1</span>
+                                </div>
+                                <div class="faq-question-body">
+                                    <span>How do I book a tour with Travel Egypt?</span>
+                                </div>
                                 <i class="fa-solid fa-chevron-down"></i>
                             </button>
                             <div class="faq-answer">
-                                <p>
-                                    You can send us an enquiry through the contact form, WhatsApp or email. One of our
-                                    travel designers will reply with a tailored itinerary, price and payment link. Once you
-                                    approve the program and pay the deposit, your trip is confirmed.
-                                </p>
+                                <div class="faq-answer-card">
+                                    <p>
+                                        You can send us an enquiry through the contact form, WhatsApp or email. One of our
+                                        travel designers will reply with a tailored itinerary, price and payment link. Once
+                                        you
+                                        approve the program and pay the deposit, your trip is confirmed.
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     @endif
@@ -665,7 +668,8 @@
                                         <div class="testimonial-avatar">{{ $avatarInitial }}</div>
                                         <div class="testimonial-meta">
                                             <div class="testimonial-name">{{ $testimonial->name }}</div>
-                                            <div class="testimonial-location">{{ $testimonial->company ?: 'Traveller' }}</div>
+                                            <div class="testimonial-location">{{ $testimonial->company ?: 'Traveller' }}
+                                            </div>
                                         </div>
                                     </div>
                                 </article>
@@ -801,10 +805,7 @@
     <section class="contact-section section-padding" id="contact">
         <div class="container">
             <div class="contact-header section-header scroll-animate" data-animation="fadeInUp">
-                <div class="section-label">
-                    <span class="star-icon">✦</span>
-                    <span>Get in Touch</span>
-                </div>
+
                 <h2 class="section-title">
                     Let's Plan Your <span class="highlight">Dream Trip</span>
                 </h2>

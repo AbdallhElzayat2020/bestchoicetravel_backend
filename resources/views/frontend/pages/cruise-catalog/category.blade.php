@@ -3,7 +3,9 @@
 @php
     $heroH1 = $category->h1_title ?: $category->name;
     $heroH2 = $category->h2_title ?: $category->name;
-    $heroDescription = $category->description ? \Illuminate\Support\Str::limit(strip_tags($category->description), 170) : null;
+    $heroDescription = $category->description
+        ? \Illuminate\Support\Str::limit(strip_tags($category->description), 170)
+        : null;
     $metaTitle = $heroH1 . ' - Cruise Vessels';
     $metaDescription = $category->description
         ? \Illuminate\Support\Str::limit(strip_tags($category->description), 160)
@@ -118,13 +120,21 @@
                 <div class="faq-layout">
                     <div class="faq-list">
                         @foreach ($faqs->take(15) as $index => $faq)
-                            <div class="faq-item scroll-animate" data-animation="fadeInUp" data-delay="{{ $index * 50 }}">
+                            <div class="faq-item mt-3 scroll-animate" data-animation="fadeInUp"
+                                data-delay="{{ $index * 50 }}">
                                 <button class="faq-question" type="button">
-                                    <span>{{ $faq->question }}</span>
+                                    <div class="faq-question-left">
+                                        <span class="faq-number">{{ $index + 1 }}</span>
+                                    </div>
+                                    <div class="faq-question-body">
+                                        <span>{{ $faq->question }}</span>
+                                    </div>
                                     <i class="fa-solid fa-chevron-down"></i>
                                 </button>
                                 <div class="faq-answer">
-                                    <p>{!! nl2br(e($faq->answer)) !!}</p>
+                                    <div class="faq-answer-card">
+                                        <p>{!! nl2br(e($faq->answer)) !!}</p>
+                                    </div>
                                 </div>
                             </div>
                         @endforeach

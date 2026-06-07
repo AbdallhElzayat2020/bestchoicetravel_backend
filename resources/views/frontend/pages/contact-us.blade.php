@@ -202,8 +202,8 @@
 @push('css')
     <style>
         :root {
-            --bct-navy: #2b53a7;
-            --bct-gold: #2b53a7;
+            --bct-navy: #0f172a;
+            --bct-gold: #0f172a;
             --bct-bg: #f8f6f3;
             --bct-dark-text: #2d3e50;
         }
@@ -443,7 +443,7 @@
             padding: 14px;
             border-radius: 14px;
             background: #fff;
-            border: 1px solid rgba(43, 83, 167, 0.14);
+            /* border: 1px solid rgba(43, 83, 167, 0.14); */
             transition: transform 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
         }
 
@@ -505,7 +505,7 @@
 
         /* Stats Card */
         .stats-card {
-            background: linear-gradient(135deg, #2b53a7 0%, #2b53a7 50%, #2b53a7 100%);
+            background: var(--bct-navy);
             padding: 45px 40px;
             border-radius: 25px;
             color: #fff;

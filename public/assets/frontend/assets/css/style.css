@@ -10,7 +10,7 @@
 
 .category-hot {
     background-color: #f5f0e8;
-    color: #8b7138;
+    color: #d4af37;
 }
 
 .category-adventure {
@@ -37,7 +37,7 @@
     }
 
     .swiper-pagination-bullet-active {
-        background-color: #8b7138 !important;
+        background-color: #d4af37 !important;
     }
 }
 
@@ -51,7 +51,7 @@
         width: 32px !important;
         height: 10px !important;
         border-radius: 5px;
-        background-color: #8b7138;
+        background-color: #d4af37;
     }
 }
 
@@ -62,7 +62,7 @@
         }
 
         .swiper-slide-thumb-active {
-            border: 2px solid #8b7138;
+            border: 2px solid #d4af37;
             border-radius: 8px;
 
             img {
@@ -79,7 +79,7 @@
         }
 
         .swiper-slide-thumb-active {
-            border: 2px solid #8b7138;
+            border: 2px solid #d4af37;
             border-radius: 8px;
 
             img {
@@ -114,7 +114,7 @@
     height: 24px !important;
     border-radius: 100% !important;
     box-shadow: none !important;
-    border: 2px solid #8b7138;
+    border: 2px solid #d4af37;
 
     &::before {
         display: none !important;
@@ -255,7 +255,9 @@
         z-index: 999;
         opacity: 0;
         visibility: hidden;
-        transition: opacity 0.3s ease, visibility 0.3s ease;
+        transition:
+            opacity 0.3s ease,
+            visibility 0.3s ease;
     }
 
     .overlay-for-sidebar.active {
@@ -285,7 +287,7 @@
 }
 
 .bg-with-overlay::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -315,14 +317,20 @@
 }
 
 .overlay-custom::before {
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.3) 100%);
+    background: linear-gradient(
+        135deg,
+        rgba(0, 0, 0, 0.6) 0%,
+        rgba(0, 0, 0, 0.3) 100%
+    );
 }
 
-.hero-swiper .swiper-slide h1, .hero-swiper .swiper-slide h1 {
+.hero-swiper .swiper-slide h1,
+.hero-swiper .swiper-slide h1 {
     color: #ffffff !important;
 }
 
-.hero-swiper .swiper-slide p, .hero-swiper .swiper-slide p {
+.hero-swiper .swiper-slide p,
+.hero-swiper .swiper-slide p {
     color: #ffffff !important;
 }
 .hero_button {

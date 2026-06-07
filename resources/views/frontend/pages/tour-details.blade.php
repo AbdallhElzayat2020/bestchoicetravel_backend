@@ -637,12 +637,6 @@
                                     <div class="related-tour-image">
                                         <img src="{{ $relatedCover }}" alt="{{ $relatedTour->title }}"
                                             loading="lazy" />
-                                        @if ($location)
-                                            <div class="location-badge">
-                                                <span class="pin-icon">📍</span>
-                                                <span>{{ strtoupper($location) }}</span>
-                                            </div>
-                                        @endif
                                         @if ($relatedTour->display_category_name)
                                             <div class="category-badge">
                                                 {{ strtoupper($relatedTour->display_category_name) }}

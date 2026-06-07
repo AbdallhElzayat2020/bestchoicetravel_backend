@@ -191,20 +191,25 @@
 
                     <div class="faq-layout">
                         <div class="faq-list">
-                            @foreach ($experience->faqs as $index => $faq)
-                                <div class="faq-item scroll-animate" data-animation="fadeInUp"
-                                    data-delay="{{ $index * 50 }}">
-                                    <button class="faq-question" type="button">
-                                        <span>{{ $faq->question }}</span>
-                                        <i class="fa-solid fa-chevron-down"></i>
-                                    </button>
-                                    <div class="faq-answer">
-                                        <p>
-                                            {!! nl2br(e($faq->answer)) !!}
-                                        </p>
+                                @foreach ($experience->faqs as $index => $faq)
+                                    <div class="faq-item scroll-animate mt-3" data-animation="fadeInUp"
+                                        data-delay="{{ $index * 50 }}">
+                                        <button class="faq-question" type="button">
+                                            <div class="faq-question-left">
+                                                <span class="faq-number">{{ $index + 1 }}</span>
+                                            </div>
+                                            <div class="faq-question-body">
+                                                <span>{{ $faq->question }}</span>
+                                            </div>
+                                            <i class="fa-solid fa-chevron-down"></i>
+                                        </button>
+                                        <div class="faq-answer">
+                                            <div class="faq-answer-card">
+                                                <p>{!! nl2br(e($faq->answer)) !!}</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            @endforeach
+                                @endforeach
                         </div>
                     </div>
                 </div>
@@ -227,7 +232,7 @@
         }
 
         .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #8b7138;
+            background: #d4af37;
             border-radius: 10px;
         }
 

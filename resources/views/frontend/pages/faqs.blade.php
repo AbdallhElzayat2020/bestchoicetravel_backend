@@ -1,18 +1,18 @@
 @extends('frontend.layouts.master')
 
 @php
-    $metaTitle = $page && $page->meta_title ? $page->meta_title : 'FAQs';
+    $metaTitle = data_get($page, 'meta_title') ?: 'FAQs';
 @endphp
 
 @section('meta_title', $metaTitle)
-@if ($page && $page->meta_description)
-    @section('meta_description', $page->meta_description)
+@if (data_get($page, 'meta_description'))
+    @section('meta_description', data_get($page, 'meta_description'))
 @endif
-@if ($page && $page->meta_author)
-    @section('meta_author', $page->meta_author)
+@if (data_get($page, 'meta_author'))
+    @section('meta_author', data_get($page, 'meta_author'))
 @endif
-@if ($page && $page->meta_keywords)
-    @section('meta_keywords', $page->meta_keywords)
+@if (data_get($page, 'meta_keywords'))
+    @section('meta_keywords', data_get($page, 'meta_keywords'))
 @endif
 
 @section('content')
@@ -36,22 +36,24 @@
         </section>
 
         <!-- FAQs List -->
-        <section class="faqs-main section-padding">
+        <section class="faqs-main faq-section section-padding">
             <div class="container">
                 <div class="faqs-layout">
                     <div class="faqs-list">
                         @forelse($faqs as $index => $faq)
-                            <div class="faq-item scroll-animate" data-animation="fadeInUp"
-                                 data-delay="{{ $index * 40 }}">
+                            <div class="faq-item scroll-animate" data-animation="fadeInUp" data-delay="{{ $index * 40 }}">
                                 <button class="faq-question" type="button">
-                                    <span class="faq-question-text">{{ $faq->question }}</span>
-                                    <span class="faq-toggle-icon">
-                                        <i class="fa-solid fa-plus"></i>
-                                    </span>
+                                    <div class="faq-question-left">
+                                        <span class="faq-number">{{ $index + 1 }}</span>
+                                    </div>
+                                    <div class="faq-question-body">
+                                        <span>{{ $faq->question }}</span>
+                                    </div>
+                                    <i class="fa-solid fa-chevron-down"></i>
                                 </button>
                                 <div class="faq-answer">
-                                    <div class="faq-answer-inner">
-                                        {!! nl2br(e($faq->answer)) !!}
+                                    <div class="faq-answer-card">
+                                        <p>{!! nl2br(e($faq->answer)) !!}</p>
                                     </div>
                                 </div>
                             </div>
@@ -81,4 +83,3 @@
         </section>
     </main>
 @endsection
-

@@ -29,9 +29,10 @@
         $aboutWhyChoose = $aboutSections['about_why_choose'] ?? null;
         $aboutCta = $aboutSections['about_cta'] ?? null;
 
-        $aboutBannerImage = ($aboutBanner && $aboutBanner->image_path)
-            ? asset($aboutBanner->image_path)
-            : asset('assets/frontend/images/about.webp');
+        $aboutBannerImage =
+            $aboutBanner && $aboutBanner->image_path
+                ? asset($aboutBanner->image_path)
+                : asset('assets/frontend/images/about.webp');
 
         $credentials = [];
         if ($aboutCredentials && $aboutCredentials->content) {
@@ -63,7 +64,9 @@
             <div class="banner-content scroll-animate" data-animation="fadeInDown">
                 <h1 class="banner-title">{!! $aboutBanner && $aboutBanner->title ? $aboutBanner->title : 'About Us' !!}</h1>
                 <div class="banner-subtitle about-richtext">
-                    {!! $aboutBanner && $aboutBanner->subtitle ? $aboutBanner->subtitle : 'Discover who we are and why travelers choose us' !!}
+                    {!! $aboutBanner && $aboutBanner->subtitle
+                        ? $aboutBanner->subtitle
+                        : 'Discover who we are and why travelers choose us' !!}
                 </div>
             </div>
         </div>
@@ -76,7 +79,7 @@
                 <span class="about-bct-eyebrow">{!! $aboutIntro->title ?? 'About Best Choice Travel' !!}</span>
                 <h2 class="main-heading mb-3">{!! $aboutIntro->subtitle ?? 'Your Trusted Travel Partner in Egypt' !!}</h2>
                 <div class="content-text about-richtext mb-3">{!! $aboutIntro->description ?? '' !!}</div>
-                @if(!empty($aboutIntro?->content))
+                @if (!empty($aboutIntro?->content))
                     <div class="content-text about-richtext mb-0">{!! $aboutIntro->content !!}</div>
                 @endif
             </div>
@@ -85,11 +88,12 @@
                 <span class="about-bct-eyebrow">{!! $aboutCredentials->subtitle ?? 'Official Credentials' !!}</span>
                 <h3 class="mb-4">{!! $aboutCredentials->title ?? 'Licensed Travel Company - Category (A)' !!}</h3>
                 <div class="license-text about-richtext mb-3">{!! $aboutCredentials->description ?? '' !!}</div>
-                @if(count($credentials))
+                @if (count($credentials))
                     <ul class="license-bullets mb-3">
-                        @foreach($credentials as $row)
+                        @foreach ($credentials as $row)
                             <li>
-                                <strong>{!! $row['label'] ?? '' !!}:</strong> <span class="about-richtext d-inline">{!! $row['value'] ?? '' !!}</span>
+                                <strong>{!! $row['label'] ?? '' !!}:</strong> <span
+                                    class="about-richtext d-inline">{!! $row['value'] ?? '' !!}</span>
                             </li>
                         @endforeach
                     </ul>
@@ -121,7 +125,7 @@
                 <div class="text-center mb-5">
                     <span class="about-bct-eyebrow">{!! $aboutServices->subtitle ?? 'Travel Solutions' !!}</span>
                     <h3 class="fw-bold">{!! $aboutServices->title ?? 'What We Offer' !!}</h3>
-                    @if(!empty($aboutServices?->description))
+                    @if (!empty($aboutServices?->description))
                         <div class="text-muted mt-2 mb-0 about-richtext">{!! $aboutServices->description !!}</div>
                     @endif
                 </div>
@@ -141,10 +145,11 @@
             <div class="about-bct-card why-choose-section mt-4">
                 <h3 class="mb-4">{!! $aboutWhyChoose->title ?? 'Why Choose Best Choice Travel' !!}</h3>
                 <div class="row g-3">
-                    @foreach($whyItems as $item)
+                    @foreach ($whyItems as $item)
                         <div class="col-md-6">
                             <div class="why-choose-item">
-                                <div class="why-choose-icon"><i class="fa-solid {{ $item['icon'] ?? 'fa-check' }}"></i></div>
+                                <div class="why-choose-icon"><i class="fa-solid {{ $item['icon'] ?? 'fa-check' }}"></i>
+                                </div>
                                 <div>
                                     <h5>{!! $item['title'] ?? '' !!}</h5>
                                     <div class="mb-0 about-richtext">{!! $item['text'] ?? '' !!}</div>
@@ -168,9 +173,9 @@
 @push('css')
     <style>
         :root {
-            --primary-blue: #2b53a7;
-            --bright-yellow: #f8e600;
-            --deep-dark: #2b53a7;
+            --primary-blue: #0f172a;
+            --bright-yellow: #d4af37;
+            --deep-dark: #0f172a;
             --soft-gray: #f4f7fa;
         }
 
@@ -256,8 +261,9 @@
         }
 
         .about-bct-eyebrow {
-            color: var(--primary-blue);
-            background: rgba(43, 83, 167, 0.1);
+            color: var(--soft-gray);
+            background: var(--brand-blue);
+            ;
             padding: 6px 18px;
             border-radius: 50px;
             font-size: 12px;
@@ -457,10 +463,21 @@
             color: #0f1d39;
         }
 
-        .about-richtext h1 { font-size: 1.9rem; }
-        .about-richtext h2 { font-size: 1.6rem; }
-        .about-richtext h3 { font-size: 1.35rem; }
-        .about-richtext h4 { font-size: 1.15rem; }
+        .about-richtext h1 {
+            font-size: 1.9rem;
+        }
+
+        .about-richtext h2 {
+            font-size: 1.6rem;
+        }
+
+        .about-richtext h3 {
+            font-size: 1.35rem;
+        }
+
+        .about-richtext h4 {
+            font-size: 1.15rem;
+        }
 
         .about-richtext ul,
         .about-richtext ol {

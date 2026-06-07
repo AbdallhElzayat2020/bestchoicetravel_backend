@@ -63,23 +63,7 @@
 
                     <aside class="blogs-sidebar blog-details-sidebar">
 
-                        {{-- Search --}}
-                        <div class="blog-sidebar-card scroll-animate" data-animation="fadeInUp" data-delay="0">
-                            <h3 class="blog-sidebar-title">
-                                <i class="fa-solid fa-magnifying-glass me-2"
-                                    style="color:var(--brand-blue);font-size:14px;"></i>
-                                Search
-                            </h3>
-                            <form action="{{ route('blogs.index') }}" method="GET">
-                                <div class="bds-search-box">
-                                    <input type="text" name="q" placeholder="Search articles…"
-                                        aria-label="Search blog">
-                                    <button type="submit" aria-label="Search">
-                                        <i class="fa-solid fa-arrow-right"></i>
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
+
 
                         {{-- Recent Articles --}}
                         @if ($relatedBlogs->isNotEmpty())

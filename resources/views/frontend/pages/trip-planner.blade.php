@@ -29,7 +29,6 @@
                         data-delay="150">
                         <div class="card-body p-4 p-md-5">
                             <div class="text-center mb-4">
-                                <span class="badge bg-primary-subtle text-primary px-3 py-2 mb-3">Plan Your Journey</span>
                                 <h2 class="h4 fw-bold mb-2">Let us design your perfect Egypt trip</h2>
                                 <p class="text-muted mb-0">
                                     Tell us about your dream Egypt journey, and our travel experts will craft a personalized

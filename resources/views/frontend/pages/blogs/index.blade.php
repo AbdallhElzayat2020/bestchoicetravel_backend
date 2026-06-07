@@ -118,30 +118,7 @@
 
                     <!-- Right: sidebar -->
                     <aside class="blogs-sidebar">
-                        <div class="blog-sidebar-card blog-sidebar-search scroll-animate" data-animation="fadeInUp"
-                            data-delay="0">
-                            <h3 class="blog-sidebar-title">Search</h3>
-                            <form class="blog-search-box" method="GET" action="{{ route('blogs.index') }}"
-                                role="search">
-                                <input type="search" name="q" value="{{ $search ?? '' }}"
-                                    placeholder="Search articles..." aria-label="Search blog" autocomplete="off"
-                                    maxlength="200" inputmode="search">
-                                @if ($activeCategorySlug ?? null)
-                                    <input type="hidden" name="category_name" value="{{ $activeCategorySlug }}">
-                                @endif
-                                <span class="blog-search-actions">
-                                    <button type="submit" class="blog-search-submit" aria-label="Search">
-                                        <i class="fa-solid fa-magnifying-glass"></i>
-                                    </button>
-                                </span>
-                            </form>
-                            @if (!empty($hasActiveFilters))
-                                <a href="{{ route('blogs.index') }}" class="blog-search-clear">
-                                    <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-                                    Clear search &amp; filters
-                                </a>
-                            @endif
-                        </div>
+                    
 
                         <div class="blog-sidebar-card scroll-animate" data-animation="fadeInUp" data-delay="50">
                             <h3 class="blog-sidebar-title">Categories</h3>
