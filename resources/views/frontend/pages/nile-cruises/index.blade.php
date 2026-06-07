@@ -11,15 +11,6 @@
 @section('content')
     <section class="py-10 lg:py-12 border border-t-light-grey border-r-0 border-b-0 border-l-0">
         <div class="container">
-            <nav class="font-medium text-grey" aria-label="Breadcrumb">
-                <ul class="flex flex-wrap items-center gap-1 mb-2">
-                    <li>
-                        <a href="{{ route('home') }}" class="transition duration-200 hover:text-green-zomp">Home</a>
-                    </li>
-                    <span class="mx-1">/</span>
-                    <li><span class="text-dark-grey">{{ $cruiseGroup->name }}</span></li>
-                </ul>
-            </nav>
             <h1 class="text-black text-[32px] md:text-[40px] font-bold leading-[1.1em] mb-2">{{ $cruiseGroup->name }}</h1>
             @if($cruiseGroup->description)
                 <div class="text-dark-grey max-w-2xl prose prose-sm">

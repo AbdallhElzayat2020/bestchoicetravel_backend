@@ -34,7 +34,7 @@
                         <ul class="dropdown-menu" aria-labelledby="navCruiseMenu">
                             @forelse (($sharedCruiseCatalogCategories ?? collect()) as $catalogCategory)
                                 <li>
-                                    <a class="dropdown-item fw-semibold"
+                                    <a class="dropdown-item"
                                         href="{{ route('cruise-catalog.category', $catalogCategory->slug) }}">
                                         {{ $catalogCategory->name }}
                                     </a>
@@ -89,7 +89,8 @@
                 @endif
 
                 <li class="nav-item">
-                    <a class="nav-link {{ $isBlog ? 'active' : '' }}" href="{{ route('blogs.index') }}">Travel Guide</a>
+                    <a class="nav-link {{ $isBlog ? 'active' : '' }}" href="{{ route('blogs.index') }}">Travel
+                        Guide</a>
                 </li>
 
                 <li class="nav-item">

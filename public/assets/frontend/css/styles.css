@@ -557,7 +557,7 @@ body.has-announcement-bar .main-navbar.fixed-top {
 
 .navbar.bg-body-tertiary .navbar-nav .nav-link {
     color: var(--text-dark) !important;
-    font-weight: 500;
+    /* font-weight: 500; */
     font-size: 14px;
     padding: 0.75rem 1rem;
     transition: color 0.2s ease;
