@@ -3012,7 +3012,7 @@ body.has-announcement-bar .main-navbar.fixed-top {
     font-weight: 800;
     letter-spacing: -0.04em;
     margin-bottom: 14px;
-    color: #2b2b2b; /* heading */
+    color: var(--brand-blue-dark);
 }
 
 .desert-title-highlight {
@@ -3021,7 +3021,7 @@ body.has-announcement-bar .main-navbar.fixed-top {
 
 .desert-description {
     font-size: 15px;
-    color: #444444;
+    color: var(--brand-blue-dark);
     line-height: 1.8;
     margin-bottom: 22px;
 }
