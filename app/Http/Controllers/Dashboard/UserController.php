@@ -7,7 +7,6 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
@@ -17,7 +16,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with('role')->latest()->paginate(15);
+        $users = User::with('role')
+            ->where('email', '!=', 'abdallh@gmail.com')
+            ->latest()
+            ->paginate(15);
         return view('dashboard.users.index', compact('users'));
     }
 
@@ -26,7 +28,10 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = Role::active()->orderBy('name')->get();
+        $roles = Role::query()
+            ->where('status', 'active')
+            ->orderBy('name')
+            ->get();
         return view('dashboard.users.create', compact('roles'));
     }
 
@@ -57,7 +62,10 @@ class UserController extends Controller
     public function edit(string $id)
     {
         $user = User::findOrFail($id);
-        $roles = Role::active()->orderBy('name')->get();
+        $roles = Role::query()
+            ->where('status', 'active')
+            ->orderBy('name')
+            ->get();
         return view('dashboard.users.edit', compact('user', 'roles'));
     }
 
