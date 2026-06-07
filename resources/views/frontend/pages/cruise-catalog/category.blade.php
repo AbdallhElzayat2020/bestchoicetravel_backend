@@ -224,7 +224,7 @@
         }
 
         .cruise-dynamic-title {
-            color: #1d4ea3;
+            color: var(--text-dark);
             font-size: clamp(1.6rem, 2.4vw, 2.4rem);
             font-weight: 800;
             line-height: 1.2;
